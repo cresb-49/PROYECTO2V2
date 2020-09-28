@@ -27,7 +27,6 @@
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-
         %>
         <header>
             <div class="container">

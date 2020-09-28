@@ -33,8 +33,8 @@ CREATE TABLE  IF NOT EXISTS MEDICO(
     telefono VARCHAR (8) NOT NULL ,
     numero_colegiado VARCHAR (20) NOT NULL ,
     email VARCHAR (45) NOT NULL ,
-    inicio_horario VARCHAR(15) NOT NULL ,
-    fin_horario VARCHAR(15) NOT NULL,
+    inicio_horario TIME NOT NULL ,
+    fin_horario TIME NOT NULL,
     inicio_labores DATE NOT NULL,
     PRIMARY KEY(codigo),
     UNIQUE (codigo,dpi,numero_colegiado,email,telefono)
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS SOLUCITUD_EXAMEN(
 CREATE TABLE IF NOT EXISTS RESULTADO(
     codigo INT AUTO_INCREMENT  NOT NULL ,
     fecha DATE NOT NULL ,
-    hora VARCHAR(15) NOT NULL ,
+    hora TIME NOT NULL ,
     nombre_orden VARCHAR (45),
     orden MEDIUMBLOB,
     nombre_informe VARCHAR (45) NOT NULL ,
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS RESULTADO(
 CREATE TABLE IF NOT EXISTS CITA(
     codigo INT AUTO_INCREMENT NOT NULL ,
     fecha DATE NOT NULL ,
-    hora VARCHAR(15) NOT NULL ,
+    hora TIME NOT NULL ,
     MEDICO_codigo VARCHAR (45) NOT NULL ,
     PACIENTE_codigo INT NOT NULL ,
     especialidad VARCHAR (45),
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS REPORTE(
     codigo INT AUTO_INCREMENT  NOT NULL ,
     informe TEXT NOT NULL,
     fecha DATE NOT NULL ,
-    hora VARCHAR(15) NOT NULL ,
+    hora TIME NOT NULL ,
     MEDICO_codigo VARCHAR (45) NOT NULL ,
     PACIENTE_codigo INT NOT NULL ,
     PRIMARY KEY (codigo),

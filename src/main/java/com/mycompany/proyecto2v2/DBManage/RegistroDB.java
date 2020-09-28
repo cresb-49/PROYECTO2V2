@@ -156,8 +156,8 @@ public class RegistroDB {
             preSt.setString(1, doctor.getCodigo());
             preSt.setString(2, doctor.getDPI());
             preSt.setString(3, doctor.getCorreo());
-            preSt.setTime(4, doctor.getFin());
-            preSt.setTime(5, doctor.getInicio());
+            preSt.setString(4, doctor.getFin().toString());
+            preSt.setString(5, doctor.getInicio().toString());
             preSt.setDate(6, doctor.getInicioTrabajo());
             preSt.setString(7, doctor.getNombre());
             preSt.setString(8, doctor.getColegiado());
@@ -306,7 +306,7 @@ public class RegistroDB {
                 preSt.setLong(1, reporte.getCodigo());
                 preSt.setString(2, reporte.getInformeMedico());
                 preSt.setDate(3, reporte.getFecha());
-                preSt.setTime(4, reporte.getHora());
+                preSt.setString(4, reporte.getHora().toString());
                 preSt.setString(5, reporte.getCodigoMedico());
                 preSt.setLong(6, reporte.getCodigoPaciente());
             }
@@ -316,7 +316,7 @@ public class RegistroDB {
                 //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
                 preSt.setString(1, reporte.getInformeMedico());
                 preSt.setDate(2, reporte.getFecha());
-                preSt.setTime(3, reporte.getHora());
+                preSt.setString(3, reporte.getHora().toString());
                 preSt.setString(4, reporte.getCodigoMedico());
                 preSt.setLong(5, reporte.getCodigoPaciente());
             }
@@ -349,7 +349,7 @@ public class RegistroDB {
                 //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
                 preSt.setLong(1, cita.getCodigo());
                 preSt.setDate(2, cita.getFecha());
-                preSt.setTime(3, cita.getHora());
+                preSt.setString(3, cita.getHora().toString());
                 preSt.setString(4, cita.getCodigoMedico());
                 preSt.setLong(5, cita.getCodigoPaciente());
                 preSt.setString(6, cita.getEspecialidad());
@@ -359,7 +359,7 @@ public class RegistroDB {
                 this.verificacion.verificarCitaCreada(cita);
                 //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
                 preSt.setDate(1, cita.getFecha());
-                preSt.setTime(2, cita.getHora());
+                preSt.setString(2, cita.getHora().toString());
                 preSt.setString(3, cita.getCodigoMedico());
                 preSt.setLong(4, cita.getCodigoPaciente());
                 preSt.setString(5, cita.getEspecialidad());
@@ -476,7 +476,7 @@ public class RegistroDB {
 
                 preSt.setLong(1, resultado.getCodigo());
                 preSt.setDate(2, resultado.getFecha());
-                preSt.setTime(3, resultado.getHora());
+                preSt.setString(3, resultado.getHora().toString());
                 //-----------------------------------------------
 
                 preSt.setString(4, resultado.getNombreOrden());
@@ -494,7 +494,7 @@ public class RegistroDB {
                 //Verificacion de la informacion de entrada
                 this.verificacion.verificarResultadoCreado(resultado, examen);
                 preSt.setDate(1, resultado.getFecha());
-                preSt.setTime(2, resultado.getHora());
+                preSt.setString(2, resultado.getHora().toString());
                 preSt.setString(3, resultado.getNombreOrden());
                 preSt.setBlob(4, resultado.getOrden().getDatos());
                 preSt.setString(5, resultado.getNombreInforme());
