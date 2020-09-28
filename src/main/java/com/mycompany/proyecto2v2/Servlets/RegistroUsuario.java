@@ -49,7 +49,7 @@ public class RegistroUsuario extends HttpServlet{
                         if(resultado.equals("")){
                             registro.registroPaciente(nuevoPaciente,"nuevo");
                             registro.registroUsuario(nuevoPaciente, "nuevo");
-                            resp.sendRedirect("/PROYECTO2/index.jsp");
+                            resp.sendRedirect("/proyecto2v2/index.jsp");
                         }
                         else{
                             req.setAttribute("nuevoPaciente",nuevoPaciente);
@@ -72,20 +72,20 @@ public class RegistroUsuario extends HttpServlet{
                     ConsultasDB consultas = new ConsultasDB(cnx.getConexion());
                     String resultado=consultas.accesoUsuario(user,pass);
                     if(resultado.equals("admin")){
-                        resp.sendRedirect("/PROYECTO2/usuarios/perfilAdmin.jsp");
+                        resp.sendRedirect("/proyecto2v2/usuarios/perfilAdmin.jsp");
                     }
                     if(resultado.equals("doctor")){
-                        resp.sendRedirect("/PROYECTO2/usuarios/perfilDoctor.jsp");
+                        resp.sendRedirect("/proyecto2v2/usuarios/perfilDoctor.jsp");
                     }
                     if(resultado.equals("paciente")){
-                        resp.sendRedirect("/PROYECTO2/usuarios/perfilPaciente.jsp");
+                        resp.sendRedirect("/proyecto2v2/usuarios/perfilPaciente.jsp");
                     }
                     if(resultado.equals("laboratorista")){
-                        resp.sendRedirect("/PROYECTO2/usuarios/perfilLaboratorista.jsp");
+                        resp.sendRedirect("/proyecto2v2/usuarios/perfilLaboratorista.jsp");
                     }
                     cnx.cerrarConexion();
                 } catch (Exception e) {
-                    resp.sendRedirect("/PROYECTO2/index.jsp?errorInicio=Error de credenciales");
+                    resp.sendRedirect("/proyecto2v2/index.jsp?errorInicio=Error de credenciales");
                 }
             }
     }

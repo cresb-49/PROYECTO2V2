@@ -56,10 +56,10 @@
                     <a class="nav-link" href="#">Cargar XML</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/PROYECTO2/Reportes/reportesAdmin.jsp">Reportes</a>
+                    <a class="nav-link" href="../Reportes/reportesAdmin.jsp">Reportes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/PROYECTO2/index.jsp">Cerrar sesion</a>
+                    <a class="nav-link" href="../index.jsp">Cerrar sesion</a>
                 </li>
             </ul>
         </div>
