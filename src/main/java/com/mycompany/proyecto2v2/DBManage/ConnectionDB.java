@@ -15,7 +15,10 @@ public class ConnectionDB {
     // Puerto
     private String port = "3306";
     // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
-    private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?allowPublicKeyRetrieval=true&useSSL=false&&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    //"?allowPublicKeyRetrieval=true&useSSL=false&&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+    //+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC-6"
+    //+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone='UTC-6'"
+    private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     // Nombre de usuario
     private String username = "root";
     // Clave de usuario
