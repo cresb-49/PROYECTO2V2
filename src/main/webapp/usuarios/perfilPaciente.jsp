@@ -15,16 +15,16 @@
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
-                <h2>BIENVENIDO:<%out.write(" "+usuario);%></h2>
+                <h2>BIENVENIDO A SU PERFIL DE USUARIO</h2>
             </div>
         </header>
         <div class="container">
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Doctores</a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Generar Cita</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Editar</a>
-                        <a class="dropdown-item" href="#">Crear</a>
+                        <a class="dropdown-item" href="#">Cita Medica</a>
+                        <a class="dropdown-item" href="#">Cita Laboratorio</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -56,13 +56,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cargar XML</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/PROYECTO2/Reportes/reportesAdmin.jsp">Reportes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/PROYECTO2/index.jsp">Cerrar sesion</a>
+                    <a class="nav-link" href="../index.jsp">Cerrar sesion</a>
                 </li>
             </ul>
         </div>

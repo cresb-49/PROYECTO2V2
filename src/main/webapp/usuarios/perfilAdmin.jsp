@@ -63,169 +63,73 @@
                 </li>
             </ul>
         </div>
-        
-        <section style="display: block" id="areaEditarDoc">
-            <div class="container">
-                <br>
-                <h3>Buscar Doctor:</h3>
-            </div>
-            <div class="container">
-                <br>
-                <form class="form-inline" action="#">
-                    <label class="control-label col-md-2" for="codeDoctor">Codigo Doctor: </label>
-                    <div class="form-group">
-                        <input class="form-control" id="codeDoctor" type="text" name="codeDoctorText" placeholder="codigo doctor">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <button class="btn btn-primary" type="submit" name="buscar" >Buscar</button>
-                    </div>
-                </form>
-            </div>
-            <div class="container">
-                <br>
-                <h3>Atributos:</h3>
-            </div>
 
-            <div class="container">
-                <br>
-                <section class="row">
-                    <!--Primera columna del formulario-->
-                    <div class="container col-md-6">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label for="codeDoctor" class="control-label">Codigo Doctor: </label>
-                                <div class="">
-                                    <input class="form-control" id="codeDoctor" type="text" name="codeDoctorText" placeholder="codigo doctor">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="coleDoctor">No. Colegiado: </label>
-                                <div class="">
-                                    <input class="form-control" id="coleDoctor" type="text" name="coleDoctorText" placeholder="No. Colegiado">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="telDoctor">Telefono: </label>
-                                <div class="">
-                                    <input class="form-control" id="telDoctor" type="text" name="telDoctorText" placeholder="Telefono">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="emailDoctor">Correo: </label>
-                                <div class="">
-                                    <input class="form-control" id="emailDoctor" type="text" name="emailDoctorText" placeholder="Correo Electronico">
-                                </div>
-                            </div>
-                            <div class="container" >
-                                <div class="form-group">
-                                    <button class="btn btn-danger" type="submit" name="modificar" value="Ingresar">Modificar</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!--Segunda Columna del formulario-->
-                    <div class="container col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="nameDoctor">Nombre Doctor: </label>
-                            <div class="">
-                                <input class="form-control" id="nameDoctor" type="text" name="nameDoctorText" placeholder="Nombre doctor">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="DPIDoctor">DPI: </label>
-                            <div class="">
-                                <input class="form-control" id="DPIDoctor" type="text" name="DPIDoctorText" placeholder="DPI">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="espeDoctor">Especialidad: </label><br>
-                            <select class="form-control" name="Especialidad" id="espeDoctor">                            
 
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Horario:</label>
-                            <div class="form-inline">
-                                <label for="inicioDoctor">Inicio: </label>
-                                <div class="">
-                                    <input class="form-control" id="inicioDoctor" type="text" name="inicioDoctorText" placeholder="HH:mm">
-                                </div>
-                                <label for="finDoctor">Fin: </label>
-                                <div class="">
-                                    <input class="form-control" id="finDoctor" type="text" name="finDoctorText" placeholder="HH:mm">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </section>
-        
         <%
-           String opcion =request.getParameter("opcion");
-           System.out.println(opcion);
-           if(opcion!=null){
-               switch(opcion){
-                   case "D1":
-                       %>
-                       
-                       
-                       <%
-                       break;
-                   case "D2":
-                        %>
-                       
-                       <%
-                       break;
-                   case "L1":
-                        %>
-                       
-                       <%
-                       break;
-                   case "L2":
-                        %>
-                       
-                       <%
-                       break;
-                   case "E1":
-                        %>
-                       
-                       <%
-                       break;
-                   case "E2":
-                        %>
-                       
-                       <%
-                       break;
-                   case "C1":
-                        %>
-                       
-                       <%
-                       break;
-                   case "C2":
-                        %>
-                       
-                       <%
-                       break;
-                   case "P1":
-                        %>
-                       
-                       <%
-                       break;
-                   case "P2":
-                        %>
-                       
-                       <%
-                       break;
-                   default :
-                        %>
-                       
-                       <%
-                       break;
+            String opcion = request.getParameter("opcion");
+            System.out.println(opcion);
+            if (opcion != null) {
+                switch (opcion) {
+                    case "D1":
+        %>
+
+
+        <%
+                break;
+            case "D2":
+        %>
+
+        <%
+                break;
+            case "L1":
+        %>
+
+        <%
+                break;
+            case "L2":
+        %>
+
+        <%
+                break;
+            case "E1":
+        %>
+
+        <%
+                break;
+            case "E2":
+        %>
+
+        <%
+                break;
+            case "C1":
+        %>
+
+        <%
+                break;
+            case "C2":
+        %>
+
+        <%
+                break;
+            case "P1":
+        %>
+
+        <%
+                break;
+            case "P2":
+        %>
+
+        <%
+                break;
+            default:
+        %>
+
+        <%
+                        break;
                 }
             }
         %>
-        
+
         <footer>
             <div class="container">
                 <h3>© HOSPITAL 2020</h3>
