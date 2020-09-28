@@ -13,17 +13,16 @@ public class obtenerNombreArchivo {
      */
     public String obtenerNombre(String archivo) {
         String nombre = "";
-        if (archivo.indexOf("/") == -1) {
+        int busqueda = archivo.indexOf("/");
+        if (busqueda == -1) {
             nombre = archivo;
         } else {
-            int ubicacion = 0;
-            int temp = 0;
-            while (temp != -1) {
-                ubicacion=temp;
-                temp=archivo.indexOf("/",0);
-                temp++;
+            int ubicacion = busqueda+1;
+            while (busqueda != -1) {
+                ubicacion = busqueda+1;
+                busqueda=archivo.indexOf("/",busqueda+1);
             }
-            nombre = archivo.substring(ubicacion, archivo.length()-ubicacion);
+            nombre = archivo.substring(ubicacion,archivo.length());
         }
         return nombre;
     }

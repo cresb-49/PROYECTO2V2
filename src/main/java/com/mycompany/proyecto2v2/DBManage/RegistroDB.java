@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.proyecto2v2.DBManage;
 
 import com.mycompany.proyecto2v2.Objetos.*;
@@ -14,7 +10,7 @@ import java.util.ArrayList;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- *
+ *CLASE ENCARGADA DE MANEJAR EL REGISTRO DE LOS DATOS RECIBIDOS EN EL PROGRAMA EN LA BASE DE DATOS
  * @author benjamin
  */
 public class RegistroDB {
@@ -461,7 +457,7 @@ public class RegistroDB {
     public String registroResultado(Resultado resultado, String tipo) {
         String respuesta = "";
         String query = "";
-        Examen examen =null;
+        Examen examen = null;
         if (tipo.equals("exportado")) {
             query = "INSERT INTO RESULTADO (codigo, fecha, hora, nombre_orden, orden, nombre_informe, informe, MEDICO_codigo, LABORATORISTA_codigo, PACIENTE_codigo, EXAMEN_codigo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         }
@@ -470,14 +466,14 @@ public class RegistroDB {
         }
         try (PreparedStatement preSt = conexion.prepareStatement(query)) {
             //realiza la busqueda del examen de referencia en el resultado
-             examen= this.consulta.obtenerExamen(resultado.getCodigoExamen().toString());
+            examen = this.consulta.obtenerExamen(resultado.getCodigoExamen().toString());
             //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
             if (tipo.equals("exportado")) {
                 //Verificacion de la informacion de entrada
                 //this.verificacion.verificarResultadoExportado(resultado, examen);
                 //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
                 this.verificacion.verificarResultadoExportado(resultado, examen);
-                
+
                 preSt.setLong(1, resultado.getCodigo());
                 preSt.setDate(2, resultado.getFecha());
                 preSt.setTime(3, resultado.getHora());
@@ -512,7 +508,7 @@ public class RegistroDB {
             preSt.executeUpdate();
             preSt.close();
         } catch (Exception e) {
-            respuesta = "Resultado Codigo: "+resultado.getCodigo() + " Examen: "+resultado.getCodigoExamen()+ " " + e.getMessage();
+            respuesta = "Resultado Codigo: " + resultado.getCodigo() + " Examen: " + resultado.getCodigoExamen() + " " + e.getMessage();
             System.out.println(respuesta);
         }
         return respuesta;
@@ -616,6 +612,9 @@ public class RegistroDB {
                 }
             }
         }
+        /*for (Resultado res : hospital.getResultados()) {
+            System.out.println(res.toString());
+        }*/
         for (Resultado res : hospital.getResultados()) {
             resultado = registroResultado(res, "exportado");
             if (!resultado.equals("")) {

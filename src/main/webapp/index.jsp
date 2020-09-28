@@ -23,9 +23,7 @@
                 conexion=cnx.getConexion();
                 consultas= new ConsultasDB(cnx.getConexion());
                 resultado=consultas.comprobarInformacion();
-                
                 cnx.cerrarConexion();
-                
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

@@ -6,6 +6,7 @@
 package com.mycompany.proyecto2v2.Objetos;
 
 import com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables;
+import com.mycompany.proyecto2v2.Paths.obtenerNombreArchivo;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class HospitalHandler extends DefaultHandler {
 
     private ConvercionesVariables conv = new ConvercionesVariables();
+    private obtenerNombreArchivo obtenerNombreArchivo = new obtenerNombreArchivo();
     private ArrayList<Admin> admins = new ArrayList();
     private ArrayList<Doctor> doctores = new ArrayList();
     private ArrayList<Laboratorista> laboratoristas = new ArrayList<>();
@@ -363,7 +365,7 @@ public class HospitalHandler extends DefaultHandler {
         }
         if (objeto instanceof Resultado) {
             Resultado resultado = (Resultado) objeto;
-            resultado.setNombreInforme(buffer.toString());
+            resultado.setNombreInforme(this.obtenerNombreArchivo.obtenerNombre(buffer.toString()));
         }
     }
 
@@ -404,7 +406,7 @@ public class HospitalHandler extends DefaultHandler {
         }
         if (objeto instanceof Resultado) {
             Resultado resultado = (Resultado) objeto;
-            resultado.setNombreOrden(buffer.toString());
+            resultado.setNombreOrden(this.obtenerNombreArchivo.obtenerNombre(buffer.toString()));
         }
     }
 
