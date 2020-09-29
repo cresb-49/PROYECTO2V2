@@ -43,7 +43,7 @@ function validarRegistroPaciente() {
         alert("El correo es muy largo");
         return false;
     } else if (!(exprecionesRegulares.fecha.test(fecha))) {
-        alert("La fecha introducida no es valida")
+        alert("La fecha introducida no es valida");
         return false;
     } else if (!(exprecionesRegulares.correo.test(correo))) {
         alert("El correo no es valido");
@@ -72,6 +72,49 @@ function validarRegistroPaciente() {
     }
     return true;
 }
+
+function validarModificarPaciente() {
+    var nombre, sexo, DPI, telefono, peso, sangre, fecha;
+
+    nombre = document.getElementById("nombrePaciente").value;
+    sexo = document.getElementById("sexoPaciente").value;
+    DPI = document.getElementById("DPIPaciente").value;
+    telefono = document.getElementById("telefonoPaciente").value;
+    peso = document.getElementById("pesoPaciente").value;
+    sangre = document.getElementById("tipoSangre").value;
+    fecha = document.getElementById("fechaNacimiento").value;
+
+    if (nombre === "" || DPI === "" || telefono === "" || peso === "") {
+        alert("Todos los campos son obligatorios");
+        return false;
+    } else if (nombre.length > 60) {
+        alert("El nombre es muy largo");
+        return false;
+    } else if (!exprecionesRegulares.nombre.test(nombre)) {
+        alert("No es nombre valido\nDebe estar escrito de la forma Juan Perez");
+        return false;
+    } else  if (!(exprecionesRegulares.fecha.test(fecha))) {
+        alert("La fecha introducida no es valida");
+        return false;
+    } else  if (!(exprecionesRegulares.telefono.test((telefono)))) {
+        alert("No es numero de telefono valido");
+        return false;
+    } else if (!(exprecionesRegulares.nDpi.test(DPI))) {
+        alert("No es numero de DPI valido\nRecuerda debe tener 13 digitos");
+        return false;
+    } else if (!(exprecionesRegulares.tiposSangre.test(sangre))) {
+        alert("Debe se seleccionar un tipo de sangre");
+        return false;
+    } else if (!(exprecionesRegulares.sexo.test(sexo))) {
+        alert("Debe de seleccionar un sexo");
+        return false;
+    } else if (!(exprecionesRegulares.IntOrDouble.test(peso))) {
+        alert("El peso introducido no es valido");
+        return false;
+    } 
+    return true;
+}
+
 function validarModificaionMedico(){
     var nombre,numeroColegiado, DPI, telefono,inicioHorario,finHorario,especialidades,inicioTrabajo;
     
@@ -114,7 +157,7 @@ function validarModificaionMedico(){
         alert("El numero de colegiado no es valido solo deben ser numeros");
         return false;
     } else if (!(exprecionesRegulares.fecha.test(inicioTrabajo))) {
-        alert("La fecha introducida de inicio de trabajo no es valida")
+        alert("La fecha introducida de inicio de trabajo no es valida");
         return false;
     }
     for(var i =0;i<especialidades.options.length;i++){
@@ -335,7 +378,7 @@ function agregarEspecialidad() {
     if (texto.value.length === 0) {
         alert("Debe de escribir la especilidad");
     } else if (!(exprecionesRegulares.texto.test(texto.value))){
-        alert("El texto introducido no es valido")
+        alert("El texto introducido no es valido");
     }else{
         var combo = document.getElementById("espeDoctor");
         var option=document.createElement("option");
@@ -351,7 +394,7 @@ function agregarDiaTrabajo() {
     if (texto.length === 0) {
         alert("Debe de seleccionar un dia para igresarlo");
     } else if (!(exprecionesRegulares.texto.test(texto))){
-        alert("El texto introducido no es valido")
+        alert("El texto introducido no es valido");
     }else{
         var combo = document.getElementById("diasSemanaLab");
         var option=document.createElement("option");
@@ -366,7 +409,7 @@ function eliminarDiaTrabajo() {
     if (texto.length === 0) {
         alert("Debe de seleccionar un dia para poder eliminarlo");
     } else if (!(exprecionesRegulares.texto.test(texto))){
-        alert("El texto introducido no es valido")
+        alert("El texto introducido no es valido");
     }else{
         var combo = document.getElementById("diaTrabajoLaboratorista");
         var option=document.createElement("option");
@@ -375,4 +418,22 @@ function eliminarDiaTrabajo() {
         combo.options[0].innerText=texto;
         document.getElementById("diasSemanaLab").remove(document.getElementById("diasSemanaLab").selectedIndex);
     }
+}
+
+function validarRegistroconsulta(){
+    var nombre,costo;
+    nombre = document.getElementById("nombreConsulta").value;
+    costo = document.getElementById("costoConsulta").value;
+
+    if(nombre===""||costo===""){
+        alert("Todos los campos son obligatorios");
+        return false;
+    }else if(!exprecionesRegulares.texto.test(nombre)){
+        alert("El nombre del tipo de consulta no es valido")
+        return false;
+    }else if(!exprecionesRegulares.IntOrDouble.test(costo)){
+        alert("El costo introducido no es valido solo deben ser numeros")
+        return false;
+    }
+    return true;
 }
