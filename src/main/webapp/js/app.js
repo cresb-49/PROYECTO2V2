@@ -202,7 +202,7 @@ function validarRegistroLaboratorista(){
     diasTrabajo = document.getElementById("diasSemanaLab");
     password=document.getElementById("passwordLaboratorista").value;
     password2=document.getElementById("passwordLaboratorista2").value;
-        
+    
     if(codigo===""||numeroRegistroSalud===""||telefono===""||correoLab===""||nombre===""||DPI===""||inicioTrabajo===""||tipoDeExamen===""||diasTrabajo.options.length===0||password===""||password2===""){
         alert("Todos los campos son obligatorios");
         return false;
@@ -215,10 +215,10 @@ function validarRegistroLaboratorista(){
     }else if(!exprecionesRegulares.telefono.test(telefono)){
         alert("El numero de telefono no es valido\nRecuerda que deben ser 8 digitos");
         return false;
-    }else if (correo.length > 45) {
+    }else if (correoLab.length > 45) {
         alert("El correo es muy largo");
         return false;
-    } else  if(!exprecionesRegulares.correo.test(correo)){
+    } else  if(!exprecionesRegulares.correo.test(correoLab)){
         alert("La direccion de correo electronico no es valida");
         return false;
     }else  if (nombre.length > 60) {
@@ -236,11 +236,65 @@ function validarRegistroLaboratorista(){
     }else if(!exprecionesRegulares.texto.test(tipoDeExamen)){
         alert("El nombre del examen no es valido");
         return false;
-    }else if (password.length > 45 || password2.length > 45) {
+    }else if(diasTrabajo.options.length===0){
+        alert("No asigno dias de trabajo");
+        return false;
+    }else{
+        for(var i=0;i<diasTrabajo.options.length;i++){
+            var dia = diasTrabajo.options[i].value;
+            if(!exprecionesRegulares.diasSemana.test(dia)){
+                alert("El texto no corresponde a un dia de la semana");
+                return false;
+            }
+        }
+    }
+    if (password.length > 45 || password2.length > 45) {
         alert("La password no debe superar los 45 caracteres");
         return false;
     } else if (!(password === password2)) {
         alert("Las password no concuerdan");
+        return false;
+    }
+    for(var i =0;i<diasTrabajo.options.length;i++){
+        diasTrabajo.options[i].selected = true;
+    }
+    return true;
+}
+
+function validarModificacionLaboratorista(){
+    var nombre,numeroRegistroSalud,DPI,telefono,tipoDeExamen,inicioTrabajo,diasTrabajo;
+    
+    numeroRegistroSalud=document.getElementById("numeroRegistroSalud").value;
+    telefono = document.getElementById("telefonoLaboratorista").value;
+    nombre = document.getElementById("nameLaboratorista").value;
+    DPI = document.getElementById("DPILaboratorista").value;
+    inicioTrabajo = document.getElementById("incioTrabajoLaboratorista").value;
+    tipoDeExamen=document.getElementById("tipoDeExamenLaboratorista").value;
+    diasTrabajo = document.getElementById("diasSemanaLab");
+    
+    if(numeroRegistroSalud===""||telefono===""||nombre===""||DPI===""||inicioTrabajo===""||tipoDeExamen===""||diasTrabajo.options.length===0){
+        alert("Todos los campos son obligatorios");
+        return false;
+    }else  if(!exprecionesRegulares.registroSalud.test(numeroRegistroSalud)){
+        alert("El registro de salud no es valido debe ser de la forma SALUD-XXXX");
+        return false;
+    }else if(!exprecionesRegulares.telefono.test(telefono)){
+        alert("El numero de telefono no es valido\nRecuerda que deben ser 8 digitos");
+        return false;
+    }else if (nombre.length > 60) {
+        alert("El nombre es muy largo");
+        return false;
+    } else if(!exprecionesRegulares.nombre.test(nombre)){
+        alert("El nombre no es valido debe ser de la forma Juan Perez");
+        return false;
+    }else if(!exprecionesRegulares.nDpi.test(DPI)){
+        alert("EL numero de DPI no es valido\nRecuerda que deben de ser 13 digitos");
+        return false;
+    } else if(!exprecionesRegulares.fecha.test(inicioTrabajo)){
+        alert("La fecha ingresada en el campo de inicio de trabajo no es valida");
+        return false;
+    }else if(!exprecionesRegulares.texto.test(tipoDeExamen)){
+        alert("El nombre del examen no es valido");
         return false;
     }else if(diasTrabajo.options.length===0){
         alert("No asigno dias de trabajo");
@@ -253,10 +307,14 @@ function validarRegistroLaboratorista(){
                 return false;
             }
         }
-    } 
-    
+    }
+
+    for(var i =0;i<diasTrabajo.options.length;i++){
+        diasTrabajo.options[i].selected = true;
+    }
     return true;
 }
+
 
 function mostrarEditDoc() {
     var estado = document.getElementById("areaEditarDoc").style.display;
@@ -295,7 +353,7 @@ function agregarDiaTrabajo() {
     } else if (!(exprecionesRegulares.texto.test(texto))){
         alert("El texto introducido no es valido")
     }else{
-        var combo = document.getElementById("diasTrabajoLab");
+        var combo = document.getElementById("diasSemanaLab");
         var option=document.createElement("option");
         combo.options.add(option,0);
         combo.options[0].value=texto;
@@ -304,7 +362,7 @@ function agregarDiaTrabajo() {
     }
 }
 function eliminarDiaTrabajo() {
-    var texto = document.getElementById("diasTrabajoLab").value;
+    var texto = document.getElementById("diasSemanaLab").value;
     if (texto.length === 0) {
         alert("Debe de seleccionar un dia para poder eliminarlo");
     } else if (!(exprecionesRegulares.texto.test(texto))){
@@ -315,6 +373,6 @@ function eliminarDiaTrabajo() {
         combo.options.add(option,0);
         combo.options[0].value=texto;
         combo.options[0].innerText=texto;
-        document.getElementById("diasTrabajoLab").remove(document.getElementById("diasTrabajoLab").selectedIndex);
+        document.getElementById("diasSemanaLab").remove(document.getElementById("diasSemanaLab").selectedIndex);
     }
 }
