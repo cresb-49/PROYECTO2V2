@@ -68,7 +68,7 @@
         </div>
         <div class="container">
             <br>
-            <form action="acountProcess.jsp?token=registarUsuario" id="registroUsuario" name="registroUsuario" onsubmit="return validarRegistroPaciente()" method="post">
+            <form action="RegistroUsuario?token=registarUsuario" id="registroUsuario" name="registroUsuario" onsubmit="return validarRegistroPaciente()" method="post">
                 <section class="row">
                     <!--Primera columna del formulario-->
                     <div class="container col-md-6">

@@ -3,7 +3,8 @@
     Created on : 28/09/2020, 14:13:46
     Author     : carlo
 --%>
-
+<%@page import="com.mycompany.proyecto2v2.DBManage.*"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.Admin"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -78,6 +79,35 @@
                 </div>
             </form>
         </div>
+        <%
+            String nombreAdmin = request.getParameter("nombreAdmin");
+            String codigoAdmin = request.getParameter("codigoAdmin");
+            String DPIAdmin = request.getParameter("DPIAdmin");
+            String passwordAdmin = request.getParameter("passAdmin");
+            if (nombreAdmin != null && codigoAdmin != null && DPIAdmin != null && passwordAdmin != null) {
+                Admin adminNuevo = new Admin(nombreAdmin, codigoAdmin, DPIAdmin, passwordAdmin);
+                try {
+                    //VARIBLES DE CONEXION A BASE DE DATOS
+                    ConnectionDB cnx = new ConnectionDB();
+                    RegistroDB registro = new RegistroDB(cnx.getConexion());
+                    //EVALUACION DE LA RESPUESTA OBTENIDA POR EL REGISTRO EN LA BASE DE DATOS
+                    String respuesta = registro.registroUsuario(adminNuevo, "nuevo");
+                    if(respuesta.equals("")){
+                        respuesta = registro.registroAdmin(adminNuevo);
+                        if(respuesta.equals("")){
+                            request.getRequestDispatcher("../error.jsp?logroP=Se registro con exito el administrador al sistema").forward(request, response);
+                        }else{
+                            request.getRequestDispatcher("../error.jsp?errorP="+respuesta).forward(request, response);
+                        }
+                    }else{
+                        request.getRequestDispatcher("../error.jsp?errorP="+respuesta).forward(request, response);
+                    }
+                } catch (Exception e) {
+                    request.getRequestDispatcher("../error.jsp?errorP="+e.getMessage()).forward(request, response);
+                }
+            }
+
+        %>
         <footer>
             <div class="container">
                 <h3>© HOSPITAL 2020</h3>

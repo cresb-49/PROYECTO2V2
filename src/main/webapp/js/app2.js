@@ -78,3 +78,21 @@ function validarAdmin(){
     }
     return true;
 }
+
+function validarModificacionAdmin(){
+    var nombreAdmin,numeroDPI,codigoAd,passAd1,passAd2;
+    nombreAdmin = document.getElementById("nombreAdmin").value;
+    numeroDPI = document.getElementById("DPIAdmin").value;
+
+    if (nombreAdmin ===""||numeroDPI===""){
+        alert("Todos los campos son obligatorios");
+        return false;
+    }else if(!exprecionesRegulares.nombre.test(nombreAdmin)){
+        alert("El nombre del admin no es valido debe ser de la forma Juan Perez");
+        return false;
+    }else if(!exprecionesRegulares.nDpi.test(numeroDPI)){
+        alert("El numero de DPI no es valido debe tener 13 digitos");
+        return false;
+    }
+    return true;
+}
