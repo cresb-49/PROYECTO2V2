@@ -12,10 +12,8 @@
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
-                <h2>BIENVENIDO A SU PERFIL DE USUARIO</h2>
             </div>
         </header>
-        <br>
         <div class="container">
             <br>
             <h3>Buscar Doctor:</h3>
@@ -25,7 +23,7 @@
             <form class="form-inline" action="#">
                 <label class="control-label col-md-2" for="codeDoctor">Codigo Doctor: </label>
                 <div class="form-group">
-                    <input class="form-control" id="codeDoctor" type="text" name="codeDoctorText" placeholder="codigo doctor">
+                    <input class="form-control" id="codeDoctor" type="text" name="codeDoctorText" placeholder="MED-XXXX">
                 </div>
                 <div class="form-group col-md-2">
                     <button class="btn btn-primary" type="submit" name="buscar" >Buscar</button>
@@ -39,15 +37,9 @@
 
         <div class="container">
             <br>
-            <form class="container form-group" action="#" method="POST" >
+            <form class="container form-group" action="" onsubmit="return validarModificaionMedico()" method="POST" >
                 <div class="form-row form-group">
                     <div class="container form-group col-md-6">
-                        <div class="form-group">
-                            <label for="codeDoctor" class="control-label">Codigo Doctor: </label>
-                            <div class="">
-                                <input class="form-control" id="codeDoctor" type="text" name="codeDoctorText" placeholder="codigo doctor">
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="control-label" for="coleDoctor">No. Colegiado: </label>
                             <div class="">
@@ -61,9 +53,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="emailDoctor">Correo: </label>
-                            <div class="">
-                                <input class="form-control" id="emailDoctor" type="text" name="emailDoctorText" placeholder="Correo Electronico">
+                            <label class="control-label">Horario:</label>
+                            <div class="form-inline">
+                                <label for="inicioDoctor">Inicio: </label>
+                                <div class="">
+                                    <input class="form-control" id="inicioDoctor" type="time" name="inicioDoctorText" placeholder="HH:mm">
+                                </div>
+                                <label for="finDoctor">Fin: </label>
+                                <div class="">
+                                    <input class="form-control" id="finDoctor" type="time" name="finDoctorText" placeholder="HH:mm">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,44 +80,36 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Horario:</label>
-                            <div class="form-inline">
-                                <label for="inicioDoctor">Inicio: </label>
-                                <div class="">
-                                    <input class="form-control" id="inicioDoctor" type="time" name="inicioDoctorText" placeholder="HH:mm">
-                                </div>
-                                <label for="finDoctor">Fin: </label>
-                                <div class="">
-                                    <input class="form-control" id="finDoctor" type="time" name="finDoctorText" placeholder="HH:mm">
-                                </div>
+                            <label class="control-label" for="incioTrabajo">Inicio de labores: </label>
+                            <div class="">
+                                <input class="form-control" id="incioTrabajo" type="date" name="incioTrabajo" placeholder="Fecha">
                             </div>
                         </div>
                     </div>
                     <div class="container form-group col-md-12">
                         <div class="form-group">
                             <label class="control-label" for="espeDoctor">Especialidad: </label><br>
-                            <select class="form-control" name="Especialidad" id="espeDoctor">                            
-
+                            <select multiple="multiple" class="form-control" name="espeDoctor" id="espeDoctor">                            
                             </select>
                         </div>
                     </div>
                     <div class="container form-group col-md-12">
                         <div class="container form-group row">
                             <div class="col-md-4">
-                                <button class="form-group btn btn-danger" type="button" id="especialidadEliminar" >Eliminar Seleccionado</button>
+                                <button class="form-group btn btn-danger" type="button" id="especialidadEliminar" onclick="eliminarEspecialidad();">Eliminar Seleccionado</button>
                             </div>
                             <div class="col-md-4">
                                 <input class="form-control" type="text" id="ingresoEspecialidad" placeholder="Especialidad a agregar"/>
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-success" type="button" id="especialidadAgrgar" >Agregar</button>
+                                <button class="btn btn-success" type="button" id="especialidadAgregar" onclick="agregarEspecialidad();" >Agregar</button>
                             </div>
                         </div>
                     </div>
                     <div class="container form-group col-md-12">
                         <div class="container" >
                             <div class="form-group">
-                                <button class="btn btn-danger" type="submit" name="modificar" value="Ingresar">Modificar</button>
+                                <button class="btn btn-danger" type="submit" name="modificar" value="Ingresar">Modificar el Doctor</button>
                             </div>
                         </div>
                     </div>
@@ -126,6 +117,17 @@
             </form>
         </div>
         <br>
+        <%
+            String codigoDoc = request.getParameter("codeDoctor");
+            System.out.println(codigoDoc);
+            String[] valores = request.getParameterValues("espeDoctor");
+            if (valores != null) {
+                for (String var : valores) {
+                    System.out.println(var);
+                }
+            }
+
+        %>
         <footer>
             <div class="container">
                 <h3>© HOSPITAL 2020</h3>
