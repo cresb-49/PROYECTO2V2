@@ -18,6 +18,8 @@
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
+                <h5>REGISTRAR MEDICO</h5>
+                <br>
             </div>
         </header>
         <div class="container">
@@ -27,13 +29,13 @@
 
         <div class="container">
             <br>
-            <form class="container form-group" action="#" onsubmit="return validarRegistroPaciente()" method="POST" >
+            <form class="container form-group" action="" onsubmit="return validarRegistroMedico();" method="POST" >
                 <div class="form-row form-group">
                     <div class="container form-group col-md-6">
                         <div class="form-group">
                             <label for="codeDoctor" class="control-label">Codigo Doctor: </label>
                             <div class="">
-                                <input class="form-control" id="codeDoctor" type="text" name="codeDoctorText" placeholder="MED-XXXX">
+                                <input class="form-control" id="codeDoctor" type="text" name="codeDoctor" placeholder="MED-XXXX">
                             </div>
                         </div>
                         <div class="form-group">
@@ -91,7 +93,7 @@
                     <div class="container form-group col-md-12">
                         <div class="form-group">
                             <label class="control-label" for="espeDoctor">Especialidad: </label><br>
-                            <select class="form-control" name="espeDoctor" id="espeDoctor">                            
+                            <select multiple="" class="form-control" name="espeDoctor" id="espeDoctor">                            
 
                             </select>
                         </div>
@@ -106,6 +108,22 @@
                             </div>
                             <div class="col-md-4">
                                 <button class="btn btn-success" type="button" id="especialidadAgregar" onclick="agregarEspecialidad();" >Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container form-group col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="passwordDoctor">Password: </label>
+                            <div class="">
+                                <input class="form-control" id="passwordDoctor" type="password" name="passwordDoctor">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container form-group col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="passwordDoctor2"> Confirmar Password: </label>
+                            <div class="">
+                                <input class="form-control" id="passwordDoctor2" type="password" name="passwordDoctor2">
                             </div>
                         </div>
                     </div>
@@ -125,6 +143,7 @@
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
+        <script src="../js/app.js"></script>
         <script src="../js/jquery-3.5.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="../js/bootstrap.min.js"></script>
