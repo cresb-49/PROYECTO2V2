@@ -13,7 +13,9 @@ const exprecionesRegulares = {
     codigoLaboratorista: /^[L][A][B][-][0-9]+$/,
     codigoAdmin: /^[A][D][M][I][N][0-9]+$/,
     registroSalud: /^[S][A][L][U][D][-][0-9]+$/,
-    diasSemana: /^((Lunes)|(Martes)|(Miercoles)|(Jueves)|(Viernes)|(Sabado)|(Domingo))$/
+    diasSemana: /^((Lunes)|(Martes)|(Miercoles)|(Jueves)|(Viernes)|(Sabado)|(Domingo))$/,
+    estadoOrden: /^((TRUE)|(FALSE))$/,
+    formatoInforme: /^((PDF)|(IMG))$/
 };
 
 function validarRegistroPaciente() {
@@ -433,6 +435,72 @@ function validarRegistroconsulta(){
         return false;
     }else if(!exprecionesRegulares.IntOrDouble.test(costo)){
         alert("El costo introducido no es valido solo deben ser numeros")
+        return false;
+    }
+    return true;
+}
+function validarRegistroExamen(){
+    var codigo,nombre,orden,descripcion,costo,informe;
+
+    codigo = document.getElementById("codigoExamen").value;
+    nombre = document.getElementById("nombreExamen").value;
+    orden = document.getElementById("ordenExamen").value;
+    descripcion = document.getElementById("descripcionExamen").value;
+    costo = document.getElementById("costoExamen").value;
+    informe = document.getElementById("informeExamen").value;
+
+    if(codigo===""||nombre===""||orden===""||descripcion===""||costo===""||informe===""){
+        alert("Todos los campos son obligatorios");
+        return false;
+    }else if(!exprecionesRegulares.texto.test(nombre)){
+        alert("El nombre asignado al examen no es valido");
+        return false;
+    }else if(!exprecionesRegulares.numeroEntero.test(codigo)){
+        alert("El codigo debe ser en formato numerico");
+        return false;
+    }else if(!exprecionesRegulares.estadoOrden.test(orden)){
+        alert("Selececcione un estado de orden");
+        return false;
+    }else if(descripcion.length===0){
+        alert("Debe de agregar una descripcion para el examen");
+        return false;
+    }else if(!exprecionesRegulares.IntOrDouble.test(costo)){
+        alert("El costo asignado no es valido");
+        return false;
+    }else if(!exprecionesRegulares.formatoInforme.test(informe)){
+        alert("Debe de agregar un formato de informe");
+        return false;
+    }
+    return true;
+}
+
+function validarModificacionExamen(){
+
+    var nombre,orden,descripcion,costo,informe;
+
+    nombre = document.getElementById("nombreExamen").value;
+    orden = document.getElementById("ordenExamen").value;
+    descripcion = document.getElementById("descripcionExamen").value;
+    costo = document.getElementById("costoExamen").value;
+    informe = document.getElementById("informeExamen").value;
+
+    if(nombre===""||orden===""||descripcion===""||costo===""||informe===""){
+        alert("Todos los campos son obligatorios");
+        return false;
+    }else if(!exprecionesRegulares.numeroEntero.test(codigo)){
+        alert("El codigo debe ser en formato numerico");
+        return false;
+    }else if(!exprecionesRegulares.estadoOrden.test(orden)){
+        alert("Selececcione un estado de orden");
+        return false;
+    }else if(descripcion.length===0){
+        alert("Debe de agregar una descripcion para el examen");
+        return false;
+    }else if(!exprecionesRegulares.IntOrDouble.test(costo)){
+        alert("El costo asignado no es valido");
+        return false;
+    }else if(!exprecionesRegulares.formatoInforme.test(informe)){
+        alert("Debe de agregar un formato de informe");
         return false;
     }
     return true;

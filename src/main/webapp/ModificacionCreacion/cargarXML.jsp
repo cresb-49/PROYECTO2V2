@@ -15,22 +15,31 @@
         <link rel="stylesheet" href="../css/estilos.css"/>
     </head>
     <body>
-        <div class="container">
-            
-        </div>
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
             </div>
         </header>
-
-        <footer>
-            <div class="container">
-                <h3>© HOSPITAL 2020</h3>
+        <div class="container">
+            <p>
+            <h5>Introduza una coleccion de archivos que alimentaran el sistema</h5>
+        </p>
+        <form action="cargarArchivos/cargarArchivos.jsp" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input class="form-control-file" type="file" multiple="multiple" name="selecFile"/>
             </div>
-        </footer>
-        <script src="../js/jquery-3.5.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-        <script src="../js/bootstrap.min.js"></script>
-    </body>
+            <div class="form-group">
+                <input class="btn btn-success" type="submit" value="Cargar Archivo"/>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <div class="container">
+            <h3>© HOSPITAL 2020</h3>
+        </div>
+    </footer>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</body>
 </html>
