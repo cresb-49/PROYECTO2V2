@@ -12,7 +12,8 @@ const exprecionesRegulares = {
     codigoDoctor: /^[M][E][D][-][0-9]+$/,
     codigoLaboratorista: /^[L][A][B][-][0-9]+$/,
     codigoAdmin: /^[A][D][M][I][N][0-9]+$/,
-    registroSalud: /^[S][A][L][U][D][-][0-9]+$/
+    registroSalud: /^[S][A][L][U][D][-][0-9]+$/,
+    diasSemana: /^((Lunes)|(Martes)|(Miercoles)|(Jueves)|(Viernes)|(Sabado)|(Domingo))$/
 };
 
 function validarRegistroPaciente() {
@@ -187,22 +188,73 @@ function validarRegistroMedico(){
 }
 
 function validarRegistroLaboratorista(){
-    var codigo,nombre,numeroRegistroSalud,correo,DPI,telefono,tipoDeExamen,inicioTrabajo,password,password2,diasTrabajo;
-
+    var codigo,nombre,numeroRegistroSalud,correoLab,DPI,telefono,tipoDeExamen,inicioTrabajo,password,password2,diasTrabajo;
+    
+    
     codigo = document.getElementById("codeLaboratorista").value;
     numeroRegistroSalud=document.getElementById("numeroRegistroSalud").value;
     telefono = document.getElementById("telefonoLaboratorista").value;
-    correo = document.getElementById("emailLaboratorista").value;
+    correoLab = document.getElementById("emailLaboratorista").value;
     nombre = document.getElementById("nameLaboratorista").value;
     DPI = document.getElementById("DPILaboratorista").value;
     inicioTrabajo = document.getElementById("incioTrabajoLaboratorista").value;
     tipoDeExamen=document.getElementById("tipoDeExamenLaboratorista").value;
-    diasTrabajo = document.getElementById("diasTrabajoLab");
+    diasTrabajo = document.getElementById("diasSemanaLab");
     password=document.getElementById("passwordLaboratorista").value;
     password2=document.getElementById("passwordLaboratorista2").value;
-
-
-
+        
+    if(codigo===""||numeroRegistroSalud===""||telefono===""||correoLab===""||nombre===""||DPI===""||inicioTrabajo===""||tipoDeExamen===""||diasTrabajo.options.length===0||password===""||password2===""){
+        alert("Todos los campos son obligatorios");
+        return false;
+    }else if(!exprecionesRegulares.codigoLaboratorista.test(codigo)){
+        alert("El codigo del laboratorista no es valido debe ser de la forma LAB-XXXX");
+        return false;
+    }else if(!exprecionesRegulares.registroSalud.test(numeroRegistroSalud)){
+        alert("El registro de salud no es valido debe ser de la forma SALUD-XXXX");
+        return false;
+    }else if(!exprecionesRegulares.telefono.test(telefono)){
+        alert("El numero de telefono no es valido\nRecuerda que deben ser 8 digitos");
+        return false;
+    }else if (correo.length > 45) {
+        alert("El correo es muy largo");
+        return false;
+    } else  if(!exprecionesRegulares.correo.test(correo)){
+        alert("La direccion de correo electronico no es valida");
+        return false;
+    }else  if (nombre.length > 60) {
+        alert("El nombre es muy largo");
+        return false;
+    } else if(!exprecionesRegulares.nombre.test(nombre)){
+        alert("El nombre no es valido debe ser de la forma Juan Perez");
+        return false;
+    }else if(!exprecionesRegulares.nDpi.test(DPI)){
+        alert("EL numero de DPI no es valido\nRecuerda que deben de ser 13 digitos");
+        return false;
+    } else if(!exprecionesRegulares.fecha.test(inicioTrabajo)){
+        alert("La fecha ingresada en el campo de inicio de trabajo no es valida");
+        return false;
+    }else if(!exprecionesRegulares.texto.test(tipoDeExamen)){
+        alert("El nombre del examen no es valido");
+        return false;
+    }else if (password.length > 45 || password2.length > 45) {
+        alert("La password no debe superar los 45 caracteres");
+        return false;
+    } else if (!(password === password2)) {
+        alert("Las password no concuerdan");
+        return false;
+    }else if(diasTrabajo.options.length===0){
+        alert("No asigno dias de trabajo");
+        return false;
+    }else{
+        for(var i=0;i<diasTrabajo.options.length;i++){
+            var dia = diasTrabajo.options[i].value;
+            if(!exprecionesRegulares.diasSemana.test(dia)){
+                alert("El texto no corresponde a un dia de la semana");
+                return false;
+            }
+        }
+    } 
+    
     return true;
 }
 
