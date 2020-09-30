@@ -102,6 +102,7 @@
                     }else{
                         request.getRequestDispatcher("../error.jsp?errorP="+respuesta).forward(request, response);
                     }
+                    cnx.cerrarConexion();
                 } catch (Exception e) {
                     request.getRequestDispatcher("../error.jsp?errorP="+e.getMessage()).forward(request, response);
                 }

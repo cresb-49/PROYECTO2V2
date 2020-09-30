@@ -4,6 +4,13 @@
     Author     : carlo
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.List"%>
+<%@page import="com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.RegistroDB"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -143,6 +150,56 @@
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
+        <%
+            String nombreMedico = request.getParameter("nameDoctor");
+            String numeroColegiado = request.getParameter("coleDoctor");
+            String codigoMedico = request.getParameter("codeDoctor");
+            String telefonoMedico = request.getParameter("telDoctor");
+            String emailMedico = request.getParameter("emailDoctor");
+            String DPIMedico = request.getParameter("DPIDoctor");
+            String inicioHorario = request.getParameter("inicioDoctor");
+            String finHorario = request.getParameter("finDoctor");
+            String especilidades[] = request.getParameterValues("espeDoctor");
+            String inicioLabores = request.getParameter("incioTrabajo");
+            String passMedico = request.getParameter("passwordDoctor");
+            if (nombreMedico!=null) {
+                ConvercionesVariables conv = new ConvercionesVariables();
+                Doctor nuevoDoctor = new Doctor();
+                ////ASIGNACION DE ATRIBUTOS
+                    nuevoDoctor.setNombre(nombreMedico);
+                    nuevoDoctor.setColegiado(numeroColegiado);
+                    nuevoDoctor.setCodigo(codigoMedico);
+                    nuevoDoctor.setTelefono(telefonoMedico);
+                    nuevoDoctor.setCorreo(emailMedico);
+                    nuevoDoctor.setDPI(DPIMedico);
+                    nuevoDoctor.setInicio(conv.stringToTime(inicioHorario));
+                    nuevoDoctor.setFin(conv.stringToTime(finHorario));
+                    nuevoDoctor.setEspecialidad(new ArrayList<String>(Arrays.asList(especilidades)));
+                    nuevoDoctor.setInicioTrabajo(conv.stringToDate(inicioLabores));
+                    nuevoDoctor.setPassword(passMedico);
+                ////FIN DE ASIGNACION DE ATRIBUTOS
+                try {
+                    //VARIBLES DE CONEXION A BASE DE DATOS
+                    ConnectionDB cnx = new ConnectionDB();
+                    RegistroDB registro = new RegistroDB(cnx.getConexion());
+                    //EVALUACION DE LA RESPUESTA OBTENIDA POR EL REGISTRO EN LA BASE DE DATOS
+                    String respuesta = registro.registroUsuario(nuevoDoctor, "nuevo");
+                    if (respuesta.equals("")) {
+                        respuesta = registro.registroDoctor(nuevoDoctor);
+                        if (respuesta.equals("")) {
+                            request.getRequestDispatcher("../error.jsp?logroP=Se registro con exito el medico en el sistema").forward(request, response);
+                        } else {
+                            request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+                        }
+                    } else {
+                        request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+                    }
+                    cnx.cerrarConexion();
+                } catch (Exception e) {
+                    request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+                }
+            }
+        %>
         <script src="../js/app.js"></script>
         <script src="../js/jquery-3.5.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

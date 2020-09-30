@@ -4,6 +4,12 @@
     Author     : carlo
 --%>
 
+<%@page import="com.mycompany.proyecto2v2.DBManage.RegistroDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.*"%>
+<%@page import="com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -143,6 +149,55 @@
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
+        <%
+            String codigoLab = request.getParameter("codeLaboratorista");
+            String registroSalud = request.getParameter("numeroRegistroSalud");
+            String telefono = request.getParameter("telefonoLaboratorista");
+            String correoLab = request.getParameter("emailLaboratorista");
+            String nombreLab = request.getParameter("nameLaboratorista");
+            String DPILab = request.getParameter("DPILaboratorista");
+            String inicioLabores = request.getParameter("incioTrabajoLaboratorista");
+            String tipoExamen = request.getParameter("tipoDeExamenLaboratorista");
+            String diasTrabajo[] = request.getParameterValues("diasSemanaLab");
+            String passLab = request.getParameter("passwordLaboratorista");
+
+            if (codigoLab != null) {
+                ConvercionesVariables conv = new ConvercionesVariables();
+                Laboratorista nuevoLab = new Laboratorista();
+                ////ASIGNACION DE ATRIBUTOS
+                nuevoLab.setCodigo(codigoLab);
+                nuevoLab.setRegistro(registroSalud);
+                nuevoLab.setTelefono(telefono);
+                nuevoLab.setCorreo(correoLab);
+                nuevoLab.setNombre(nombreLab);
+                nuevoLab.setDPI(DPILab);
+                nuevoLab.setInicioTrabajo(conv.stringToDate(inicioLabores));
+                nuevoLab.setExamen(tipoExamen);
+                nuevoLab.setDias(new ArrayList<String>(Arrays.asList(diasTrabajo)));
+                nuevoLab.setPassword(passLab);
+                ////FIN DE ASIGNACION DE ATRIBUTOS
+                try {
+                    //VARIBLES DE CONEXION A BASE DE DATOS
+                    ConnectionDB cnx = new ConnectionDB();
+                    RegistroDB registro = new RegistroDB(cnx.getConexion());
+                    //EVALUACION DE LA RESPUESTA OBTENIDA POR EL REGISTRO EN LA BASE DE DATOS
+                    String respuesta = registro.registroUsuario(nuevoLab, "nuevo");
+                    if (respuesta.equals("")) {
+                        respuesta = registro.registroLaboratorista(nuevoLab);
+                        if (respuesta.equals("")) {
+                            request.getRequestDispatcher("../error.jsp?logroP=Se registro con exito el laboratorista en el sistema").forward(request, response);
+                        } else {
+                            request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+                        }
+                    } else {
+                        request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+                    }
+                    cnx.cerrarConexion();
+                } catch (Exception e) {
+                    request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+                }
+            }
+        %>
         <script src="../js/app.js"></script>
         <script src="../js/jquery-3.5.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
