@@ -44,4 +44,10 @@ public class usuarioSistema {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "usuarioSistema{" + "codigoReferencia=" + codigoReferencia + ", rol=" + rol + ", email=" + email + ", password=" + password + '}';
+    }
+    
 }

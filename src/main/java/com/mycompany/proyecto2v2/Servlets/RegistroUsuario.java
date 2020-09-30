@@ -16,85 +16,53 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/RegistroUsuario")
-public class RegistroUsuario extends HttpServlet{
+public class RegistroUsuario extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String user = req.getParameter("usuario");
-            String pass = req.getParameter("password");
-            String token = req.getParameter("resgistrar");
-            String acction = req.getParameter("token");
-            
-            if(acction==null){
-                acction="";
-            }
-            if(acction.equals("registarUsuario")){
-                try 
-                {
-                    ConvercionesVariables conv= new ConvercionesVariables();
-                    //GENERACION DEL OBJETO PACIENTE PARA LUEGO HACER SU REGISTRO
-                    Paciente nuevoPaciente = new Paciente(req.getParameter("nombrePaciente")
-                            , req.getParameter("DPIPaciente"),req.getParameter("passPaciente")
-                            , req.getParameter("telefonoPaciente")
-                            , req.getParameter("correoPaciente")
-                            , req.getParameter("sexoPaciente")
-                            , conv.stringToDate(req.getParameter("fechaNacimiento"))
-                            , conv.stringToDouble(req.getParameter("pesoPaciente"))
-                            , req.getParameter("tipoSangre"));
-                    ConnectionDB cnx = new ConnectionDB();
-                    RegistroDB registro = new RegistroDB(cnx.getConexion());
-                    ConsultasDB consultas = new ConsultasDB(cnx.getConexion());
-                    String resultado="";
-                    if(!consultas.existenciaDeRegistroUsuario(nuevoPaciente.getEmail())){
-                            resultado=consultas.existenciaDePaciente(nuevoPaciente.getCodigo(), nuevoPaciente.getDPI(), nuevoPaciente.getEmail(), nuevoPaciente.getTelefono());
-                        if(resultado.equals("")){
-                            registro.registroPaciente(nuevoPaciente,"nuevo");
-                            registro.registroUsuario(nuevoPaciente, "nuevo");
-                            resp.sendRedirect("/proyecto2v2/index.jsp");
-                        }
-                        else{
-                            req.setAttribute("nuevoPaciente",nuevoPaciente);
-                            req.getRequestDispatcher("registrarUsuario.jsp?error="+resultado).forward(req, resp);
-                        }
-                    }else{
-                        resultado="El correo ya esta registrado";
-                        System.out.println(resultado);
-                        req.setAttribute("nuevoPaciente",nuevoPaciente);
-                        req.getRequestDispatcher("registrarUsuario.jsp?error="+resultado).forward(req, resp);
-                    }
-                    cnx.cerrarConexion();
-                } catch (Exception e) {
-                }
-            }
-            else{
-                try
-                {
-                    ConnectionDB cnx = new ConnectionDB();
-                    ConsultasDB consultas = new ConsultasDB(cnx.getConexion());
-                    String resultado=consultas.accesoUsuario(user,pass);
-                    if(resultado.equals("admin")){
-                        Admin admin = new Admin();
-                        req.setAttribute("ADMIN",admin);
-                        resp.sendRedirect("/proyecto2v2/usuarios/ADMINISTRADOR.jsp");
-                    }
-                    if(resultado.equals("doctor")){
-                        resp.sendRedirect("/proyecto2v2/usuarios/perfilDoctor.jsp");
-                    }
-                    if(resultado.equals("paciente")){
-                        resp.sendRedirect("/proyecto2v2/usuarios/perfilPaciente.jsp");
-                    }
-                    if(resultado.equals("laboratorista")){
-                        resp.sendRedirect("/proyecto2v2/usuarios/perfilLaboratorista.jsp");
-                    }
-                    cnx.cerrarConexion();
-                } catch (Exception e) {
-                    resp.sendRedirect("/proyecto2v2/index.jsp?errorInicio=Error de credenciales");
-                }
-            }
-    }
+        String pass = req.getParameter("password");
+        String acction = req.getParameter("token");
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        if (acction == null) {
+            acction = "";
+        }
+        if (acction.equals("registarUsuario")) {
+            try {
+                ConvercionesVariables conv = new ConvercionesVariables();
+                //GENERACION DEL OBJETO PACIENTE PARA LUEGO HACER SU REGISTRO
+                Paciente nuevoPaciente = new Paciente(req.getParameter("nombrePaciente"),
+                         req.getParameter("DPIPaciente"), req.getParameter("passPaciente"),
+                         req.getParameter("telefonoPaciente"),
+                         req.getParameter("correoPaciente"),
+                         req.getParameter("sexoPaciente"),
+                         conv.stringToDate(req.getParameter("fechaNacimiento")),
+                         conv.stringToDouble(req.getParameter("pesoPaciente")),
+                         req.getParameter("tipoSangre"));
+                ConnectionDB cnx = new ConnectionDB();
+                RegistroDB registro = new RegistroDB(cnx.getConexion());
+                ConsultasDB consultas = new ConsultasDB(cnx.getConexion());
+                String resultado = "";
+                if (!consultas.existenciaDeRegistroUsuario(nuevoPaciente.getEmail())) {
+                    resultado = consultas.existenciaDePaciente(nuevoPaciente.getCodigo(), nuevoPaciente.getDPI(), nuevoPaciente.getEmail(), nuevoPaciente.getTelefono());
+                    if (resultado.equals("")) {
+                        registro.registroPaciente(nuevoPaciente, "nuevo");
+                        registro.registroUsuario(nuevoPaciente, "nuevo");
+                        resp.sendRedirect("/proyecto2v2/index.jsp");
+                    } else {
+                        req.setAttribute("nuevoPaciente", nuevoPaciente);
+                        req.getRequestDispatcher("registrarUsuario.jsp?error=").forward(req, resp);
+                    }
+                } else {
+                    resultado = "El correo ya esta registrado";
+                    System.out.println(resultado);
+                    req.setAttribute("nuevoPaciente", nuevoPaciente);
+                    req.getRequestDispatcher("registrarUsuario.jsp?error=" + resultado).forward(req, resp);
+                }
+                cnx.cerrarConexion();
+            } catch (Exception e) {
+                System.out.println("Error Servlet Registro: " + e.getMessage());
+            }
+        }
     }
-    
 }

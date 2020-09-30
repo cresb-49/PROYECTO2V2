@@ -4,6 +4,7 @@
     Author     : carlo
 --%>
 
+<%@page import="com.mycompany.proyecto2v2.Objetos.usuarioSistema"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,12 @@
         <link rel="stylesheet" href="../css/bootstrap.min.css"/>
         <link rel="stylesheet" href="../css/estilos.css"/>
     </head>
+    <%
+        usuarioSistema user = (usuarioSistema)session.getAttribute("USER");
+        if(user != null){
+            System.out.println("Seccion del sistema: "+user.toString());
+        }
+    %>
     <body>
         <header>
             <div class="container">

@@ -36,16 +36,18 @@ public class ConsultasDB {
      * @param password
      * @return 
      */
-    public String accesoUsuario(String usuario, String password){
-        String respuesta= null;
-        String consulta = "SELECT rol FROM USUARIO WHERE usuario = ? AND password = ?";
+    public usuarioSistema accesoUsuario(String usuario, String password){
+        usuarioSistema respuesta= new usuarioSistema();
+        String consulta = "SELECT id,usuario,rol FROM USUARIO WHERE usuario = ? AND password = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             password = DigestUtils.md5Hex(password);
             preSt.setString(1, usuario);
             preSt.setString(2, password);
             try (ResultSet result = preSt.executeQuery()){
                 while (result.next()) {
-                    respuesta=result.getString(1);
+                    respuesta.setCodigoReferencia(result.getLong(1));
+                    respuesta.setEmail(result.getString(2));
+                    respuesta.setRol(result.getString(3));
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

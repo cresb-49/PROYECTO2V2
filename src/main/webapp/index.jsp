@@ -15,12 +15,10 @@
     
     <body>
         <%
-            Connection conexion;
             ConsultasDB consultas = new ConsultasDB();
             boolean resultado = false;
             try {
                 ConnectionDB cnx = new ConnectionDB();
-                conexion=cnx.getConexion();
                 consultas= new ConsultasDB(cnx.getConexion());
                 resultado=consultas.comprobarInformacion();
                 cnx.cerrarConexion();
@@ -58,7 +56,7 @@
                         }
                         if(resultado){
                     %>
-                    <form action="RegistroUsuario" method="POST">
+                    <form action="Login" method="POST">
                         <h2>Inicio sesion</h2>
                         <div class="form-group">
                             <label for="usuario">Usuario:</label>
