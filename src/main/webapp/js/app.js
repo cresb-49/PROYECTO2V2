@@ -360,16 +360,6 @@ function validarModificacionLaboratorista(){
     return true;
 }
 
-
-function mostrarEditDoc() {
-    var estado = document.getElementById("areaEditarDoc").style.display;
-    if (estado === "none") {
-        document.getElementById("areaEditarDoc").style.display = "block";
-    } else {
-        document.getElementById("areaEditarDoc").style.display = "none";
-    }
-}
-
 function eliminarEspecialidad() {
     var combo = document.getElementById("espeDoctor");
     combo.remove(document.getElementById("espeDoctor").selectedIndex);

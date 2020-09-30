@@ -20,7 +20,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Doctores</a>
                     <div class="dropdown-menu">
-                        <button class="btn dropdown-item" onclick="mostrarEditDoc();">Editar</button>
+                        <button class="btn dropdown-item" onclick="mostrarEditDoc()">Editar</button>
                         <a class="dropdown-item" href="?opcion=D2">Crear</a>
                     </div>
                 </li>
@@ -65,77 +65,12 @@
         </div>
 
 
-        <%
-            String opcion = request.getParameter("opcion");
-            System.out.println(opcion);
-            if (opcion != null) {
-                switch (opcion) {
-                    case "D1":
-        %>
-
-
-        <%
-                break;
-            case "D2":
-        %>
-
-        <%
-                break;
-            case "L1":
-        %>
-
-        <%
-                break;
-            case "L2":
-        %>
-
-        <%
-                break;
-            case "E1":
-        %>
-
-        <%
-                break;
-            case "E2":
-        %>
-
-        <%
-                break;
-            case "C1":
-        %>
-
-        <%
-                break;
-            case "C2":
-        %>
-
-        <%
-                break;
-            case "P1":
-        %>
-
-        <%
-                break;
-            case "P2":
-        %>
-
-        <%
-                break;
-            default:
-        %>
-
-        <%
-                        break;
-                }
-            }
-        %>
-
         <footer>
             <div class="container">
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
-        <script src="../js/app.js"></script>
+        <script src="../js/comportamientoPerfiles.js"></script>
         <script src="../js/jquery-3.5.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="../js/bootstrap.min.js"></script>
