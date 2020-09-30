@@ -39,10 +39,11 @@ public class RegistroUsuario extends HttpServlet {
                          req.getParameter("tipoSangre"));
                 ConnectionDB cnx = new ConnectionDB();
                 RegistroDB registro = new RegistroDB(cnx.getConexion());
-                ConsultasDB consultas = new ConsultasDB(cnx.getConexion());
+                DuplicidadDB duplicidad = new DuplicidadDB();
+                duplicidad.setConexion(cnx.getConexion());
                 String resultado = "";
-                if (!consultas.existenciaDeRegistroUsuario(nuevoPaciente.getEmail())) {
-                    resultado = consultas.existenciaDePaciente(nuevoPaciente.getCodigo(), nuevoPaciente.getDPI(), nuevoPaciente.getEmail(), nuevoPaciente.getTelefono());
+                if (!duplicidad.existenciaDeRegistroUsuario(nuevoPaciente.getEmail())) {
+                    resultado = duplicidad.existenciaDePaciente(nuevoPaciente);
                     if (resultado.equals("")) {
                         registro.registroPaciente(nuevoPaciente, "nuevo");
                         registro.registroUsuario(nuevoPaciente, "nuevo");

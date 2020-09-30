@@ -21,10 +21,14 @@ public class RegistroDB {
     private Connection conexion;
     private VerificarContenido verificacion = new VerificarContenido();
     private ConsultasDB consulta;
+    private DuplicidadDB duplicidad = new DuplicidadDB();
+    private ModificacionDB modificacion;
 
     public RegistroDB(Connection conexion) {
         this.conexion = conexion;
         consulta = new ConsultasDB(conexion);
+        duplicidad.setConexion(conexion);
+        modificacion = new ModificacionDB(conexion);
     }
 
     public String registroPaciente(Paciente paciente, String tipo) {
@@ -36,7 +40,6 @@ public class RegistroDB {
         if (tipo.equals("nuevo")) {
             query = "INSERT INTO PACIENTE (nombre,dpi,telefono,email,sexo,peso,tipo_sangre,fecha_nacimiento,id_USUARIO) VALUES (?,?,?,?,?,?,?,?,?)";
         }
-        //Asignacion de los datos de la variables
         try (PreparedStatement preSt = conexion.prepareStatement(query)) {
             //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
             if (tipo.equals("exportado")) {
@@ -70,6 +73,7 @@ public class RegistroDB {
             preSt.executeUpdate();
             preSt.close();
         } catch (Exception e) {
+            this.modificacion.eliminarUsuario(paciente.getCodigoReferencia());
             respuesta = "Paciente: " + paciente.getCodigo() + " " + e.getMessage();
             System.out.println(respuesta);
         }
@@ -101,7 +105,6 @@ public class RegistroDB {
                     if (tipo.equals("nuevo")) {
                         this.verificacion.verificarPacienteCreado((Paciente) usuario);
                     }
-
                 }
                 if (usuario instanceof Trabajador) {
                     if (usuario instanceof Admin) {
@@ -119,7 +122,7 @@ public class RegistroDB {
                     password = ((Trabajador) usuario).getPassword();
                     rol = ((Trabajador) usuario).getRol();
                 }
-                if (!consulta.existenciaDeRegistroUsuario(user)) {
+                if (!duplicidad.existenciaDeRegistroUsuario(user)) {
                     try (PreparedStatement preSt = conexion.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                         //Verificacion de los valores de usuario
                         this.verificacion.verificarUsuario(user, password, rol);
@@ -132,7 +135,7 @@ public class RegistroDB {
                         preSt.executeUpdate();
                         try (ResultSet result = preSt.getGeneratedKeys()) {
                             if (result.first()) {
-                                ((usuarioSistema)usuario).setCodigoReferencia(result.getLong(1));
+                                ((usuarioSistema) usuario).setCodigoReferencia(result.getLong(1));
                             }
                         } catch (Exception e) {
                             respuesta = "-Usuario: " + user + " rol: " + rol + " " + e.getMessage();
@@ -157,6 +160,12 @@ public class RegistroDB {
         return respuesta;
     }
 
+    /**
+     * REALIZA EL REGISTRO DEL DOCTOR ADJUNTADO
+     *
+     * @param doctor
+     * @return
+     */
     public String registroDoctor(Doctor doctor) {
         String respuesta = "";
         String query = "INSERT INTO MEDICO(codigo,dpi,email,fin_horario,inicio_horario,inicio_labores,nombre,numero_colegiado,telefono,id_USUARIO)values(?,?,?,?,?,?,?,?,?,?)";
@@ -181,6 +190,7 @@ public class RegistroDB {
             //Registro de la especialidades del doctor
             respuesta = this.registroEspecialidadDoctor(doctor);
         } catch (Exception e) {
+            this.modificacion.eliminarUsuario(doctor.getCodigoReferencia());
             respuesta = "Medico: " + doctor.getNombre() + " codigo: " + doctor.getCodigo() + " " + e.getMessage();
             System.out.println(respuesta);
         }
@@ -229,6 +239,7 @@ public class RegistroDB {
             preSt.executeUpdate();
             preSt.close();
         } catch (Exception e) {
+            this.modificacion.eliminarUsuario(admin.getCodigoReferencia());
             respuesta = "Admin: " + admin.getNombre() + " codigo: " + admin.getCodigo() + e.getMessage();
             System.out.println(e.getMessage());
         }
@@ -263,6 +274,7 @@ public class RegistroDB {
             preSt.close();
             respuesta = this.registroDiasLaboratorista(laboratorista);
         } catch (Exception e) {
+            this.modificacion.eliminarUsuario(laboratorista.getCodigoReferencia());
             respuesta = "Laboratorista: " + laboratorista.getNombre() + " codigo: " + laboratorista.getCodigo() + " " + e.getMessage();
             System.out.println(respuesta);
         }

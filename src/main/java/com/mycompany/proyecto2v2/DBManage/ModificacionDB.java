@@ -57,12 +57,12 @@ public class ModificacionDB {
             preSt.setString(5,doctor.getFin().toString());
             preSt.setDate(6, doctor.getInicioTrabajo());
             preSt.setString(7, doctor.getCodigo());
+            preSt.executeUpdate();
             //ELIMINACION DE LAS ESPECIALIDADES
             resultado=this.eliminarEspecialidades(doctor);
             if(!resultado.equals("")){
                 //REGISTRO DE LAS ESPECIALIDADES NUEVAS
                 resultado=this.registro.registroEspecialidadDoctor(doctor);
-                preSt.executeUpdate();
             }
         } catch (Exception e) {
             resultado = "Error en modificacion de datos del medico: " + e.getMessage();
@@ -78,7 +78,7 @@ public class ModificacionDB {
      */
     private String eliminarEspecialidades(Doctor doctor){
         String resultado="";
-        String consulta = "DELETE ESPECIALIDAD_MEDICO WHERE MEDICO_codigo = ?";
+        String consulta = "DELETE FROM ESPECIALIDAD_MEDICO WHERE MEDICO_codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
 
             preSt.setString(1, doctor.getCodigo());
@@ -102,12 +102,12 @@ public class ModificacionDB {
             preSt.setDate(5, labo.getInicioTrabajo());
             preSt.setString(6, labo.getExamen());
             preSt.setString(7, labo.getCodigo());
+            preSt.executeUpdate();
             //ELIMINACION DE LOS DIAS DE TRABAJO
             resultado=this.eliminarDiasTrabajo(labo);
             if(!resultado.equals("")){
                 //REGISTRO DE LAS ESPECIALIDADES NUEVAS
                 resultado=this.registro.registroDiasLaboratorista(labo);
-                preSt.executeUpdate();
             }
         } catch (Exception e) {
             resultado = "Error en modificacion de datos del medico: " + e.getMessage();
@@ -122,7 +122,7 @@ public class ModificacionDB {
      */
     private String eliminarDiasTrabajo(Laboratorista labo) {
         String resultado="";
-        String consulta = "DELETE DIAS_TRABAJO WHERE LABORATORISTA_codigo = ?";
+        String consulta = "DELETE FROM DIAS_TRABAJO WHERE LABORATORISTA_codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, labo.getCodigo());
             preSt.executeUpdate();
@@ -202,6 +202,23 @@ public class ModificacionDB {
             preSt.executeUpdate();
         } catch (Exception e) {
             resultado = "Error en modificacion de datos de consulta: " + e.getMessage();
+            System.out.println(resultado);
+        }
+        return resultado;
+    }
+    /**
+     * ELIMINAR EL USUARIO SEGUN EL ID DE REFERENCIA
+     * @param idRefrencia
+     * @return 
+     */
+    public String eliminarUsuario(Long idRefrencia){
+        String resultado="";
+        String consulta = "DELETE FROM USUARIO WHERE id = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setLong(1,idRefrencia);
+            preSt.executeUpdate();
+        } catch (Exception e) {
+            resultado = "Error en eliminacion de dias de trabajo: " + e.getMessage();
             System.out.println(resultado);
         }
         return resultado;
