@@ -89,6 +89,59 @@ public class VerificarContenido {
             throw new AtributosIncompletos("El doctor no tiene un contraseña para ingresar al sistema");
         }
     }
+    /**
+     * VERIFICA SI ESTA CORRECTA LA MODIFICACION DEL MEDICO
+     * @param doctor
+     * @throws AtributosIncompletos
+     */
+    public void verificarDoctorModificado(Doctor doctor) throws AtributosIncompletos {
+        if (!(this.validarCodigoDoctor(doctor.getCodigo()))) {
+            throw new AtributosIncompletos("El doctor no posee codigo de identificaion valido");
+        }
+        if (!(this.validarColegiado(doctor.getColegiado()))) {
+            throw new AtributosIncompletos("El doctor no posee numero de colegiado valido");
+        }
+        if (!(this.validarDPI(doctor.getDPI()))) {
+            throw new AtributosIncompletos("El doctor no posee numero de DPI valido");
+        }
+        if (doctor.getEspecialidad() == null) {
+            throw new AtributosIncompletos("El doctor no posee ninguna especialidad");
+        }
+        if (doctor.getEspecialidad().isEmpty()) {
+            throw new AtributosIncompletos("El doctor no posee ninguna especialidad");
+        }
+        if (!doctor.getEspecialidad().isEmpty()) {
+            for (String especialidad : doctor.getEspecialidad()) {
+                if (!(this.validarTexto(especialidad))) {
+                    throw new AtributosIncompletos("La especialidad del doctor no tiene nombre valido");
+                }
+            }
+            int cont = 0;
+            for (String especialidad : doctor.getEspecialidad()) {
+                for (String espe : doctor.getEspecialidad()) {
+                    if (especialidad.equals(espe)) {
+                        cont++;
+                        if (cont == 2) {
+                            throw new AtributosIncompletos("El doctor tiene una especialidad repetida");
+                        }
+                    }
+                }
+                cont = 0;
+            }
+        }
+        if (doctor.getFin() == null) {
+            throw new AtributosIncompletos("El doctor no tiene asignada una hora de fin de turno");
+        }
+        if (doctor.getInicio() == null) {
+            throw new AtributosIncompletos("El doctor no tiene asignada una hora de inicio de turno");
+        }
+        if (doctor.getInicioTrabajo() == null) {
+            throw new AtributosIncompletos("El doctor no posee fecha de inicio de trabajo");
+        }
+        if (!(this.validarNombre(doctor.getNombre()))) {
+            throw new AtributosIncompletos("El doctor no posee un nombre valido debe ser de la forma Juan Perez");
+        }
+    }
 
     public void verificarPacienteExportado(Paciente paciente) throws AtributosIncompletos {
         if (!(this.validarCodigoPaciente(paciente.getCodigo()))) {
@@ -153,6 +206,33 @@ public class VerificarContenido {
         }
     }
 
+    public void verificarPacienteModificado(Paciente paciente) throws AtributosIncompletos {
+        if (!(this.validarCodigoPaciente(paciente.getCodigo()))) {
+            throw new AtributosIncompletos("el paciente no tiene un codigo valido solo deben ser numeros");
+        }
+        if (!(this.validarNombre(paciente.getNombre()))) {
+            throw new AtributosIncompletos("El paciente no tiene un nombre valido debe ser de la forma Juan Perez");
+        }
+        if (!(this.validarSexo(paciente.getSexo()))) {
+            throw new AtributosIncompletos("El paciente no tiene un sexo valido");
+        }
+        if (paciente.getCumple() == null) {
+            throw new AtributosIncompletos("El paciente no tiene una fecha de cumpleaños valida");
+        }
+        if (!(this.validarDPI(paciente.getDPI()))) {
+            throw new AtributosIncompletos("El paciente no tiene numero de DPI valido");
+        }
+        if (!(this.validarTelefono(paciente.getTelefono()))) {
+            throw new AtributosIncompletos("El paciente no tiene numero de telefono valido");
+        }
+        if (!(this.validarPeso(paciente.getPeso()))) {
+            throw new AtributosIncompletos("");
+        }
+        if (!(this.validarTipoSangre(paciente.getSangre()))) {
+            throw new AtributosIncompletos("El paciente no tiene un tipo de sangre valido");
+        }
+    }
+
     public void verificarLaboratorista(Laboratorista laboratorista) throws AtributosIncompletos {
         if (!(this.validarCodigoLabora(laboratorista.getCodigo()))) {
             throw new AtributosIncompletos("El laboratorista no posee un codigo de identificacion valido");
@@ -208,6 +288,55 @@ public class VerificarContenido {
         }
     }
 
+    public void verificarLaboratoristaModificado(Laboratorista laboratorista) throws AtributosIncompletos {
+        if (!(this.validarCodigoLabora(laboratorista.getCodigo()))) {
+            throw new AtributosIncompletos("El laboratorista no posee un codigo de identificacion valido");
+        }
+        if (!(this.validarNombre(laboratorista.getNombre()))) {
+            throw new AtributosIncompletos("El laboratorista no posee un nombre valido debe ser de la forma Juan Perez");
+        }
+        if (!(this.validarRegistroSalud(laboratorista.getRegistro()))) {
+            throw new AtributosIncompletos("El laboratorista no posee un numero de registro valido debe ser SALUD-XXXX");
+        }
+        if (!(this.validarDPI(laboratorista.getDPI()))) {
+            throw new AtributosIncompletos("El laboratorista no posee un numero de DPI valido");
+        }
+        if (!(this.validarTelefono(laboratorista.getTelefono()))) {
+            throw new AtributosIncompletos("El laboratorista no posee un numero de telefono valido");
+        }
+        if (!(this.validarTexto(laboratorista.getExamen()))) {
+            throw new AtributosIncompletos("El nombre del examen asignado al laboratorista no el valido");
+        }
+        if (laboratorista.getDias() == null) {
+            throw new AtributosIncompletos("El laboratorista no tiene dias de trabajo");
+        }
+        if (laboratorista.getDias().isEmpty()) {
+            throw new AtributosIncompletos("El laboratorista no tiene dias de trabajo");
+        }
+        if (!(laboratorista.getDias().isEmpty())) {
+            for (String dia : laboratorista.getDias()) {
+                if (!(this.validarDia(dia))) {
+                    throw new AtributosIncompletos("El laboratorista tiene error en la definicion de dia de trabajo");
+                }
+            }
+            int cont = 0;
+            for (String dia : laboratorista.getDias()) {
+                for (String dial : laboratorista.getDias()) {
+                    if (dia.equals(dial)) {
+                        cont++;
+                        if (cont == 2) {
+                            throw new AtributosIncompletos("El laboratorista tiene dias repetidos en asistencia de trabajo");
+                        }
+                    }
+                }
+                cont = 0;
+            }
+        }
+        if (laboratorista.getInicioTrabajo() == null) {
+            throw new AtributosIncompletos("El laboratorista no tine asignado un dia de inicio de labores");
+        }
+    }
+
     public void verificarAdmin(Admin admin) throws AtributosIncompletos {
         if (!(this.validarNombre(admin.getNombre()))) {
             throw new AtributosIncompletos("El administrador no tiene asignado un nombre valido debe ser de la forma Juan Perez");
@@ -225,6 +354,23 @@ public class VerificarContenido {
             throw new AtributosIncompletos("El administrador no tiene una contraseña para el ingreso al sistema");
         }
 
+    }
+
+    /**
+     * VERIFICA SI LOS ATRIBUTOS ESTAN CORRECTOS EN LA MODIFICACION DEL ADMINISTRADOR
+     * @param admin
+     * @throws AtributosIncompletos
+     */
+    public void verificarAdminModificado(Admin admin) throws AtributosIncompletos {
+        if (!(this.validarNombre(admin.getNombre()))) {
+            throw new AtributosIncompletos("El administrador no tiene asignado un nombre valido debe ser de la forma Juan Perez");
+        }
+        if (!(this.validarCodigoAdmin(admin.getCodigo()))) {
+            throw new AtributosIncompletos("El administrador no tiene asignado un codigo de identificacion valido para la base de datos debe ser ADMINXX");
+        }
+        if (!(this.validarDPI(admin.getDPI()))) {
+            throw new AtributosIncompletos("El administrador no tiene un numeo de DPI valido debe de tener 13 digitos");
+        }
     }
 
     public void verificarReporteExportado(Reporte reporte) throws AtributosIncompletos {
@@ -345,6 +491,26 @@ public class VerificarContenido {
     }
 
     public void verificarExamenCreado(Examen examen) throws AtributosIncompletos {
+        if (!this.validarTexto(examen.getNombre())) {
+            throw new AtributosIncompletos("El examen no tiene un nombre valido, posee caracteres no admitidos");
+        }
+        if (examen.isOrden() == null) {
+            throw new AtributosIncompletos("El examen no tine asignado un estado de orden");
+        }
+        if (examen.getDescripcion() == null) {
+            throw new AtributosIncompletos("El examen no tiene un descripcion asigna");
+        }
+        if (examen.getDescripcion().equals("")) {
+            throw new AtributosIncompletos("El examen no tine una descirpcion asignada");
+        }
+        if (!this.validarCosto(examen.getCosto())) {
+            throw new AtributosIncompletos("El examen no tiene un costo valido");
+        }
+        if (!this.validarTipoInforme(examen.getInforme())) {
+            throw new AtributosIncompletos("El examen no tiene un formato de informe valido");
+        }
+    }
+    public void verificarExamenModificado(Examen examen) throws AtributosIncompletos {
         if (!this.validarTexto(examen.getNombre())) {
             throw new AtributosIncompletos("El examen no tiene un nombre valido, posee caracteres no admitidos");
         }

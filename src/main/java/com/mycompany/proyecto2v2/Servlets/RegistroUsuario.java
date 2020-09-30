@@ -20,8 +20,6 @@ public class RegistroUsuario extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String user = req.getParameter("usuario");
-        String pass = req.getParameter("password");
         String acction = req.getParameter("token");
 
         if (acction == null) {
