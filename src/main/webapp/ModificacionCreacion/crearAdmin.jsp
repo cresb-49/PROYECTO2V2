@@ -89,7 +89,8 @@
                 try {
                     //VARIBLES DE CONEXION A BASE DE DATOS
                     ConnectionDB cnx = new ConnectionDB();
-                    RegistroDB registro = new RegistroDB(cnx.getConexion());
+                    RegistroDB registro = new RegistroDB();
+                    registro.setConexion(cnx.getConexion());
                     //EVALUACION DE LA RESPUESTA OBTENIDA POR EL REGISTRO EN LA BASE DE DATOS
                     String respuesta = registro.registroUsuario(adminNuevo, "nuevo");
                     if(respuesta.equals("")){

@@ -20,15 +20,19 @@ public class RegistroDB {
 
     private Connection conexion;
     private VerificarContenido verificacion = new VerificarContenido();
-    private ConsultasDB consulta;
+    private ConsultasDB consulta = new ConsultasDB();
     private DuplicidadDB duplicidad = new DuplicidadDB();
-    private ModificacionDB modificacion;
+    private ModificacionDB modificacion = new ModificacionDB();
 
-    public RegistroDB(Connection conexion) {
+    public RegistroDB() {
+
+    }
+
+    public void setConexion(Connection conexion) {
         this.conexion = conexion;
-        consulta = new ConsultasDB(conexion);
-        duplicidad.setConexion(conexion);
-        modificacion = new ModificacionDB(conexion);
+        this.consulta.setConexion(conexion);
+        this.duplicidad.setConexion(conexion);
+        this.modificacion.setConexion(conexion);
     }
 
     public String registroPaciente(Paciente paciente, String tipo) {

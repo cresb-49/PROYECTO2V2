@@ -23,7 +23,8 @@ public class logIn extends HttpServlet {
             ConsultasDB consulta = null;
             try {
                 cnx = new ConnectionDB();
-                consulta = new ConsultasDB(cnx.getConexion());
+                consulta = new ConsultasDB();
+                consulta.setConexion(cnx.getConexion());
             } catch (Exception e) {
                 resp.sendRedirect("/proyecto2v2/index.jsp?errorInicio=" + e.getMessage());
             }

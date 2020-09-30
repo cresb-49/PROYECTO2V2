@@ -57,7 +57,8 @@
                 //Manejo de la conexion de la base de datos
                 ConnectionDB conexion = new ConnectionDB();
                 //Parte de registro para la base de datos
-                RegistroDB registro = new RegistroDB(conexion.getConexion());
+                RegistroDB registro = new RegistroDB();
+                registro.setConexion(conexion.getConexion());
                 //Generacion del objeto hospital
                 Hospital hospital=null;
                 

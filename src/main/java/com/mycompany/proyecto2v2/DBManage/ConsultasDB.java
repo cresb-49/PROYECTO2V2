@@ -13,14 +13,13 @@ public class ConsultasDB {
     private Connection conexion;
     private ConvercionesVariables conv = new ConvercionesVariables();
 
-    public ConsultasDB(Connection conexion) {
+    public ConsultasDB() {
+    }
+
+    public void setConexion(Connection conexion) {
         this.conexion = conexion;
     }
-
-    public ConsultasDB() {
-
-    }
-
+    
     public boolean comprobarInformacion() {
         boolean resultado = false;
         String consulta = "SELECT * FROM USUARIO LIMIT 2";

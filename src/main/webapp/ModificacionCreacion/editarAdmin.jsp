@@ -4,7 +4,10 @@
     Author     : carlo
 --%>
 
+<%@page import="com.mycompany.proyecto2v2.Objetos.Admin"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,7 +31,7 @@
                 <h3>Buscar Administrador</h3>
             </div>
             <br>
-            <form class="form-inline" action="#">
+            <form class="form-inline" action="" method="POST">
                 <label class="control-label col-md-2" for="codigoAdmin">Codigo Admin: </label>
                 <div class="form-group">
                     <input class="form-control" id="codigoAdmin" type="text" name="codigoAdmin" placeholder="ADMINXXXX">
@@ -37,6 +40,33 @@
                     <button class="btn btn-primary" type="submit" name="buscar" >Buscar</button>
                 </div>
             </form>
+            <br/>
+            <%
+                String codigoAdmin = request.getParameter("codigoAdmin");
+                Admin modAdmin = null;
+                if (codigoAdmin != null || codigoAdmin != "") {
+                    ConnectionDB cnx = new ConnectionDB();
+                    ConsultasDB consulta = new ConsultasDB();
+                    consulta.setConexion(cnx.getConexion());
+                    modAdmin = consulta.retornarAdmin(codigoAdmin);
+                    if (modAdmin.getCodigo() != null) {
+                        System.out.println("Admin rescatado: " + modAdmin.toString());
+                        session.setAttribute("MODADMIN",modAdmin);
+                    } else {
+            %>
+            <div class="alert alert-danger" role="alert">
+                No hay ningun resultado de la busqueda
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <div class="alert alert-danger" role="alert">
+                Debe de introducir un codigo para la busqueda
+            </div>
+            <%
+                }
+            %>
         </div>
         <div class="container">
             <div class="container">
@@ -50,7 +80,18 @@
                         <div class="form-group">
                             <label for="nombreAdmin" class="control-label">Nombre Administrador: </label>
                             <div class="">
+                                <%
+                                    if (modAdmin.getNombre() != null) {
+                                %>
+                                <input class="form-control" id="nombreAdmin" type="text" name="nombreAdmin" placeholder="Nombre" value="<% out.print(modAdmin.getNombre()); %>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="nombreAdmin" type="text" name="nombreAdmin" placeholder="Nombre">
+                                <%
+                                    }
+                                %>
+
                             </div>
                         </div>
                     </div>
@@ -58,7 +99,17 @@
                         <div class="form-group">
                             <label class="control-label" for="DPIAdmin">DPI: </label>
                             <div class="">
+                                <%
+                                    if (modAdmin.getDPI() != null) {
+                                %>
+                                <input class="form-control" id="DPIAdmin" type="number" name="DPIAdmin" placeholder="DPI" value="<%out.print(modAdmin.getDPI());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="DPIAdmin" type="number" name="DPIAdmin" placeholder="DPI">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -83,3 +134,31 @@
         <script src="../js/bootstrap.min.js"></script>
     </body>
 </html>
+<%
+    String nombreAdmin = request.getParameter("nombreAdmin");
+    String DPIAdmin = request.getParameter("DPIAdmin");
+    
+    if (nombreAdmin != null && DPIAdmin != null) {
+        Admin tempAdmin = (Admin)session.getAttribute("MODADMIN");
+        session.removeAttribute("MODADMIN");
+        tempAdmin.setNombre(nombreAdmin);
+        tempAdmin.setDPI(DPIAdmin);
+        System.out.println("Admin Modificado: " + tempAdmin.toString());
+        try {
+            //VARIBLES DE CONEXION A BASE DE DATOS
+            ConnectionDB cnx = new ConnectionDB();
+            ModificacionDB modificar = new ModificacionDB();
+            modificar.setConexion(cnx.getConexion());
+            String respuesta = modificar.modificarAdmin(tempAdmin);
+            if (respuesta.equals("")) {
+                request.getRequestDispatcher("../error.jsp?logroP=Se modifico con exito el administrador al sistema").forward(request, response);
+            } else {
+                request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+            }
+            cnx.cerrarConexion();
+        } catch (Exception e) {
+            session.removeAttribute("MODADMIN");
+            request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+        }
+    }
+%>

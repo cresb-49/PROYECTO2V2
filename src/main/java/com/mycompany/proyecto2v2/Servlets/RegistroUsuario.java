@@ -38,7 +38,8 @@ public class RegistroUsuario extends HttpServlet {
                          conv.stringToDouble(req.getParameter("pesoPaciente")),
                          req.getParameter("tipoSangre"));
                 ConnectionDB cnx = new ConnectionDB();
-                RegistroDB registro = new RegistroDB(cnx.getConexion());
+                RegistroDB registro = new RegistroDB();
+                registro.setConexion(cnx.getConexion());
                 DuplicidadDB duplicidad = new DuplicidadDB();
                 duplicidad.setConexion(cnx.getConexion());
                 String resultado = "";

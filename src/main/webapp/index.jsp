@@ -19,7 +19,8 @@
             boolean resultado = false;
             try {
                 ConnectionDB cnx = new ConnectionDB();
-                consultas= new ConsultasDB(cnx.getConexion());
+                consultas= new ConsultasDB();
+                consultas.setConexion(cnx.getConexion());
                 resultado=consultas.comprobarInformacion();
                 cnx.cerrarConexion();
             } catch (Exception e) {

@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 public class DuplicidadDB {
 
     private Connection conexion;
-
     /**
      * CONSTRUCTOR VACIO
      */

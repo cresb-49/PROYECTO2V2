@@ -7,13 +7,16 @@ import com.mycompany.proyecto2v2.VerificarContenido.*;
 
 public class ModificacionDB {
     private Connection conexion;
-    private RegistroDB registro;
     private VerificarContenido verificar = new VerificarContenido();
 
-    public ModificacionDB(Connection conexion) {
-        this.conexion = conexion;
-        this.registro = new RegistroDB(conexion);
+    public ModificacionDB() {
     }
+
+    public void setConexion(Connection conexion) {
+        this.conexion = conexion;
+    }
+    
+    
 
     /**
      * REALIZA LA MODIFICACION DE LOS DATOS DEL ADMIN
@@ -23,7 +26,7 @@ public class ModificacionDB {
      */
     public String modificarAdmin(Admin admin) {
         String resultado = "";
-        String consulta = "UPDATE CLIENTE SET nombre = ?,dpi = ? WHERE codigo = ?";
+        String consulta = "UPDATE ADMINISTRADOR SET nombre = ?,dpi = ? WHERE codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
 
             this.verificar.verificarAdminModificado(admin);
@@ -62,7 +65,9 @@ public class ModificacionDB {
             resultado=this.eliminarEspecialidades(doctor);
             if(!resultado.equals("")){
                 //REGISTRO DE LAS ESPECIALIDADES NUEVAS
-                resultado=this.registro.registroEspecialidadDoctor(doctor);
+                RegistroDB registro= new RegistroDB();
+                registro.setConexion(this.conexion);
+                resultado=registro.registroEspecialidadDoctor(doctor);
             }
         } catch (Exception e) {
             resultado = "Error en modificacion de datos del medico: " + e.getMessage();
@@ -107,7 +112,9 @@ public class ModificacionDB {
             resultado=this.eliminarDiasTrabajo(labo);
             if(!resultado.equals("")){
                 //REGISTRO DE LAS ESPECIALIDADES NUEVAS
-                resultado=this.registro.registroDiasLaboratorista(labo);
+                RegistroDB registro= new RegistroDB();
+                registro.setConexion(this.conexion);
+                resultado=registro.registroDiasLaboratorista(labo);
             }
         } catch (Exception e) {
             resultado = "Error en modificacion de datos del medico: " + e.getMessage();

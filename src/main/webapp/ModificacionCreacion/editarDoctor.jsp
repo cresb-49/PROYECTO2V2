@@ -1,3 +1,10 @@
+<%@page import="com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ModificacionDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConsultasDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.Doctor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,15 +27,31 @@
         </div>
         <div class="container">
             <br>
-            <form class="form-inline" action="#">
+            <form class="form-inline" action="" method="POST">
                 <label class="control-label col-md-2" for="codeDoctor">Codigo Doctor: </label>
                 <div class="form-group">
-                    <input class="form-control" id="codeDoctor" type="text" name="codeDoctorText" placeholder="MED-XXXX">
+                    <input class="form-control" id="codeDoctor" type="text" name="codeDoctor" placeholder="MED-XXXX">
                 </div>
                 <div class="form-group col-md-2">
                     <button class="btn btn-primary" type="submit" name="buscar" >Buscar</button>
                 </div>
             </form>
+            <br/>
+            <%
+                String codigoDoctor = request.getParameter("codeDoctor");
+                Doctor modDoctor = null;
+                if (codigoDoctor != null || codigoDoctor != "") {
+                    ConnectionDB cnx = new ConnectionDB();
+                    ConsultasDB consulta = new ConsultasDB();
+                    consulta.setConexion(cnx.getConexion());
+                    modDoctor = consulta.retornarDoctor(codigoDoctor);
+                    if (modDoctor.getCodigo() != null) {
+                        System.out.println("Doctor rescatado: " + modDoctor.toString());
+                        session.setAttribute("MODMEDICO", modDoctor);
+                    }
+
+                }
+            %>
         </div>
         <div class="container">
             <br>
@@ -43,13 +66,34 @@
                         <div class="form-group">
                             <label class="control-label" for="coleDoctor">No. Colegiado: </label>
                             <div class="">
-                                <input class="form-control" id="coleDoctor" type="text" name="coleDoctorText" placeholder="No. Colegiado">
+                                <%
+                                    if (modDoctor.getColegiado() != null) {
+                                %>
+                                <input class="form-control" id="coleDoctor" type="text" name="coleDoctor" placeholder="No. Colegiado" value="<%out.print(modDoctor.getColegiado());%>">
+                                <%
+                                } else {
+                                %>
+                                <input class="form-control" id="coleDoctor" type="text" name="coleDoctor" placeholder="No. Colegiado">
+                                <%
+                                    }
+                                %>
+
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="telDoctor">Telefono: </label>
                             <div class="">
-                                <input class="form-control" id="telDoctor" type="text" name="telDoctorText" placeholder="Telefono">
+                                <%
+                                    if (modDoctor.getTelefono() != null) {
+                                %>
+                                <input class="form-control" id="telDoctor" type="text" name="telDoctor" placeholder="Telefono" value="<%out.print(modDoctor.getTelefono());%>">
+                                <%
+                                } else {
+                                %>
+                                <input class="form-control" id="telDoctor" type="text" name="telDoctor" placeholder="Telefono">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
@@ -57,11 +101,31 @@
                             <div class="form-inline">
                                 <label for="inicioDoctor">Inicio: </label>
                                 <div class="">
-                                    <input class="form-control" id="inicioDoctor" type="time" name="inicioDoctorText" placeholder="HH:mm">
+                                    <%
+                                        if (modDoctor.getInicio() != null) {
+                                    %>
+                                    <input class="form-control" id="inicioDoctor" type="time" name="inicioDoctor" placeholder="HH:mm" value="<%out.print(modDoctor.getInicio());%>">
+                                    <%
+                                    } else {
+                                    %>
+                                    <input class="form-control" id="inicioDoctor" type="time" name="inicioDoctor" placeholder="HH:mm">
+                                    <%
+                                        }
+                                    %>
                                 </div>
                                 <label for="finDoctor">Fin: </label>
                                 <div class="">
-                                    <input class="form-control" id="finDoctor" type="time" name="finDoctorText" placeholder="HH:mm">
+                                    <%
+                                        if (modDoctor.getFin() != null) {
+                                    %>
+                                    <input class="form-control" id="finDoctor" type="time" name="finDoctor" placeholder="HH:mm" value="<%out.print(modDoctor.getFin());%>">
+                                    <%
+                                    } else {
+                                    %>
+                                    <input class="form-control" id="finDoctor" type="time" name="finDoctor" placeholder="HH:mm">
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>
@@ -70,19 +134,50 @@
                         <div class="form-group">
                             <label class="control-label" for="nameDoctor">Nombre Doctor: </label>
                             <div class="">
-                                <input class="form-control" id="nameDoctor" type="text" name="nameDoctorText" placeholder="Nombre doctor">
+                                <%
+                                    if (modDoctor.getNombre() != null) {
+                                %>
+                                <input class="form-control" id="nameDoctor" type="text" name="nameDoctor" placeholder="Nombre doctor" value="<%out.print(modDoctor.getNombre());%>">
+                                <%
+                                } else {
+                                %>
+                                <input class="form-control" id="nameDoctor" type="text" name="nameDoctor" placeholder="Nombre doctor">
+                                <%
+                                    }
+                                %>
+
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="DPIDoctor">DPI: </label>
                             <div class="">
-                                <input class="form-control" id="DPIDoctor" type="text" name="DPIDoctorText" placeholder="DPI">
+                                <%
+                                    if (modDoctor.getDPI() != null) {
+                                %>
+                                <input class="form-control" id="DPIDoctor" type="text" name="DPIDoctor" placeholder="DPI" value="<%out.print(modDoctor.getDPI());%>">
+                                <%
+                                } else {
+                                %>
+                                <input class="form-control" id="DPIDoctor" type="text" name="DPIDoctor" placeholder="DPI">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="incioTrabajo">Inicio de labores: </label>
                             <div class="">
+                                <%
+                                    if (modDoctor.getInicioTrabajo() != null) {
+                                %>
+                                <input class="form-control" id="incioTrabajo" type="date" name="incioTrabajo" placeholder="Fecha" value="<%out.print(modDoctor.getInicioTrabajo());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="incioTrabajo" type="date" name="incioTrabajo" placeholder="Fecha">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -90,6 +185,15 @@
                         <div class="form-group">
                             <label class="control-label" for="espeDoctor">Especialidad: </label><br>
                             <select multiple="multiple" class="form-control" name="espeDoctor" id="espeDoctor">                            
+                                <%
+                                    if (!modDoctor.getEspecialidad().isEmpty()) {
+                                        for (String espe : modDoctor.getEspecialidad()) {
+                                %>
+                                <option value="<%=espe%>"><%=espe%></option>
+                                <%
+                                        }
+                                    }
+                                %>
                             </select>
                         </div>
                     </div>
@@ -117,17 +221,6 @@
             </form>
         </div>
         <br>
-        <%
-            String codigoDoc = request.getParameter("codeDoctor");
-            System.out.println(codigoDoc);
-            String[] valores = request.getParameterValues("espeDoctor");
-            if (valores != null) {
-                for (String var : valores) {
-                    System.out.println(var);
-                }
-            }
-
-        %>
         <footer>
             <div class="container">
                 <h3>© HOSPITAL 2020</h3>
@@ -139,3 +232,47 @@
         <script src="../js/bootstrap.min.js"></script>
     </body>
 </html>
+<%    
+    String nombreMedico = request.getParameter("nameDoctor");
+    String numeroColegiado = request.getParameter("coleDoctor");
+    String telefonoMedico = request.getParameter("telDoctor");
+    String DPIMedico = request.getParameter("DPIDoctor");
+    String inicioHorario = request.getParameter("inicioDoctor");
+    String finHorario = request.getParameter("finDoctor");
+    String especilidades[] = request.getParameterValues("espeDoctor");
+    String inicioLabores = request.getParameter("incioTrabajo");
+    
+    System.out.println("Nombre Medico: "+nombreMedico);
+    if (nombreMedico != null) {
+        System.out.println("SimplifiedJSPServlet.mergedScriptlets()");
+        ConvercionesVariables conv = new ConvercionesVariables();
+        Doctor tempDoc = (Doctor) session.getAttribute("MODMEDICO");
+        session.removeAttribute("MODMEDICO");
+        tempDoc.setNombre(nombreMedico);
+        tempDoc.setColegiado(numeroColegiado);
+        tempDoc.setTelefono(telefonoMedico);
+        tempDoc.setDPI(DPIMedico);
+        tempDoc.setInicio(conv.stringToTime(inicioHorario));
+        tempDoc.setFin(conv.stringToTime(finHorario));
+        tempDoc.setEspecialidad(new ArrayList<String>(Arrays.asList(especilidades)));
+        tempDoc.setInicioTrabajo(conv.stringToDate(inicioLabores));
+        System.out.println("Doctor Modificado: " + tempDoc.toString());
+        /**
+         * try { //VARIBLES DE CONEXION A BASE DE DATOS
+         * ConnectionDB cnx = new ConnectionDB();
+         * ModificacionDB modificar = new ModificacionDB();
+         * modificar.setConexion(cnx.getConexion()); String
+         * respuesta = modificar.modificarDoctor(tempDoc);
+         * if (respuesta.equals("")) {
+         * request.getRequestDispatcher("../error.jsp?logroP=Se
+         * modifico con exito el administrador al
+         * sistema").forward(request, response); } else {
+         * request.getRequestDispatcher("../error.jsp?errorP="
+         * + respuesta).forward(request, response); }
+         * cnx.cerrarConexion(); } catch (Exception e) {
+         * session.removeAttribute("MODADMIN");
+         * request.getRequestDispatcher("../error.jsp?errorP="
+         * + e.getMessage()).forward(request, response); }*
+         */
+    }
+%>
