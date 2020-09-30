@@ -43,7 +43,7 @@ public class RegistroDB {
                 preSt.setString(2, paciente.getNombre());
                 preSt.setString(3, paciente.getDPI());
                 preSt.setString(4, paciente.getTelefono());
-                preSt.setString(5, paciente.getCorreo());
+                preSt.setString(5, paciente.getEmail());
                 preSt.setString(6, paciente.getSexo());
                 preSt.setDouble(7, paciente.getPeso());
                 preSt.setString(8, paciente.getSangre());
@@ -55,7 +55,7 @@ public class RegistroDB {
                 preSt.setString(1, paciente.getNombre());
                 preSt.setString(2, paciente.getDPI());
                 preSt.setString(3, paciente.getTelefono());
-                preSt.setString(4, paciente.getCorreo());
+                preSt.setString(4, paciente.getEmail());
                 preSt.setString(5, paciente.getSexo());
                 preSt.setDouble(6, paciente.getPeso());
                 preSt.setString(7, paciente.getSangre());
@@ -87,9 +87,9 @@ public class RegistroDB {
         if ((usuario instanceof Trabajador) || (usuario instanceof Paciente)) {
             try {
                 if (usuario instanceof Paciente) {
-                    user = ((Paciente) usuario).getCorreo();
+                    user = ((Paciente) usuario).getEmail();
                     password = ((Paciente) usuario).getPassword();
-                    rol = "paciente";
+                    rol = ((Paciente)usuario).getRol();
                     if (tipo.equals("exportado")) {
                         this.verificacion.verificarPacienteExportado((Paciente) usuario);
                     }
@@ -103,7 +103,7 @@ public class RegistroDB {
                         user = ((Admin) usuario).getCodigo();
                         this.verificacion.verificarAdmin((Admin) usuario);
                     } else {
-                        user = ((Trabajador) usuario).getCorreo();
+                        user = ((Trabajador) usuario).getEmail();
                         if (usuario instanceof Laboratorista) {
                             this.verificacion.verificarLaboratorista((Laboratorista) usuario);
                         }
@@ -155,7 +155,7 @@ public class RegistroDB {
             //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
             preSt.setString(1, doctor.getCodigo());
             preSt.setString(2, doctor.getDPI());
-            preSt.setString(3, doctor.getCorreo());
+            preSt.setString(3, doctor.getEmail());
             preSt.setString(4, doctor.getFin().toString());
             preSt.setString(5, doctor.getInicio().toString());
             preSt.setDate(6, doctor.getInicioTrabajo());
@@ -237,7 +237,7 @@ public class RegistroDB {
             //ASIGNACION DE VALORES PARA REALIZAR EL REGISTRO
             preSt.setString(1, laboratorista.getCodigo());
             preSt.setString(2, laboratorista.getDPI());
-            preSt.setString(3, laboratorista.getCorreo());
+            preSt.setString(3, laboratorista.getEmail());
             preSt.setDate(4, laboratorista.getInicioTrabajo());
             preSt.setString(5, laboratorista.getNombre());
             preSt.setString(6, laboratorista.getRegistro());

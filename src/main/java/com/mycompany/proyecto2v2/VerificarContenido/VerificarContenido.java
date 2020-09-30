@@ -39,7 +39,7 @@ public class VerificarContenido {
         if (!(this.validarColegiado(doctor.getColegiado()))) {
             throw new AtributosIncompletos("El doctor no posee numero de colegiado valido");
         }
-        if (!(this.validarCorreo(doctor.getCorreo()))) {
+        if (!(this.validarCorreo(doctor.getEmail()))) {
             throw new AtributosIncompletos("El doctor no posee un correo electronico valido");
         }
         if (!(this.validarDPI(doctor.getDPI()))) {
@@ -115,7 +115,7 @@ public class VerificarContenido {
         if (!(this.validarTipoSangre(paciente.getSangre()))) {
             throw new AtributosIncompletos("El paciente no tiene un tipo de sangre valido");
         }
-        if (!(this.validarCorreo(paciente.getCorreo()))) {
+        if (!(this.validarCorreo(paciente.getEmail()))) {
             throw new AtributosIncompletos("El paciente no tine un correo valido");
         }
         if (!(this.verificarPassword(paciente.getPassword()))) {
@@ -145,7 +145,7 @@ public class VerificarContenido {
         if (!(this.validarTipoSangre(paciente.getSangre()))) {
             throw new AtributosIncompletos("El paciente no tiene un tipo de sangre valido");
         }
-        if (!(this.validarCorreo(paciente.getCorreo()))) {
+        if (!(this.validarCorreo(paciente.getEmail()))) {
             throw new AtributosIncompletos("El paciente no tine un correo valido");
         }
         if (!(this.verificarPassword(paciente.getPassword()))) {
@@ -172,7 +172,7 @@ public class VerificarContenido {
         if (!(this.validarTexto(laboratorista.getExamen()))) {
             throw new AtributosIncompletos("El nombre del examen asignado al laboratorista no el valido");
         }
-        if (!(this.validarCorreo(laboratorista.getCorreo()))) {
+        if (!(this.validarCorreo(laboratorista.getEmail()))) {
             throw new AtributosIncompletos("El correo del laboratorista no es valido");
         }
         if (laboratorista.getDias() == null) {

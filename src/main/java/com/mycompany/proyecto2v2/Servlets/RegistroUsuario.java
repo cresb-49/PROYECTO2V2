@@ -44,8 +44,8 @@ public class RegistroUsuario extends HttpServlet{
                     RegistroDB registro = new RegistroDB(cnx.getConexion());
                     ConsultasDB consultas = new ConsultasDB(cnx.getConexion());
                     String resultado="";
-                    if(!consultas.existenciaDeRegistroUsuario(nuevoPaciente.getCorreo())){
-                            resultado=consultas.existenciaDePaciente(nuevoPaciente.getCodigo(), nuevoPaciente.getDPI(), nuevoPaciente.getCorreo(), nuevoPaciente.getTelefono());
+                    if(!consultas.existenciaDeRegistroUsuario(nuevoPaciente.getEmail())){
+                            resultado=consultas.existenciaDePaciente(nuevoPaciente.getCodigo(), nuevoPaciente.getDPI(), nuevoPaciente.getEmail(), nuevoPaciente.getTelefono());
                         if(resultado.equals("")){
                             registro.registroPaciente(nuevoPaciente,"nuevo");
                             registro.registroUsuario(nuevoPaciente, "nuevo");
@@ -72,7 +72,9 @@ public class RegistroUsuario extends HttpServlet{
                     ConsultasDB consultas = new ConsultasDB(cnx.getConexion());
                     String resultado=consultas.accesoUsuario(user,pass);
                     if(resultado.equals("admin")){
-                        resp.sendRedirect("/proyecto2v2/usuarios/perfilAdmin.jsp");
+                        Admin admin = new Admin();
+                        req.setAttribute("ADMIN",admin);
+                        resp.sendRedirect("/proyecto2v2/usuarios/ADMINISTRADOR.jsp");
                     }
                     if(resultado.equals("doctor")){
                         resp.sendRedirect("/proyecto2v2/usuarios/perfilDoctor.jsp");

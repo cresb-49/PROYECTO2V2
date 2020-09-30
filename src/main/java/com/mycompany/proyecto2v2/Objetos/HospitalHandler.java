@@ -22,8 +22,8 @@ public class HospitalHandler extends DefaultHandler {
 
     private ConvercionesVariables conv = new ConvercionesVariables();
     private obtenerNombreArchivo obtenerNombreArchivo = new obtenerNombreArchivo();
-    private ArrayList<Admin> admins = new ArrayList();
-    private ArrayList<Doctor> doctores = new ArrayList();
+    private ArrayList<Admin> admins = new ArrayList<>();
+    private ArrayList<Doctor> doctores = new ArrayList<>();
     private ArrayList<Laboratorista> laboratoristas = new ArrayList<>();
     private ArrayList<Paciente> pacientes = new ArrayList<>();
     private ArrayList<Examen> examenes = new ArrayList<>();
@@ -313,12 +313,12 @@ public class HospitalHandler extends DefaultHandler {
         if (objeto instanceof Trabajador) {
             if (!(objeto instanceof Admin)) {
                 Trabajador trabajador = (Trabajador) objeto;
-                trabajador.setCorreo(buffer.toString());
+                trabajador.setEmail(buffer.toString());
             }
         }
         if (objeto instanceof Paciente) {
             Paciente paciente = (Paciente) objeto;
-            paciente.setCorreo(buffer.toString());
+            paciente.setEmail(buffer.toString());
         }
     }
 

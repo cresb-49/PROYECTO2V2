@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Doctor extends Trabajador{
     private String colegiado;
-    private ArrayList<String> especialidad= new ArrayList();
+    private ArrayList<String> especialidad= new ArrayList<>();
     private Time inicio;
     private Time fin;
     private Date inicioTrabajo;
@@ -96,7 +96,7 @@ public class Doctor extends Trabajador{
 
     @Override
     public String toString() {
-        return "Doctor{" + "codigo=" + this.getCodigo() + ", DPI=" + this.getDPI() + ", nombre=" + this.getNombre() + ", password=" + this.getPassword() + ", colegiado=" + colegiado + ", telefono=" + this.getTelefono() + ", especialidad=" + especialidad + ", correo=" + this.getCorreo() + ", inicio=" + inicio + ", fin=" + fin + ", inicioTrabajo=" + inicioTrabajo + '}';
+        return "Doctor{" + "codigo=" + this.getCodigo() + ", DPI=" + this.getDPI() + ", nombre=" + this.getNombre() + ", password=" + this.getPassword() + ", colegiado=" + colegiado + ", telefono=" + this.getTelefono() + ", especialidad=" + especialidad + ", correo=" + this.getEmail() + ", inicio=" + inicio + ", fin=" + fin + ", inicioTrabajo=" + inicioTrabajo + '}';
     }
     
     

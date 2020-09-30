@@ -2,15 +2,10 @@ package com.mycompany.proyecto2v2.Objetos;
 
 import java.sql.Date;
 
-public class Paciente{
+public class Paciente extends Persona{
     
     private Long codigo;
-    private String nombre;
-    private String DPI;
-    private String password;
     private String telefono;
-    private String correo;
-    
     private String sexo;
     private Date cumple;
     private Double peso;
@@ -19,7 +14,7 @@ public class Paciente{
      * CONSTRUCTOR DE LA CLASE PACIETNE
      */
     public Paciente(){
-        
+        this.setRol("paciente");
     }
     /**
      * CONSTRUCTOR DE PACIENTE CON ATRIBUTOS
@@ -35,12 +30,12 @@ public class Paciente{
      * @param sangre 
      */
     public Paciente(String nombre, String DPI, String password, String telefono, String correo, String sexo, Date cumple, Double peso, String sangre) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.DPI = DPI;
-        this.password = password;
+        this.setRol("paciente");
+        this.setNombre(nombre);
+        this.setDPI(DPI);
+        this.setPassword(password);
         this.telefono = telefono;
-        this.correo = correo;
+        this.setEmail(correo);
         this.sexo = sexo;
         this.cumple = cumple;
         this.peso = peso;
@@ -56,44 +51,12 @@ public class Paciente{
         this.codigo = codigo;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDPI() {
-        return DPI;
-    }
-
-    public void setDPI(String DPI) {
-        this.DPI = DPI;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getTelefono() {
         return telefono;
     }
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
     }
     /**
      * Retorna el sexo del paciente
@@ -154,6 +117,6 @@ public class Paciente{
 
     @Override
     public String toString() {
-        return "Paciente{" + "codigo=" + codigo + ", nombre=" + nombre + ", DPI=" + DPI + ", password=" + password + ", telefono=" + telefono + ", correo=" + correo + ", sexo=" + sexo + ", cumple=" + cumple + ", peso=" + peso + ", sangre=" + sangre + '}';
+        return "Paciente{" + "codigo=" + codigo + ", nombre=" + this.getNombre() + ", DPI=" + this.getDPI() + ", password=" + this.getPassword() + ", telefono=" + telefono + ", correo=" + this.getEmail()+", sexo=" + sexo + ", cumple=" + cumple + ", peso=" + peso + ", sangre=" + sangre + '}';
     }
 }

@@ -1,8 +1,8 @@
-function mostrarEditDoc() {
-    var estado = document.getElementById("areaEditarDoc").style.display;
+function mostrarCrearDoc() {
+    var estado = document.getElementById("crearDoc").style.display;
     if (estado === "none") {
-        document.getElementById("areaEditarDoc").style.display = "block";
+        document.getElementById("crearDoc").style.display = "block";
     } else {
-        document.getElementById("areaEditarDoc").style.display = "none";
+        document.getElementById("crearDoc").style.display = "none";
     }
 }

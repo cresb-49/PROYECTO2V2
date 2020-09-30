@@ -1,7 +1,5 @@
 
 package com.mycompany.proyecto2v2.Objetos;
-
-import java.io.*;
 import java.sql.Date;
 import java.sql.Time;
 
