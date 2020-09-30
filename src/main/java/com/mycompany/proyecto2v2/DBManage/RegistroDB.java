@@ -1,4 +1,3 @@
-
 package com.mycompany.proyecto2v2.DBManage;
 
 import com.mycompany.proyecto2v2.Objetos.*;
@@ -6,11 +5,15 @@ import com.mycompany.proyecto2v2.VerificarContenido.*;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- *CLASE ENCARGADA DE MANEJAR EL REGISTRO DE LOS DATOS RECIBIDOS EN EL PROGRAMA EN LA BASE DE DATOS
+ * CLASE ENCARGADA DE MANEJAR EL REGISTRO DE LOS DATOS RECIBIDOS EN EL PROGRAMA
+ * EN LA BASE DE DATOS
+ *
  * @author benjamin
  */
 public class RegistroDB {
@@ -28,10 +31,10 @@ public class RegistroDB {
         String respuesta = "";
         String query = "";
         if (tipo.equals("exportado")) {
-            query = "INSERT INTO PACIENTE (codigo,nombre,dpi,telefono,email,sexo,peso,tipo_sangre,fecha_nacimiento) VALUES (?,?,?,?,?,?,?,?,?)";
+            query = "INSERT INTO PACIENTE (codigo,nombre,dpi,telefono,email,sexo,peso,tipo_sangre,fecha_nacimiento,id_USUARIO) VALUES (?,?,?,?,?,?,?,?,?,?)";
         }
         if (tipo.equals("nuevo")) {
-            query = "INSERT INTO PACIENTE (nombre,dpi,telefono,email,sexo,peso,tipo_sangre,fecha_nacimiento) VALUES (?,?,?,?,?,?,?,?)";
+            query = "INSERT INTO PACIENTE (nombre,dpi,telefono,email,sexo,peso,tipo_sangre,fecha_nacimiento,id_USUARIO) VALUES (?,?,?,?,?,?,?,?,?)";
         }
         //Asignacion de los datos de la variables
         try (PreparedStatement preSt = conexion.prepareStatement(query)) {
@@ -48,6 +51,7 @@ public class RegistroDB {
                 preSt.setDouble(7, paciente.getPeso());
                 preSt.setString(8, paciente.getSangre());
                 preSt.setDate(9, paciente.getCumple());
+                preSt.setLong(10, paciente.getCodigoReferencia());
             }
             if (tipo.equals("nuevo")) {
                 //Verifica los datos de entrada
@@ -60,6 +64,7 @@ public class RegistroDB {
                 preSt.setDouble(6, paciente.getPeso());
                 preSt.setString(7, paciente.getSangre());
                 preSt.setDate(8, paciente.getCumple());
+                preSt.setLong(9, paciente.getCodigoReferencia());
             }
             //
             preSt.executeUpdate();
@@ -89,7 +94,7 @@ public class RegistroDB {
                 if (usuario instanceof Paciente) {
                     user = ((Paciente) usuario).getEmail();
                     password = ((Paciente) usuario).getPassword();
-                    rol = ((Paciente)usuario).getRol();
+                    rol = ((Paciente) usuario).getRol();
                     if (tipo.equals("exportado")) {
                         this.verificacion.verificarPacienteExportado((Paciente) usuario);
                     }
@@ -115,7 +120,7 @@ public class RegistroDB {
                     rol = ((Trabajador) usuario).getRol();
                 }
                 if (!consulta.existenciaDeRegistroUsuario(user)) {
-                    try (PreparedStatement preSt = conexion.prepareStatement(query)) {
+                    try (PreparedStatement preSt = conexion.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                         //Verificacion de los valores de usuario
                         this.verificacion.verificarUsuario(user, password, rol);
                         password = DigestUtils.md5Hex(password);
@@ -125,7 +130,14 @@ public class RegistroDB {
                         preSt.setString(3, rol);
                         //
                         preSt.executeUpdate();
-                        preSt.close();
+                        try (ResultSet result = preSt.getGeneratedKeys()) {
+                            if (result.first()) {
+                                ((usuarioSistema)usuario).setCodigoReferencia(result.getLong(1));
+                            }
+                        } catch (Exception e) {
+                            respuesta = "-Usuario: " + user + " rol: " + rol + " " + e.getMessage();
+                            System.out.println(respuesta);
+                        }
                     } catch (Exception e) {
                         respuesta = "-Usuario: " + user + " rol: " + rol + " " + e.getMessage();
                         System.out.println(respuesta);
@@ -147,7 +159,7 @@ public class RegistroDB {
 
     public String registroDoctor(Doctor doctor) {
         String respuesta = "";
-        String query = "INSERT INTO MEDICO(codigo,dpi,email,fin_horario,inicio_horario,inicio_labores,nombre,numero_colegiado,telefono)values(?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO MEDICO(codigo,dpi,email,fin_horario,inicio_horario,inicio_labores,nombre,numero_colegiado,telefono,id_USUARIO)values(?,?,?,?,?,?,?,?,?,?)";
         //Asignacion de los datos de la variables
         try (PreparedStatement preSt = conexion.prepareStatement(query)) {
             //Verificacion de la informacion de entrada
@@ -162,6 +174,7 @@ public class RegistroDB {
             preSt.setString(7, doctor.getNombre());
             preSt.setString(8, doctor.getColegiado());
             preSt.setString(9, doctor.getTelefono());
+            preSt.setLong(10, doctor.getCodigoReferencia());
             //
             preSt.executeUpdate();
             preSt.close();
@@ -201,7 +214,7 @@ public class RegistroDB {
 
     public String registroAdmin(Admin admin) {
         String respuesta = "";
-        String query = "INSERT INTO ADMINISTRADOR (codigo,dpi,nombre) VALUES (?,?,?)";
+        String query = "INSERT INTO ADMINISTRADOR (codigo,dpi,nombre,id_USUARIO) VALUES (?,?,?,?)";
         //Asignacion de los datos de la variables
 
         try (PreparedStatement preSt = conexion.prepareStatement(query)) {
@@ -211,6 +224,7 @@ public class RegistroDB {
             preSt.setString(1, admin.getCodigo());
             preSt.setString(2, admin.getDPI());
             preSt.setString(3, admin.getNombre());
+            preSt.setLong(4, admin.getCodigoReferencia());
             //
             preSt.executeUpdate();
             preSt.close();
@@ -229,7 +243,7 @@ public class RegistroDB {
      */
     public String registroLaboratorista(Laboratorista laboratorista) {
         String respuesta = "";
-        String query = "INSERT INTO LABORATORISTA (codigo, dpi, email, inicio_labores, nombre, numero_registro, telefono, tipo_examen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO LABORATORISTA (codigo, dpi, email, inicio_labores, nombre, numero_registro, telefono, tipo_examen,id_USUARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         //Asignacion de los datos de la variables
         try (PreparedStatement preSt = conexion.prepareStatement(query)) {
             //Verificacion de la informacion de entrada
@@ -243,6 +257,7 @@ public class RegistroDB {
             preSt.setString(6, laboratorista.getRegistro());
             preSt.setString(7, laboratorista.getTelefono());
             preSt.setString(8, laboratorista.getExamen());
+            preSt.setLong(9, laboratorista.getCodigoReferencia());
             //
             preSt.executeUpdate();
             preSt.close();

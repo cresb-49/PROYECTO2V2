@@ -4,19 +4,22 @@ CREATE SCHEMA IF NOT EXISTS PROYECTO2;
 USE PROYECTO2;
 
 CREATE TABLE IF NOT EXISTS USUARIO(
+    id INT NOT NULL AUTO_INCREMENT, 
     usuario VARCHAR(100) NOT NULL,
     password VARCHAR(45) NOT NULL,
     rol VARCHAR(20) NOT NULL,
-    PRIMARY KEY (usuario),
-    UNIQUE (usuario)
+    PRIMARY KEY (id),
+    UNIQUE (id,usuario)
 );
 
 CREATE TABLE IF NOT EXISTS ADMINISTRADOR(
     codigo VARCHAR(45) NOT NULL ,
     dpi VARCHAR(13) NOT NULL ,
     nombre VARCHAR(60) NOT NULL ,
+    id_USUARIO INT NOT NULL ,
     PRIMARY KEY (codigo),
-    UNIQUE (codigo,dpi)
+    FOREIGN KEY (id_USUARIO) REFERENCES USUARIO(id),
+    UNIQUE (codigo,dpi,id_USUARIO)
 );
 
 CREATE TABLE  IF NOT EXISTS CONSULTA(
@@ -37,8 +40,10 @@ CREATE TABLE  IF NOT EXISTS MEDICO(
     inicio_horario VARCHAR(15) NOT NULL ,
     fin_horario VARCHAR(15) NOT NULL,
     inicio_labores DATE NOT NULL,
+    id_USUARIO INT NOT NULL ,
     PRIMARY KEY(codigo),
-    UNIQUE (codigo,dpi,numero_colegiado,email,telefono)
+    FOREIGN KEY (id_USUARIO) REFERENCES USUARIO(id),
+    UNIQUE (codigo,dpi,numero_colegiado,email,telefono,id_USUARIO)
 
 );
 
@@ -61,8 +66,10 @@ CREATE TABLE IF NOT EXISTS PACIENTE(
     peso DOUBLE NOT NULL ,
     tipo_sangre VARCHAR (5) NOT NULL ,
     fecha_nacimiento DATE NOT NULL ,
+    id_USUARIO INT NOT NULL ,
     PRIMARY KEY (codigo),
-    UNIQUE (codigo,dpi,email,telefono)
+    FOREIGN KEY (id_USUARIO) REFERENCES USUARIO(id),
+    UNIQUE (codigo,dpi,email,telefono,id_USUARIO)
 );
 
 CREATE TABLE IF NOT EXISTS LABORATORISTA(
@@ -74,8 +81,10 @@ CREATE TABLE IF NOT EXISTS LABORATORISTA(
     email VARCHAR (45) NOT NULL ,
     inicio_labores DATE NOT NULL ,
     tipo_examen VARCHAR(45) NOT NULL,
+    id_USUARIO INT NOT NULL ,
     PRIMARY KEY (codigo),
-    UNIQUE (codigo,numero_registro,dpi,email,telefono)
+    FOREIGN KEY (id_USUARIO) REFERENCES USUARIO(id),
+    UNIQUE (codigo,numero_registro,dpi,email,telefono,id_USUARIO)
 );
 
 CREATE TABLE IF NOT EXISTS DIAS_TRABAJO(

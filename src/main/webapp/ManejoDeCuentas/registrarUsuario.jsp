@@ -48,7 +48,7 @@
                 sexo = paci.getSexo();
                 dpi = paci.getDPI();
                 sangre = paci.getSangre();
-                correo = paci.getCorreo();
+                correo = paci.getEmail();
             }
             resultado = request.getParameter("error");
             if (resultado != null) {

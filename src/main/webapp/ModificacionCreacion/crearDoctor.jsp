@@ -170,7 +170,7 @@
                     nuevoDoctor.setColegiado(numeroColegiado);
                     nuevoDoctor.setCodigo(codigoMedico);
                     nuevoDoctor.setTelefono(telefonoMedico);
-                    nuevoDoctor.setCorreo(emailMedico);
+                    nuevoDoctor.setEmail(emailMedico);
                     nuevoDoctor.setDPI(DPIMedico);
                     nuevoDoctor.setInicio(conv.stringToTime(inicioHorario));
                     nuevoDoctor.setFin(conv.stringToTime(finHorario));

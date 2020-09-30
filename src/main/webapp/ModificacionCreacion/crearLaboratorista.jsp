@@ -168,7 +168,7 @@
                 nuevoLab.setCodigo(codigoLab);
                 nuevoLab.setRegistro(registroSalud);
                 nuevoLab.setTelefono(telefono);
-                nuevoLab.setCorreo(correoLab);
+                nuevoLab.setEmail(correoLab);
                 nuevoLab.setNombre(nombreLab);
                 nuevoLab.setDPI(DPILab);
                 nuevoLab.setInicioTrabajo(conv.stringToDate(inicioLabores));

@@ -1,7 +1,7 @@
 package com.mycompany.proyecto2v2.Objetos;
 
 public class usuarioSistema {
-    private String codigoReferencia;
+    private Long codigoReferencia;
     private String rol;
     private String email;
     private String password;
@@ -13,11 +13,11 @@ public class usuarioSistema {
 
     }
 
-    public String getCodigoReferencia() {
+    public Long getCodigoReferencia() {
         return codigoReferencia;
     }
 
-    public void setCodigoReferencia(String codigoReferencia) {
+    public void setCodigoReferencia(Long codigoReferencia) {
         this.codigoReferencia = codigoReferencia;
     }
 
