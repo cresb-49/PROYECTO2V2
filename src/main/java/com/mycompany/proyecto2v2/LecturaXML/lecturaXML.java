@@ -1,7 +1,6 @@
 package com.mycompany.proyecto2v2.LecturaXML;
 
 import com.mycompany.proyecto2v2.Objetos.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

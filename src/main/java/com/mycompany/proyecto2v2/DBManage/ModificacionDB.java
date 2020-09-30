@@ -2,9 +2,6 @@ package com.mycompany.proyecto2v2.DBManage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
-import javax.print.attribute.standard.PresentationDirection;
-
 import com.mycompany.proyecto2v2.Objetos.*;
 import com.mycompany.proyecto2v2.VerificarContenido.*;
 
