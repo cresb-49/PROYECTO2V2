@@ -10,6 +10,7 @@ package com.mycompany.proyecto2v2.Objetos;
  * @author benjamin
  */
 public class Consulta {
+    private Long codigo;
     private String tipo;
     private Double costo;
     
@@ -33,8 +34,18 @@ public class Consulta {
         this.costo = costo;
     }
 
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+    
     @Override
     public String toString() {
-        return "Consulta{" + "tipo=" + tipo + ", costo=" + costo + '}';
+        return "Consulta{" + "codigo=" + codigo + ", tipo=" + tipo + ", costo=" + costo + '}';
     }
+
+    
 }

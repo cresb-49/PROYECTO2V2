@@ -3,6 +3,10 @@
     Created on : 28/09/2020, 14:09:56
     Author     : carlo
 --%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.RegistroDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
+<%@page import="com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.Examen"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -98,11 +102,42 @@
             </form>
         </div>
 
+        <%
+            String codigo = request.getParameter("codigoExamen");
+            String nombre = request.getParameter("nombreExamen");
+            String orden = request.getParameter("ordenExamen");
+            String descripcion = request.getParameter("descripcionExamen");
+            String costo = request.getParameter("costoExamen");
+            String informe = request.getParameter("informeExamen");
 
-
-
-
-
+            if (nombre != null) {
+                ConvercionesVariables conv = new ConvercionesVariables();
+                Examen nuevoExamen = new Examen();
+                ////ASIGNACION DE ATRIBUTOS
+                nuevoExamen.setCodigo(conv.stringToLong(codigo));
+                nuevoExamen.setNombre(nombre);
+                nuevoExamen.setOrden(conv.stringToBoolean(orden));
+                nuevoExamen.setDescripcion(descripcion);
+                nuevoExamen.setCosto(conv.stringToDouble(costo));
+                nuevoExamen.setInforme(informe);
+                ////FIN DE ASIGNACION DE ATRIBUTOS
+                try {
+                    //VARIBLES DE CONEXION A BASE DE DATOS
+                    ConnectionDB cnx = new ConnectionDB();
+                    RegistroDB registro = new RegistroDB(cnx.getConexion());
+                    //EVALUACION DE LA RESPUESTA OBTENIDA POR EL REGISTRO EN LA BASE DE DATOS
+                    String respuesta = registro.registroExamen(nuevoExamen,"nuevo");
+                    if(respuesta.equals("")){
+                        request.getRequestDispatcher("../error.jsp?logroP=Se registro con exito el examen en el sistema").forward(request, response);
+                    }else{
+                        request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+                    }
+                    cnx.cerrarConexion();
+                } catch (Exception e) {
+                    request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+                }
+            }
+        %>
         <footer>
             <div class="container">
                 <h3>© HOSPITAL 2020</h3>

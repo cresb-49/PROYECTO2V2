@@ -4,6 +4,10 @@
     Author     : carlo
 --%>
 
+<%@page import="com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.RegistroDB"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.Paciente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -132,6 +136,44 @@
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
+        <%
+            String nombre = request.getParameter("nombrePaciente");
+            String DPI = request.getParameter("DPIPaciente");
+            String password = request.getParameter("passPaciente");
+            String telefono = request.getParameter("telefonoPaciente");
+            String sexo = request.getParameter("sexoPaciente");
+            String peso = request.getParameter("pesoPaciente");
+            String sangre = request.getParameter("tipoSangre");
+            String correo = request.getParameter("correoPaciente");
+            String fechaNacimiento = request.getParameter("fechaNacimiento");
+
+            if (nombre != null) {
+                ConvercionesVariables conv = new ConvercionesVariables();
+                ////ASIGNACION DE ATRIBUTOS
+                Paciente nuevoPaciente = new Paciente(nombre, DPI, password, telefono, correo, sexo, conv.stringToDate(fechaNacimiento), conv.stringToDouble(peso), sangre);
+                ////FIN DE ASIGNACION DE ATRIBUTOS
+                try {
+                    //VARIBLES DE CONEXION A BASE DE DATOS
+                    ConnectionDB cnx = new ConnectionDB();
+                    RegistroDB registro = new RegistroDB(cnx.getConexion());
+                    //EVALUACION DE LA RESPUESTA OBTENIDA POR EL REGISTRO EN LA BASE DE DATOS
+                    String respuesta = registro.registroUsuario(nuevoPaciente, "nuevo");
+                    if (respuesta.equals("")) {
+                        respuesta = registro.registroPaciente(nuevoPaciente,"nuevo");
+                        if (respuesta.equals("")) {
+                            request.getRequestDispatcher("../error.jsp?logroP=Se registro con exito el paciente en el sistema").forward(request, response);
+                        } else {
+                            request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+                        }
+                    } else {
+                        request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+                    }
+                    cnx.cerrarConexion();
+                } catch (Exception e) {
+                    request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+                }
+            }
+        %>
         <script src="../js/app.js"></script>
         <script src="../js/jquery-3.5.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
