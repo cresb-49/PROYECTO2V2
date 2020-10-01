@@ -54,10 +54,9 @@ public class usuarioSistema {
     public void setCodigoEntidad(String codigoEntidad) {
         this.codigoEntidad = codigoEntidad;
     }
-    
+
     @Override
     public String toString() {
-        return "usuarioSistema{" + "codigoReferencia=" + codigoReferencia + ", rol=" + rol + ", email=" + email + ", password=" + password + '}';
+        return "usuarioSistema{" + "codigoReferencia=" + codigoReferencia + ", rol=" + rol + ", email=" + email + ", password=" + password + ", codigoEntidad=" + codigoEntidad + '}';
     }
-    
 }
