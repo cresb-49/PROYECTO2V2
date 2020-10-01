@@ -1,8 +1,7 @@
 <%@page import="com.sun.tools.javac.resources.compiler"%>
 <%@page import="com.mycompany.proyecto2v2.Objetos.Archivo"%>
 <%@page import="java.io.InputStream"%>
-<%@page import="com.mycompany.proyecto2v2.DBManage.RegistroDB"%>
-<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.*"%>
 <%@page import="com.mycompany.proyecto2v2.Objetos.Hospital"%>
 <%@page import="com.mycompany.proyecto2v2.VerificarContenido.VerificarContenido"%>
 <%@page import="com.mycompany.proyecto2v2.LecturaXML.lecturaXML"%>

@@ -69,7 +69,7 @@
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success" type="submit" name="enviar" value="Ingresar">Ingresar</button>
-                            <a class="btn btn-primary" name="resgistrar" href="ManejoDeCuentas/registrarUsuario.jsp">Registrare</a>
+                            <a class="btn btn-primary" name="resgistrar" href="ManejoDeCuentas/registrarPaciente.jsp">Registrare</a>
                         </div>
                     </form>
                     <%
