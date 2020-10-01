@@ -207,7 +207,7 @@
                                 <%
                                     if (modExamen.getDescripcion() != null) {
                                 %>
-                                <textarea class="form-control" id="descripcionExamen" name="descripcionExamen" value="<%out.print(modExamen.getDescripcion());%>"></textarea>
+                                <textarea class="form-control" id="descripcionExamen" name="descripcionExamen"><%out.print(modExamen.getDescripcion());%></textarea>
                                 <%
                                 } else {
                                 %>

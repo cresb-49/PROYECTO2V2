@@ -20,48 +20,41 @@ public class RegistroUsuario extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String acction = req.getParameter("token");
-
-        if (acction == null) {
-            acction = "";
-        }
-        if (acction.equals("registarUsuario")) {
+        ConvercionesVariables conv = new ConvercionesVariables();
+        //GENERACION DEL OBJETO PACIENTE PARA LUEGO HACER SU REGISTRO
+        String nombre = req.getParameter("nombrePaciente");
+        String DPI = req.getParameter("DPIPaciente");
+        String password = req.getParameter("passPaciente");
+        String telefono = req.getParameter("telefonoPaciente");
+        String correo = req.getParameter("correoPaciente");
+        String sexo = req.getParameter("sexoPaciente");
+        String fechaNacimiento = req.getParameter("fechaNacimiento");
+        String peso = req.getParameter("pesoPaciente");
+        String sangre = req.getParameter("tipoSangre");
+        if (nombre != null) {
+            ////ASIGNACION DE ATRIBUTOS
+            Paciente nuevoPaciente = new Paciente(nombre, DPI, password, telefono, correo, sexo, conv.stringToDate(fechaNacimiento), conv.stringToDouble(peso), sangre);
+            ////FIN DE ASIGNACION DE ATRIBUTOS
             try {
-                ConvercionesVariables conv = new ConvercionesVariables();
-                //GENERACION DEL OBJETO PACIENTE PARA LUEGO HACER SU REGISTRO
-                Paciente nuevoPaciente = new Paciente(req.getParameter("nombrePaciente"),
-                         req.getParameter("DPIPaciente"), req.getParameter("passPaciente"),
-                         req.getParameter("telefonoPaciente"),
-                         req.getParameter("correoPaciente"),
-                         req.getParameter("sexoPaciente"),
-                         conv.stringToDate(req.getParameter("fechaNacimiento")),
-                         conv.stringToDouble(req.getParameter("pesoPaciente")),
-                         req.getParameter("tipoSangre"));
+                //VARIBLES DE CONEXION A BASE DE DATOS
                 ConnectionDB cnx = new ConnectionDB();
                 RegistroDB registro = new RegistroDB();
                 registro.setConexion(cnx.getConexion());
-                DuplicidadDB duplicidad = new DuplicidadDB();
-                duplicidad.setConexion(cnx.getConexion());
-                String resultado = "";
-                if (!duplicidad.existenciaDeRegistroUsuario(nuevoPaciente.getEmail())) {
-                    resultado = duplicidad.existenciaDePaciente(nuevoPaciente);
-                    if (resultado.equals("")) {
-                        registro.registroPaciente(nuevoPaciente, "nuevo");
-                        registro.registroUsuario(nuevoPaciente, "nuevo");
-                        resp.sendRedirect("/proyecto2v2/index.jsp");
+                //EVALUACION DE LA RESPUESTA OBTENIDA POR EL REGISTRO EN LA BASE DE DATOS
+                String respuesta = registro.registroUsuario(nuevoPaciente, "nuevo");
+                if (respuesta.equals("")) {
+                    respuesta = registro.registroPaciente(nuevoPaciente, "nuevo");
+                    if (respuesta.equals("")) {
+                        resp.sendRedirect("error.jsp?logroP=Se registro con exito el paciente en el sistema");
                     } else {
-                        req.setAttribute("nuevoPaciente", nuevoPaciente);
-                        req.getRequestDispatcher("registrarUsuario.jsp?error=").forward(req, resp);
+                        resp.sendRedirect("error.jsp?errorP=" + respuesta);
                     }
                 } else {
-                    resultado = "El correo ya esta registrado";
-                    System.out.println(resultado);
-                    req.setAttribute("nuevoPaciente", nuevoPaciente);
-                    req.getRequestDispatcher("registrarUsuario.jsp?error=" + resultado).forward(req, resp);
+                    resp.sendRedirect("error.jsp?errorP=" + respuesta);
                 }
                 cnx.cerrarConexion();
             } catch (Exception e) {
-                System.out.println("Error Servlet Registro: " + e.getMessage());
+                resp.sendRedirect("error.jsp?errorP=" + e.getMessage());
             }
         }
     }

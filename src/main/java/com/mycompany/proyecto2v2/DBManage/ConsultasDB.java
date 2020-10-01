@@ -325,7 +325,6 @@ public class ConsultasDB {
      */
     public Paciente retornarPaciente(String codigoPaciente) {
         Paciente paciente = new Paciente();
-
         String consulta = "";
         consulta = "SELECT codigo,dpi,fecha_nacimiento,nombre,peso,sexo,telefono,tipo_sangre FROM PACIENTE WHERE codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
