@@ -157,7 +157,6 @@
             }
             cnx.cerrarConexion();
         } catch (Exception e) {
-            session.removeAttribute("MODADMIN");
             request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
         }
     }

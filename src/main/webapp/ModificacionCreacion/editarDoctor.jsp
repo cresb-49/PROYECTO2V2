@@ -48,8 +48,19 @@
                     if (modDoctor.getCodigo() != null) {
                         System.out.println("Doctor rescatado: " + modDoctor.toString());
                         session.setAttribute("MODMEDICO", modDoctor);
-                    }
-
+                    }else{
+            %>
+            <div class="alert alert-danger" role="alert">
+                No hay ningun resultado de la busqueda
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <div class="alert alert-danger" role="alert">
+                Debe de introducir un codigo para la busqueda
+            </div>
+            <%
                 }
             %>
         </div>
@@ -232,7 +243,7 @@
         <script src="../js/bootstrap.min.js"></script>
     </body>
 </html>
-<%    
+<%
     String nombreMedico = request.getParameter("nameDoctor");
     String numeroColegiado = request.getParameter("coleDoctor");
     String telefonoMedico = request.getParameter("telDoctor");
@@ -241,8 +252,8 @@
     String finHorario = request.getParameter("finDoctor");
     String especilidades[] = request.getParameterValues("espeDoctor");
     String inicioLabores = request.getParameter("incioTrabajo");
-    
-    System.out.println("Nombre Medico: "+nombreMedico);
+
+    System.out.println("Nombre Medico: " + nombreMedico);
     if (nombreMedico != null) {
         System.out.println("SimplifiedJSPServlet.mergedScriptlets()");
         ConvercionesVariables conv = new ConvercionesVariables();
@@ -257,22 +268,21 @@
         tempDoc.setEspecialidad(new ArrayList<String>(Arrays.asList(especilidades)));
         tempDoc.setInicioTrabajo(conv.stringToDate(inicioLabores));
         System.out.println("Doctor Modificado: " + tempDoc.toString());
-        /**
-         * try { //VARIBLES DE CONEXION A BASE DE DATOS
-         * ConnectionDB cnx = new ConnectionDB();
-         * ModificacionDB modificar = new ModificacionDB();
-         * modificar.setConexion(cnx.getConexion()); String
-         * respuesta = modificar.modificarDoctor(tempDoc);
-         * if (respuesta.equals("")) {
-         * request.getRequestDispatcher("../error.jsp?logroP=Se
-         * modifico con exito el administrador al
-         * sistema").forward(request, response); } else {
-         * request.getRequestDispatcher("../error.jsp?errorP="
-         * + respuesta).forward(request, response); }
-         * cnx.cerrarConexion(); } catch (Exception e) {
-         * session.removeAttribute("MODADMIN");
-         * request.getRequestDispatcher("../error.jsp?errorP="
-         * + e.getMessage()).forward(request, response); }*
-         */
+        try {
+            //VARIBLES DE CONEXION A BASE DE DATOS
+            ConnectionDB cnx = new ConnectionDB();
+            ModificacionDB modificar = new ModificacionDB();
+            modificar.setConexion(cnx.getConexion());
+            String respuesta = modificar.modificarDoctor(tempDoc);
+            if (respuesta.equals("")) {
+                request.getRequestDispatcher("../error.jsp?logroP=Se modifico con exito el medico en el sistema").forward(request, response);
+            } else {
+                request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+            }
+            cnx.cerrarConexion();
+        } catch (Exception e) {
+            request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+        }
+
     }
 %>

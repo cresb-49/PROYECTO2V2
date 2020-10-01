@@ -4,6 +4,11 @@
     Author     : carlo
 --%>
 
+<%@page import="com.mycompany.proyecto2v2.DBManage.ModificacionDB"%>
+<%@page import="com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.Paciente"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConsultasDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -38,6 +43,33 @@
                     <button class="btn btn-primary" type="submit" name="buscar" >Buscar</button>
                 </div>
             </form>
+            <br/>
+            <%
+                String codigoPaciente = request.getParameter("codigoLaboratorista");
+                Paciente modPaciente = null;
+                if (codigoPaciente != null || codigoPaciente != "") {
+                    ConnectionDB cnx = new ConnectionDB();
+                    ConsultasDB consulta = new ConsultasDB();
+                    consulta.setConexion(cnx.getConexion());
+                    modPaciente = consulta.retornarPaciente(codigoPaciente);
+                    if (modPaciente.getCodigo() != null) {
+                        System.out.println("Paciente rescatado: " + modPaciente.toString());
+                        session.setAttribute("MODPACIENTE", modPaciente);
+                    } else {
+            %>
+            <div class="alert alert-danger" role="alert">
+                No hay ningun resultado de la busqueda
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <div class="alert alert-danger" role="alert">
+                Debe de introducir un codigo para la busqueda
+            </div>
+            <%
+                }
+            %>
         </div>
         <div class="container">
             <div class="container">
@@ -133,3 +165,45 @@
         <script src="../js/bootstrap.min.js"></script>
     </body>
 </html>
+<%
+    String nombrePas = request.getParameter("nombrePaciente");
+    String DPI = request.getParameter("DPIPaciente");
+    String telefono = request.getParameter("telefonoPaciente");
+    String sexo = request.getParameter("sexoPaciente");
+    String peso = request.getParameter("pesoPaciente");
+    String sangre = request.getParameter("tipoSangre");
+    String fechaNacimiento = request.getParameter("fechaNacimiento");
+
+    System.out.println("Nombre paciente: " + nombrePas);
+    if (nombrePas != null) {
+        ConvercionesVariables conv = new ConvercionesVariables();
+        Paciente tempPaciente = (Paciente) session.getAttribute("MODPACIENTE");
+        session.removeAttribute("MODPACIENTE");
+        tempPaciente.setNombre(nombrePas);
+        tempPaciente.setDPI(DPI);
+        tempPaciente.setTelefono(telefono);
+        tempPaciente.setSexo(sexo);
+        tempPaciente.setPeso(conv.stringToDouble(peso));
+        tempPaciente.setSangre(sangre);
+        tempPaciente.setCumple(conv.stringToDate(fechaNacimiento));
+        
+
+        System.out.println("Paciente Modificado: " + tempPaciente.toString());
+        try {
+            //VARIBLES DE CONEXION A BASE DE DATOS
+            ConnectionDB cnx = new ConnectionDB();
+            ModificacionDB modificar = new ModificacionDB();
+            modificar.setConexion(cnx.getConexion());
+            String respuesta = modificar.modificarPaciente(tempPaciente);
+            if (respuesta.equals("")) {
+                request.getRequestDispatcher("../error.jsp?logroP=Se modifico con exito el laboratorista en el sistema").forward(request, response);
+            } else {
+                request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+            }
+            cnx.cerrarConexion();
+        } catch (Exception e) {
+            request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+        }
+
+    }
+%>

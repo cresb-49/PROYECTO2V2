@@ -6,6 +6,7 @@ import com.mycompany.proyecto2v2.Objetos.*;
 import com.mycompany.proyecto2v2.VerificarContenido.*;
 
 public class ModificacionDB {
+
     private Connection conexion;
     private VerificarContenido verificar = new VerificarContenido();
 
@@ -15,12 +16,10 @@ public class ModificacionDB {
     public void setConexion(Connection conexion) {
         this.conexion = conexion;
     }
-    
-    
 
     /**
      * REALIZA LA MODIFICACION DE LOS DATOS DEL ADMIN
-     * 
+     *
      * @param admin
      * @return
      */
@@ -43,7 +42,7 @@ public class ModificacionDB {
 
     /**
      * REALIZA LA MODIFICACION DEL DOCTOR INGRESADO
-     * 
+     *
      * @param doctor
      * @return
      */
@@ -57,18 +56,17 @@ public class ModificacionDB {
             preSt.setString(2, doctor.getDPI());
             preSt.setString(3, doctor.getColegiado());
             preSt.setString(4, doctor.getInicio().toString());
-            preSt.setString(5,doctor.getFin().toString());
+            preSt.setString(5, doctor.getFin().toString());
             preSt.setDate(6, doctor.getInicioTrabajo());
             preSt.setString(7, doctor.getCodigo());
             preSt.executeUpdate();
             //ELIMINACION DE LAS ESPECIALIDADES
-            resultado=this.eliminarEspecialidades(doctor);
-            if(!resultado.equals("")){
-                //REGISTRO DE LAS ESPECIALIDADES NUEVAS
-                RegistroDB registro= new RegistroDB();
-                registro.setConexion(this.conexion);
-                resultado=registro.registroEspecialidadDoctor(doctor);
-            }
+            resultado = this.eliminarEspecialidades(doctor);
+            //REGISTRO DE LAS ESPECIALIDADES NUEVAS
+            RegistroDB registro = new RegistroDB();
+            registro.setConexion(this.conexion);
+            resultado = registro.registroEspecialidadDoctor(doctor);
+
         } catch (Exception e) {
             resultado = "Error en modificacion de datos del medico: " + e.getMessage();
             System.out.println(resultado);
@@ -78,11 +76,12 @@ public class ModificacionDB {
 
     /**
      * ELIMINA LAS ESPECIALIDADES DE UN DOCTOR SEGUN SU CODIGO
+     *
      * @param doctor
      * @return
      */
-    private String eliminarEspecialidades(Doctor doctor){
-        String resultado="";
+    private String eliminarEspecialidades(Doctor doctor) {
+        String resultado = "";
         String consulta = "DELETE FROM ESPECIALIDAD_MEDICO WHERE MEDICO_codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
 
@@ -109,26 +108,26 @@ public class ModificacionDB {
             preSt.setString(7, labo.getCodigo());
             preSt.executeUpdate();
             //ELIMINACION DE LOS DIAS DE TRABAJO
-            resultado=this.eliminarDiasTrabajo(labo);
-            if(!resultado.equals("")){
-                //REGISTRO DE LAS ESPECIALIDADES NUEVAS
-                RegistroDB registro= new RegistroDB();
-                registro.setConexion(this.conexion);
-                resultado=registro.registroDiasLaboratorista(labo);
-            }
+            resultado = this.eliminarDiasTrabajo(labo);
+            RegistroDB registro = new RegistroDB();
+            registro.setConexion(this.conexion);
+            resultado = registro.registroDiasLaboratorista(labo);
+
         } catch (Exception e) {
             resultado = "Error en modificacion de datos del medico: " + e.getMessage();
             System.out.println(resultado);
         }
         return resultado;
     }
+
     /**
      * ELIMINACION DE LOS DIAS DE TRABAJO DEL LABORATORISTA
+     *
      * @param labo
      * @return
      */
     private String eliminarDiasTrabajo(Laboratorista labo) {
-        String resultado="";
+        String resultado = "";
         String consulta = "DELETE FROM DIAS_TRABAJO WHERE LABORATORISTA_codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, labo.getCodigo());
@@ -139,12 +138,14 @@ public class ModificacionDB {
         }
         return resultado;
     }
+
     /**
      * MODIFICA LA INFORMACION DEL PACIENTE INGRESADO EN EL SISTEMA
+     *
      * @param paciente
      * @return
      */
-    public String modificarPaciente(Paciente paciente){
+    public String modificarPaciente(Paciente paciente) {
         String resultado = "";
         String consulta = "UPDATE PACIENTE SET nombre = ?,dpi = ?,telefono=?,sexo=?,peso=?,tipo_sangre=?,fecha_nacimiento=? WHERE codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
@@ -165,13 +166,15 @@ public class ModificacionDB {
         }
         return resultado;
     }
+
     /**
-     * MODIFICA UN EXAMEN SEGUN EL EXAMEN DE ENTRADA 
+     * MODIFICA UN EXAMEN SEGUN EL EXAMEN DE ENTRADA
+     *
      * @param examen
      * @return
      */
-    public String modificarExamen(Examen examen){
-        String resultado="";
+    public String modificarExamen(Examen examen) {
+        String resultado = "";
         String consulta = "";
         consulta = "UPDATE EXAMEN SET nombre=?,orden=?,descripcion=?,costo=?,tipo_informe=? WHERE codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
@@ -190,13 +193,15 @@ public class ModificacionDB {
         }
         return resultado;
     }
+
     /**
      * MODIFICACION DE LA CONSULTA DEPENDIENTO DE LA CONSULTA DE ENTRADA
+     *
      * @param consulta
      * @return
      */
-    public String modificarConsulta(Consulta consulta){
-        String resultado="";
+    public String modificarConsulta(Consulta consulta) {
+        String resultado = "";
         String query = "";
         query = "UPDATE CONSULTA SET nombre=?,costo=? WHERE id=?";
         try (PreparedStatement preSt = conexion.prepareStatement(query)) {
@@ -205,7 +210,7 @@ public class ModificacionDB {
             preSt.setString(1, consulta.getTipo());
             preSt.setDouble(2, consulta.getCosto());
             preSt.setLong(3, consulta.getCodigo());
-            
+
             preSt.executeUpdate();
         } catch (Exception e) {
             resultado = "Error en modificacion de datos de consulta: " + e.getMessage();
@@ -213,16 +218,18 @@ public class ModificacionDB {
         }
         return resultado;
     }
+
     /**
      * ELIMINAR EL USUARIO SEGUN EL ID DE REFERENCIA
+     *
      * @param idRefrencia
-     * @return 
+     * @return
      */
-    public String eliminarUsuario(Long idRefrencia){
-        String resultado="";
+    public String eliminarUsuario(Long idRefrencia) {
+        String resultado = "";
         String consulta = "DELETE FROM USUARIO WHERE id = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            preSt.setLong(1,idRefrencia);
+            preSt.setLong(1, idRefrencia);
             preSt.executeUpdate();
         } catch (Exception e) {
             resultado = "Error en eliminacion de dias de trabajo: " + e.getMessage();

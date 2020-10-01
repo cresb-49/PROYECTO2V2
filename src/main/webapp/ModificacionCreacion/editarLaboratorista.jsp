@@ -4,6 +4,14 @@
     Author     : carlo
 --%>
 
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ModificacionDB"%>
+<%@page import="com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConsultasDB"%>
+<%@page import="com.mycompany.proyecto2v2.DBManage.ConnectionDB"%>
+<%@page import="com.mycompany.proyecto2v2.Objetos.Laboratorista"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -35,6 +43,33 @@
                     <button class="btn btn-primary" type="submit" name="buscar" >Buscar</button>
                 </div>
             </form>
+            <br/>
+            <%
+                String codigoLab = request.getParameter("codigoLaboratorista");
+                Laboratorista modLab = null;
+                if (codigoLab != null || codigoLab != "") {
+                    ConnectionDB cnx = new ConnectionDB();
+                    ConsultasDB consulta = new ConsultasDB();
+                    consulta.setConexion(cnx.getConexion());
+                    modLab = consulta.retornarLaboratorista(codigoLab);
+                    if (modLab.getCodigo() != null) {
+                        System.out.println("Doctor rescatado: " + modLab.toString());
+                        session.setAttribute("MODLAB", modLab);
+                    } else {
+            %>
+            <div class="alert alert-danger" role="alert">
+                No hay ningun resultado de la busqueda
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <div class="alert alert-danger" role="alert">
+                Debe de introducir un codigo para la busqueda
+            </div>
+            <%
+                }
+            %>
         </div>
         <div class="container">
             <div class="container">
@@ -48,19 +83,50 @@
                         <div class="form-group">
                             <label class="control-label" for="numeroRegistroSalud">No. Registro de Salud: </label>
                             <div class="">
+                                <%
+                                    if (modLab.getRegistro() != null) {
+                                %>
+                                <input class="form-control" id="numeroRegistroSalud" type="text" name="numeroRegistroSalud" placeholder="SALUD-XXXX" value="<%out.print(modLab.getRegistro());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="numeroRegistroSalud" type="text" name="numeroRegistroSalud" placeholder="SALUD-XXXX">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="telefonoLaboratorista">Telefono: </label>
                             <div class="">
+                                <%
+                                    if (modLab.getTelefono() != null) {
+                                %>
+                                <input class="form-control" id="telefonoLaboratorista" type="number" name="telefonoLaboratorista" placeholder="Telefono" value="<%out.print(modLab.getTelefono());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="telefonoLaboratorista" type="number" name="telefonoLaboratorista" placeholder="Telefono">
+                                <%
+                                    }
+                                %>
+
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="tipoDeExamenLaboratorista">Tipo de Examen: </label>
                             <div class="">
+                                <%
+                                    if (modLab.getExamen() != null) {
+                                %>
+                                <input class="form-control" id="tipoDeExamenLaboratorista" type="text" name="tipoDeExamenLaboratorista" placeholder="Nombre de Examen" value="<%out.print(modLab.getExamen());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="tipoDeExamenLaboratorista" type="text" name="tipoDeExamenLaboratorista" placeholder="Nombre de Examen">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -68,28 +134,66 @@
                         <div class="form-group">
                             <label class="control-label" for="nameLaboratorista">Nombre Laboratorista: </label>
                             <div class="">
+                                <%
+                                    if (modLab.getNombre() != null) {
+                                %>
+                                <input class="form-control" id="nameLaboratorista" type="text" name="nameLaboratorista" placeholder="Nombre Laboratorista" value="<%out.print(modLab.getNombre());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="nameLaboratorista" type="text" name="nameLaboratorista" placeholder="Nombre Laboratorista">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="DPILaboratorista">DPI: </label>
                             <div class="">
+                                <%
+                                    if (modLab.getDPI() != null) {
+                                %>
+                                <input class="form-control" id="DPILaboratorista" type="text" name="DPILaboratorista" placeholder="DPI" value="<%out.print(modLab.getDPI());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="DPILaboratorista" type="text" name="DPILaboratorista" placeholder="DPI">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="incioTrabajoLaboratorista">Inicio de labores: </label>
                             <div class="">
+                                <%
+                                    if (modLab.getInicioTrabajo() != null) {
+                                %>
+                                <input class="form-control" id="incioTrabajoLaboratorista" type="date" name="incioTrabajoLaboratorista" placeholder="Fecha" value="<%out.print(modLab.getInicioTrabajo());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="incioTrabajoLaboratorista" type="date" name="incioTrabajoLaboratorista" placeholder="Fecha">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="container form-group col-md-12">
                         <div class="form-group">
                             <label class="control-label" for="diasSemanaLab">Dias de trabajo: </label><br>
                             <select multiple="" class="form-control" name="diasSemanaLab" id="diasSemanaLab">                            
-
+                                <%
+                                    if (!modLab.getDias().isEmpty()) {
+                                        for (String dia : modLab.getDias()) {
+                                %>
+                                <option value="<%=dia%>"><%=dia%></option>
+                                <%
+                                        }
+                                    }
+                                %>
                             </select>
                         </div>
                     </div>
@@ -135,3 +239,43 @@
         <script src="../js/bootstrap.min.js"></script>
     </body>
 </html>
+<%    String registroSalud = request.getParameter("numeroRegistroSalud");
+    String telefono = request.getParameter("telefonoLaboratorista");
+    String nombreLab = request.getParameter("nameLaboratorista");
+    String DPILab = request.getParameter("DPILaboratorista");
+    String inicioLabores = request.getParameter("incioTrabajoLaboratorista");
+    String tipoExamen = request.getParameter("tipoDeExamenLaboratorista");
+    String diasTrabajo[] = request.getParameterValues("diasSemanaLab");
+
+    System.out.println("Nombre Lab: " + nombreLab);
+    if (nombreLab != null) {
+        ConvercionesVariables conv = new ConvercionesVariables();
+        Laboratorista tempLab = (Laboratorista) session.getAttribute("MODLAB");
+        session.removeAttribute("MODLAB");
+        tempLab.setRegistro(registroSalud);
+        tempLab.setNombre(nombreLab);
+        tempLab.setDPI(DPILab);
+        tempLab.setTelefono(telefono);
+        tempLab.setInicioTrabajo(conv.stringToDate(inicioLabores));
+        tempLab.setExamen(tipoExamen);
+        tempLab.setDias(new ArrayList<String>(Arrays.asList(diasTrabajo)));
+
+        System.out.println("Doctor Modificado: " + tempLab.toString());
+        try {
+            //VARIBLES DE CONEXION A BASE DE DATOS
+            ConnectionDB cnx = new ConnectionDB();
+            ModificacionDB modificar = new ModificacionDB();
+            modificar.setConexion(cnx.getConexion());
+            String respuesta = modificar.modificarLaboratorista(tempLab);
+            if (respuesta.equals("")) {
+                request.getRequestDispatcher("../error.jsp?logroP=Se modifico con exito el laboratorista en el sistema").forward(request, response);
+            } else {
+                request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
+            }
+            cnx.cerrarConexion();
+        } catch (Exception e) {
+            request.getRequestDispatcher("../error.jsp?errorP=" + e.getMessage()).forward(request, response);
+        }
+
+    }
+%>
