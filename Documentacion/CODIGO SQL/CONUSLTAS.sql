@@ -32,5 +32,10 @@ SELECT COUNT(CITA.MEDICO_codigo) AS C,MEDICO.codigo,MEDICO.nombre FROM MEDICO IN
 SELECT COUNT(RESULTADO.MEDICO_codigo) AS C, MEDICO.codigo,MEDICO.nombre  FROM RESULTADO INNER JOIN MEDICO ON RESULTADO.MEDICO_codigo = MEDICO.codigo GROUP BY MEDICO.codigo ORDER BY C DESC;
 //////LOS 3 EXAMENES MAS REQUERIDOS EN UN INTERVALO DE TIEMPO
 SELECT COUNT(RESULTADO.EXAMEN_codigo) AS C, EXAMEN.codigo, EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.fecha BETWEEN "2020-09-06" AND "2020-09-06" GROUP BY EXAMEN.codigo ORDER BY C DESC LIMIT 3;
+----------------------------------------------------------FIN ADMINISTARDOR ------------------------------------------------------------
 
-
+SELECT M.codigo,M.nombre,M.numero_colegiado,EM.nombre,M.inicio_horario,M.fin_horario,M.email FROM MEDICO AS M INNER JOIN ESPECIALIDAD_MEDICO AS EM ON M.codigo = EM.MEDICO_codigo;
+SELECT M.codigo,M.nombre,M.numero_colegiado,EM.nombre,M.inicio_horario,M.fin_horario,M.email FROM MEDICO AS M INNER JOIN ESPECIALIDAD_MEDICO AS EM ON M.codigo = EM.MEDICO_codigo;
+SELECT M.codigo,M.nombre,M.numero_colegiado,EM.nombre,M.inicio_horario,M.fin_horario,M.email FROM MEDICO AS M INNER JOIN ESPECIALIDAD_MEDICO AS EM ON M.codigo = EM.MEDICO_codigo AND M.nombre LIKE '%en%';
+SELECT M.codigo,M.nombre,M.numero_colegiado,EM.nombre,M.inicio_horario,M.fin_horario,M.email FROM MEDICO AS M INNER JOIN ESPECIALIDAD_MEDICO AS EM ON M.codigo = EM.MEDICO_codigo AND EM.nombre LIKE '%en%';
+SELECT M.codigo,M.nombre,M.numero_colegiado,EM.nombre,M.inicio_horario,M.fin_horario,M.email FROM MEDICO AS M INNER JOIN ESPECIALIDAD_MEDICO AS EM ON M.codigo = EM.MEDICO_codigo AND ((M.inicio_horario BETWEEN "06:00:00" AND "06:00:00") OR (M.fin_horario BETWEEN "06:00:00" AND "06:00:00"));
