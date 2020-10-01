@@ -349,4 +349,60 @@ public class ConsultasDB {
 
         return paciente;
     }
+    /**
+     * Retorna el codigo dependiente de usuario segun su usuarioSistema
+     * @return
+     */
+    public usuarioSistema retornoCodigoDependiente(usuarioSistema usuario){
+        String consulta="";
+        if(usuario.getRol().equals("paciente")){
+            consulta = "SELECT codigo FROM PACIENTE WHERE id_USUARIO = ?";
+            try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+                preSt.setLong(1, usuario.getCodigoReferencia());
+                try (ResultSet result = preSt.executeQuery()) {
+                    while (result.next()) {
+                        usuario.setCodigoEntidad(result.getString(1));
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error asigancion de codigo" + e.getMessage());
+                }
+            } catch (Exception e) {
+                System.out.println("Error asignacion de codigo" + e.getMessage());
+            }
+        }
+        if(usuario.getRol().equals("doctor")){
+            consulta = "SELECT codigo FROM MEDICO WHERE id_USUARIO = ?";
+            try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+                preSt.setLong(1, usuario.getCodigoReferencia());
+                try (ResultSet result = preSt.executeQuery()) {
+                    while (result.next()) {
+                        usuario.setCodigoEntidad(result.getString(1));
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error asigancion de codigo" + e.getMessage());
+                }
+            } catch (Exception e) {
+                System.out.println("Error asignacion de codigo" + e.getMessage());
+            }
+        }
+        if(usuario.getRol().equals("laboratorista")){
+            consulta = "SELECT codigo FROM LABORATORISTA WHERE id_USUARIO = ?";
+            try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+                preSt.setLong(1, usuario.getCodigoReferencia());
+                try (ResultSet result = preSt.executeQuery()) {
+                    while (result.next()) {
+                        usuario.setCodigoEntidad(result.getString(1));
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error asigancion de codigo" + e.getMessage());
+                }
+            } catch (Exception e) {
+                System.out.println("Error asignacion de codigo" + e.getMessage());
+            }
+        }
+        if(usuario.getRol().equals("admin")){
+            usuario.setCodigoEntidad(usuario.getEmail());
+        }
+        return usuario;
+    }
 }

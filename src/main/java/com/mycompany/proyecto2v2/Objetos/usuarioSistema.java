@@ -5,6 +5,8 @@ public class usuarioSistema {
     private String rol;
     private String email;
     private String password;
+    //
+    private String codigoEntidad;
 
     /**
      * Constructor vacio del usuario del sistema
@@ -45,6 +47,14 @@ public class usuarioSistema {
         this.password = password;
     }
 
+    public String getCodigoEntidad() {
+        return codigoEntidad;
+    }
+
+    public void setCodigoEntidad(String codigoEntidad) {
+        this.codigoEntidad = codigoEntidad;
+    }
+    
     @Override
     public String toString() {
         return "usuarioSistema{" + "codigoReferencia=" + codigoReferencia + ", rol=" + rol + ", email=" + email + ", password=" + password + '}';
