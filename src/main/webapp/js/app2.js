@@ -26,11 +26,13 @@ function validarModificacionExamen(){
     descripcion = document.getElementById("descripcionExamen").value;
     costo = document.getElementById("costoExamen").value;
     informe = document.getElementById("informeExamen").value;
-
+    
+    
+    
     if(nombreEx===""||orden===""||descripcion===""||costo===""||informe===""){
         alert("Todos los campos son obligatorios");
         return false;
-    }else if (!exprecionesRegulares.nombre.test(nombreEx)){
+    }else if (!exprecionesRegulares.texto.test(nombreEx)){
         alert("El nombre del examen no es valido");
         return false;
     }else if(!exprecionesRegulares.estadoOrden.test(orden)){

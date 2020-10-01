@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class ConsultasDB {
+
     private Connection conexion;
     private ConvercionesVariables conv = new ConvercionesVariables();
 
@@ -19,7 +20,7 @@ public class ConsultasDB {
     public void setConexion(Connection conexion) {
         this.conexion = conexion;
     }
-    
+
     public boolean comprobarInformacion() {
         boolean resultado = false;
         String consulta = "SELECT * FROM USUARIO LIMIT 2";
@@ -39,7 +40,7 @@ public class ConsultasDB {
 
     /**
      * DEVULEVE EL ROL DEL USUARIO Y CONTRASENA INTRODUCIDOS
-     * 
+     *
      * @param usuario
      * @param password
      * @return
@@ -65,10 +66,10 @@ public class ConsultasDB {
         }
         return respuesta;
     }
-    
+
     /**
      * Obtiene un examen segun codigo del mismo examen
-     * 
+     *
      * @param codigo
      * @return
      */
@@ -96,10 +97,36 @@ public class ConsultasDB {
         }
         return examen;
     }
-
+    /**
+     * Obtiene una consulta segun nombre de la consulta
+     *
+     * @param nombre
+     * @return
+     */
+    public Consulta obtenerConsulta(String nombre) {
+        Consulta consulta = null;
+        String query = "";
+        query = "SELECT id,nombre,costo FROM CONSULTA WHERE nombre = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(query)) {
+            preSt.setString(1, nombre);
+            try (ResultSet result = preSt.executeQuery()) {
+                consulta = new Consulta();
+                while (result.next()) {
+                    consulta.setCodigo(result.getLong(1));
+                    consulta.setTipo(result.getString(2));
+                    consulta.setCosto(result.getDouble(3));
+                }
+            } catch (Exception e) {
+                System.out.println("Error en busqueda de consulta" + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Error en busqueda de consulta" + e.getMessage());
+        }
+        return consulta;
+    }
     /**
      * REALIZA LA BUSQUEDA DE UN ADMINISTRADOR SEGUN CODIGO DE IDENTIFICACION
-     * 
+     *
      * @param codigoAdmin
      * @return
      */
@@ -128,7 +155,7 @@ public class ConsultasDB {
 
     /**
      * OBTINENE EL DOCTOR RESULTANTE DEPENDIENDO DEL CODIGO INTRODUCIDO
-     * 
+     *
      * @param codigoMedico
      * @return
      */
@@ -160,8 +187,9 @@ public class ConsultasDB {
     }
 
     /**
-     * OBTIENE LAS ESPECIALIDADDES DE UN MEDICO SEGUN SU CODIGO DE IDENTIFICACION
-     * 
+     * OBTIENE LAS ESPECIALIDADDES DE UN MEDICO SEGUN SU CODIGO DE
+     * IDENTIFICACION
+     *
      * @param codigoMedico
      * @return
      */
@@ -212,7 +240,7 @@ public class ConsultasDB {
 
     /**
      * RETORNA LOS DIAS DE TRABAJO DEL LABORATORISTA
-     * 
+     *
      * @param codigoLab
      * @return
      */
@@ -236,10 +264,11 @@ public class ConsultasDB {
 
     /**
      * RETORNA UN EXAMEN SEGUN EL CODIGO DE INGRESO
+     *
      * @param codigoExamen
      * @return
      */
-    public Examen retornarExamen(String codigoExamen){
+    public Examen retornarExamen(String codigoExamen) {
         Examen examen = new Examen();
         String consulta = "";
         consulta = "SELECT nombre,orden,descripcion,costo,tipo_informe FROM EXAMEN WHERE codigo = ?";
@@ -265,10 +294,11 @@ public class ConsultasDB {
 
     /**
      * RETORNA LA CONSULTA SEGUN EL NOMBRE ASIGNADO
+     *
      * @param nombreConsulta
      * @return
      */
-    public Consulta retornaConsulta(String nombreConsulta){
+    public Consulta retornaConsulta(String nombreConsulta) {
         Consulta consulta = new Consulta();
         String query = "";
         query = "SELECT id,nombre,costo FROM CONSULTA WHERE nombre = ?";
@@ -287,5 +317,37 @@ public class ConsultasDB {
             System.out.println("Error buesqueda consulta" + e.getMessage());
         }
         return consulta;
+    }
+    /**
+     * RETORNA EL PACIENTE SEGUN EL CODIGO DEL PACIENTE
+     * @param codigoPaciente
+     * @return 
+     */
+    public Paciente retornarPaciente(String codigoPaciente) {
+        Paciente paciente = new Paciente();
+
+        String consulta = "";
+        consulta = "SELECT codigo,dpi,fecha_nacimiento,nombre,peso,sexo,telefono,tipo_sangre FROM PACIENTE WHERE codigo = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoPaciente);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    paciente.setCodigo(result.getLong(1));
+                    paciente.setDPI(result.getString(2));
+                    paciente.setCumple(result.getDate(3));
+                    paciente.setNombre(result.getString(4));
+                    paciente.setPeso(result.getDouble(5));
+                    paciente.setSexo(result.getString(6));
+                    paciente.setTelefono(result.getString(7));
+                    paciente.setSangre(result.getString(8));
+                }
+            } catch (Exception e) {
+                System.out.println("Error buesqueda paciente" + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Error buesqueda paciente" + e.getMessage());
+        }
+
+        return paciente;
     }
 }

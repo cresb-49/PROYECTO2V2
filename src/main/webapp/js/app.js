@@ -429,6 +429,7 @@ function validarRegistroconsulta(){
     }
     return true;
 }
+
 function validarRegistroExamen(){
     var codigo,nombre,orden,descripcion,costo,informe;
 

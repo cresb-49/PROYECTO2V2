@@ -34,7 +34,7 @@
                 <h3>BUSCAR PACIENTE</h3>
             </div>
             <br>
-            <form class="form-inline" action="#">
+            <form class="form-inline" action="" method="POST">
                 <label class="control-label col-md-2" for="codigoPaciente">Codigo Paciente: </label>
                 <div class="form-group">
                     <input class="form-control" id="codigoPaciente" type="text" name="codigoPaciente" placeholder="Codigo Paciente">
@@ -45,7 +45,7 @@
             </form>
             <br/>
             <%
-                String codigoPaciente = request.getParameter("codigoLaboratorista");
+                String codigoPaciente = request.getParameter("codigoPaciente");
                 Paciente modPaciente = null;
                 if (codigoPaciente != null || codigoPaciente != "") {
                     ConnectionDB cnx = new ConnectionDB();
@@ -83,31 +83,85 @@
                         <div class="form-group">
                             <label for="nombrePaciente" class="control-label">Nombre Paciente: </label>
                             <div class="">
+                                <%
+                                    if (modPaciente.getNombre() != null) {
+                                %>
+                                <input class="form-control" id="nombrePaciente" type="text" name="nombrePaciente" placeholder="Nombre" value="<%out.print(modPaciente.getNombre());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="nombrePaciente" type="text" name="nombrePaciente" placeholder="Nombre">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="sexoPaciente">Sexo Paciente: </label>
                             <div class="">
                                 <select class="form-control" name="sexoPaciente" id="sexoPaciente">
+                                    <%
+                                        if (modPaciente.getSexo() != null) {
+                                            switch (modPaciente.getSexo()) {
+                                                case "Hombre":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="Hombre" selected>Hombre</option>
+                                    <option value="Mujer">Mujer</option>
+                                    <%
+                                            break;
+                                        case "Mujer":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="Hombre" >Hombre</option>
+                                    <option value="Mujer" selected >Mujer</option><%
+                                            break;
+                                        default:
+                                    %>
                                     <option value="Seleccionar" selected>Seleccionar</option>
                                     <option value="Hombre">Hombre</option>
                                     <option value="Mujer">Mujer</option>
+                                    <%
+                                                break;
+                                        }
+                                    } else {
+                                    %>
+                                    <option value="Seleccionar" selected>Seleccionar</option>
+                                    <option value="Hombre">Hombre</option>
+                                    <option value="Mujer">Mujer</option>
+                                    <%
+                                        }
+                                    %>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="telefonoPaciente">Telefono: </label>
                             <div class="">
+                                <%
+                                    if (modPaciente.getTelefono() != null) {
+                                %>
+                                <input class="form-control" id="telefonoPaciente" type="number" name="telefonoPaciente" placeholder="Telefono" value="<%out.print(modPaciente.getTelefono());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="telefonoPaciente" type="number" name="telefonoPaciente" placeholder="Telefono">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="tipoSangre">Tipo de Sangre: </label>
                             <div class="">
                                 <select class="form-control" name="tipoSangre" id="tipoSangre">
-                                    <option value="Seleccionar" selected>Seleccionar</option>
-                                    <option value="A">A</option>
+                                    <%
+                                        if (modPaciente.getSangre() != null) {
+                                            switch (modPaciente.getSangre()) {
+                                                case "A":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A" selected>A</option>
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
                                     <option value="B">B</option>
@@ -119,6 +173,231 @@
                                     <option value="O">O</option>
                                     <option value="O+">O+</option>
                                     <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "A+":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" selected>A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B">B</option>
+                                    <option value="B+">B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB">AB</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "A-":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" selected>A-</option>
+                                    <option value="B">B</option>
+                                    <option value="B+">B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB">AB</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "B":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" selected>B</option>
+                                    <option value="B+">B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB">AB</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "B+":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" selected>B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB">AB</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "B-":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-" selected>B-</option>
+                                    <option value="AB">AB</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "AB":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" selected>AB</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "AB+":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" >AB</option>
+                                    <option value="AB+" selected>AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "AB-":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" >AB</option>
+                                    <option value="AB+" >AB+</option>
+                                    <option value="AB-" selected>AB-</option>
+                                    <option value="O">O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "O":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" >AB</option>
+                                    <option value="AB+" >AB+</option>
+                                    <option value="AB-" >AB-</option>
+                                    <option value="O" selected>O</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "O+":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" >AB</option>
+                                    <option value="AB+" >AB+</option>
+                                    <option value="AB-" >AB-</option>
+                                    <option value="O" >O</option>
+                                    <option value="O+" selected>O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                            break;
+                                        case "O-":
+                                    %>
+                                    <option value="Seleccionar">Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" >AB</option>
+                                    <option value="AB+" >AB+</option>
+                                    <option value="AB-" >AB-</option>
+                                    <option value="O" >O</option>
+                                    <option value="O+" >O+</option>
+                                    <option value="O-" selected>O-</option>
+                                    <%
+                                            break;
+                                        default:
+                                    %>
+                                    <option value="Seleccionar" selected>Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" >AB</option>
+                                    <option value="AB+" >AB+</option>
+                                    <option value="AB-" >AB-</option>
+                                    <option value="O" >O</option>
+                                    <option value="O+" >O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                                break;
+                                        }
+                                    } else {
+                                    %>
+                                    <option value="Seleccionar" selected>Seleccionar</option>
+                                    <option value="A">A</option>
+                                    <option value="A+" >A+</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B" >B</option>
+                                    <option value="B+" >B-</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB" >AB</option>
+                                    <option value="AB+" >AB+</option>
+                                    <option value="AB-" >AB-</option>
+                                    <option value="O" >O</option>
+                                    <option value="O+" >O+</option>
+                                    <option value="O-">O-</option>
+                                    <%
+                                        }
+                                    %>
                                 </select>
                             </div>
                         </div>
@@ -127,19 +406,50 @@
                         <div class="form-group">
                             <label class="control-label" for="DPIPaciente">DPI: </label>
                             <div class="">
+                                <%
+                                    if (modPaciente.getDPI() != null) {
+                                %>
+                                <input class="form-control" id="DPIPaciente" type="text" name="DPIPaciente" placeholder="DPI" value="<%out.print(modPaciente.getDPI());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="DPIPaciente" type="text" name="DPIPaciente" placeholder="DPI">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="pesoPaciente">Peso Paciente: </label>
                             <div class="">
+                                <%
+                                    if (modPaciente.getPeso() != null) {
+                                %>
+                                <input class="form-control" id="pesoPaciente" type="number" name="pesoPaciente" placeholder="Peso (kg)" value="<%out.print(modPaciente.getPeso());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="pesoPaciente" type="number" name="pesoPaciente" placeholder="Peso (kg)">
+                                <%
+                                    }
+                                %>
+
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="fechaNacimiento">Fecha de Nacimiento: </label>
                             <div class="">
+                                <%
+                                    if (modPaciente.getCumple() != null) {
+                                %>
+                                <input class="form-control" id="fechaNacimiento" type="date" name="fechaNacimiento" placeholder="Fecha" value="<%out.print(modPaciente.getCumple());%>">
+                                <%
+                                } else {
+                                %>
                                 <input class="form-control" id="fechaNacimiento" type="date" name="fechaNacimiento" placeholder="Fecha">
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
 
@@ -186,7 +496,6 @@
         tempPaciente.setPeso(conv.stringToDouble(peso));
         tempPaciente.setSangre(sangre);
         tempPaciente.setCumple(conv.stringToDate(fechaNacimiento));
-        
 
         System.out.println("Paciente Modificado: " + tempPaciente.toString());
         try {
@@ -196,7 +505,7 @@
             modificar.setConexion(cnx.getConexion());
             String respuesta = modificar.modificarPaciente(tempPaciente);
             if (respuesta.equals("")) {
-                request.getRequestDispatcher("../error.jsp?logroP=Se modifico con exito el laboratorista en el sistema").forward(request, response);
+                request.getRequestDispatcher("../error.jsp?logroP=Se modifico con exito el paciente en el sistema").forward(request, response);
             } else {
                 request.getRequestDispatcher("../error.jsp?errorP=" + respuesta).forward(request, response);
             }

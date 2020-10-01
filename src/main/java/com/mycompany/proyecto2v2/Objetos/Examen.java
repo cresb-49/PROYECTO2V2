@@ -72,7 +72,7 @@ public class Examen {
      * Retorna el costo del examen
      * @return 
      */
-    public double getCosto() {
+    public Double getCosto() {
         return costo;
     }
     /**

@@ -185,6 +185,7 @@ public class ModificacionDB {
             preSt.setString(3, examen.getDescripcion());
             preSt.setDouble(4, examen.getCosto());
             preSt.setString(5, examen.getInforme());
+            preSt.setLong(6, examen.getCodigo());
 
             preSt.executeUpdate();
         } catch (Exception e) {
