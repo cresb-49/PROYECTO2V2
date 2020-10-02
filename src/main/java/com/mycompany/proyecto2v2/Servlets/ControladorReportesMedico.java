@@ -84,16 +84,11 @@ public class ControladorReportesMedico extends HttpServlet {
                         System.out.println("Codigo: " + codigo);
                         List<Cita> citas = consultas.citasPacientes(codigoPaciente);
                         List<Resultado> resultados = consultas.resultadosPaciente(codigoPaciente);
-                        for(Cita res:citas){
-                            System.err.println(res.toString());
-                        }
-                        for(Resultado res:resultados){
-                            System.err.println(res.toString());
-                        }
-
-                        //req.setAttribute("citasPaciente", citas);
+                        req.setAttribute("citasPaciente", citas);
+                        req.setAttribute("resultadosPaciente", resultados);
+                        req.getRequestDispatcher("/Medico/historialPaciente.jsp").forward(req, resp);
                     } else {
-                        resp.sendRedirect(req.getContextPath() + "/Medico/mayorCantidad.jsp?error=Debe introducir un codigo numerico");
+                        resp.sendRedirect(req.getContextPath() + "/Medico/historialPaciente.jsp?error=Debe introducir un codigo numerico");
                     }
                 }
 

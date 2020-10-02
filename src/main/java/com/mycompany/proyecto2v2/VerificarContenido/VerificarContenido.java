@@ -546,8 +546,12 @@ public class VerificarContenido {
         if(!this.validarCodigoPaciente(resultado.getCodigo())){
             throw new AtributosIncompletos("El resultado no tiene un codigo de paciente no valido solo deben ser numeros");
         }
-        if(!this.validarCodigoDoctor(resultado.getCodigoMedico())){
-            throw new AtributosIncompletos("El resultado no tiene un codigo de medico no valido debe ser MED-XXX");
+        if(resultado.getCodigoMedico()!=null){
+            if(!resultado.getCodigoMedico().isEmpty()){
+                if(!this.validarCodigoDoctor(resultado.getCodigoMedico())){
+                    throw new AtributosIncompletos("El resultado no tiene un codigo de medico no valido debe ser MED-XXX");
+                }
+            }
         }
         if(!this.validarCodigoNumerico(resultado.getCodigoExamen())){
             throw new AtributosIncompletos("El resultado tiene un codigo de examen no valido deben ser solo numeros");
@@ -586,8 +590,12 @@ public class VerificarContenido {
         if(!this.validarCodigoPaciente(resultado.getCodigo())){
             throw new AtributosIncompletos("El resultado no tiene un codigo de paciente no valido solo deben ser numeros");
         }
-        if(!this.validarCodigoDoctor(resultado.getCodigoMedico())){
-            throw new AtributosIncompletos("El resultado no tiene un codigo de medico no valido debe ser MED-XXX");
+        if(resultado.getCodigoMedico()!=null){
+            if(!resultado.getCodigoMedico().isEmpty()){
+                if(!this.validarCodigoDoctor(resultado.getCodigoMedico())){
+                    throw new AtributosIncompletos("El resultado no tiene un codigo de medico no valido debe ser MED-XXX");
+                }
+            }
         }
         if(!this.validarCodigoNumerico(resultado.getCodigoExamen())){
             throw new AtributosIncompletos("El resultado tiene un codigo de examen no valido deben ser solo numeros");

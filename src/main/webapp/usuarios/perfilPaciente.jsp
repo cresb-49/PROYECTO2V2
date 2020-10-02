@@ -9,13 +9,10 @@
         <link rel="stylesheet" href="../css/estilos.css"/>
     </head>
     <body>
-        <%
-            String usuario = request.getParameter("usuario");
-        %>
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
-                <h2>BIENVENIDO A SU PERFIL DE USUARIO</h2>
+                <h2>BIENVENIDO PACIENTE: ${USER.codigoEntidad}</h2>
             </div>
         </header>
         <div class="container">
@@ -60,10 +57,6 @@
                 </li>
             </ul>
         </div>
-        <%
-            
-        %>
-        
         <footer>
             <div class="container">
                 <h3>© HOSPITAL 2020</h3>

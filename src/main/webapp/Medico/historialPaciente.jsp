@@ -50,25 +50,23 @@
 
         <div class="container">
             <div class="container">
-                <h5>REPORTES MEDICOS</h5>
+                <h5>CITAS MEDICAS</h5>
             </div>
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">Codigo Cita</th>
-                        <th scope="col">Paciente</th>
-                        <th scope="col">Codigo Paciente</th>
-                        <th scope="col">Hora</th>
+                        <th scope="col">Codigo Medico</th>
+                        <th scope="col">Fecha</th>
                         <th scope="col">Especialidad</th>
                     </tr>
                 <tbody>
                     <%-----ESTE DEBE SER EL BUCLE PARA LA IMPRECION DE LA INFROMACION----%>
-                    <c:forEach items="${citasAge}" var="cita">
+                    <c:forEach items="${citasPaciente}" var="cita">
                         <tr>
                             <td>${cita.codigo}</td>
-                            <td>${cita.nombrePaciente}</td>
-                            <td>${cita.codigoPaciente}</td>
-                            <td>${cita.hora}</td>
+                            <td>${cita.codigoMedico}</td>
+                            <td>${cita.fecha}</td>
                             <td>${cita.especialidad}</td>
                         </tr>
                     </c:forEach>
@@ -86,21 +84,21 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Codigo Cita</th>
-                        <th scope="col">Paciente</th>
-                        <th scope="col">Codigo Paciente</th>
-                        <th scope="col">Hora</th>
-                        <th scope="col">Especialidad</th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Codigo Laboratorista</th>
+                        <th scope="col">Codigo Medico</th>
+                        <th scope="col">Codigo Examen</th>
+                        <th scope="col">Fecha</th>
                     </tr>
                 <tbody>
                     <%-----ESTE DEBE SER EL BUCLE PARA LA IMPRECION DE LA INFROMACION----%>
-                    <c:forEach items="${citasAge}" var="cita">
+                    <c:forEach items="${resultadosPaciente}" var="lab">
                         <tr>
-                            <td>${cita.codigo}</td>
-                            <td>${cita.nombrePaciente}</td>
-                            <td>${cita.codigoPaciente}</td>
-                            <td>${cita.hora}</td>
-                            <td>${cita.especialidad}</td>
+                            <td>${lab.codigo}</td>
+                            <td>${lab.codigoLaboratorista}</td>
+                            <td>${lab.codigoMedico}</td>
+                            <td>${lab.codigoExamen}</td>
+                            <td>${lab.fecha}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

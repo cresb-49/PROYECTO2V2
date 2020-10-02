@@ -546,4 +546,5 @@ public class ConsultasDB {
         }
         return resultados;
     }
+    /////////-------------------------CONSULTAS LABORATORISTA
 }

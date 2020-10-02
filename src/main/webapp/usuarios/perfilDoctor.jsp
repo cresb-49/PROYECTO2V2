@@ -23,6 +23,7 @@
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
+                <h2>BIENVENIDO: ${USER.codigoEntidad}</h2>
             </div>
         </header>
         <div class="container">
