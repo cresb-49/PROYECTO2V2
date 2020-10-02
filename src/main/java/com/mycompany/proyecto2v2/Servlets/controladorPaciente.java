@@ -48,7 +48,7 @@ public class controladorPaciente extends HttpServlet {
                         req.setAttribute("cantidad", cantidad);
                         req.getRequestDispatcher("/AccionesPaciente/CantidadExamenesIntervalo.jsp").forward(req, resp);
                     } else {
-                        req.getRequestDispatcher("/AccionesPaciente/CantidadExamenesIntervalo.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/AccionesPaciente/CantidadExamenesIntervalo.jsp?error=Debe asignar un rengo de fechas para consultas").forward(req, resp);
                     }
 
                 }else if(reporte.equals("3")){
@@ -67,7 +67,7 @@ public class controladorPaciente extends HttpServlet {
                         req.setAttribute("canConsutlas", cantidadConsultas);
                         req.getRequestDispatcher("/AccionesPaciente/CantidadConsultasHechas.jsp").forward(req, resp);
                     }else{
-                        req.getRequestDispatcher("/AccionesPaciente/CantidadConsultasHechas.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/AccionesPaciente/CantidadConsultasHechas.jsp?error=Debe asignar un rengo de fechas para consultas").forward(req, resp);
                     }
                 }
 

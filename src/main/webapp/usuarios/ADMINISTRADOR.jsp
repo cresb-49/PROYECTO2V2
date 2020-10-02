@@ -38,53 +38,60 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Administrador</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="../ModificacionCreacion/editarAdmin.jsp">Editar</a>
-                        <a class="dropdown-item" href="../ModificacionCreacion/crearAdmin.jsp">Crear</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/editarAdmin.jsp">Editar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/crearAdmin.jsp">Crear</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Doctores</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="../ModificacionCreacion/editarDoctor.jsp">Editar</a>
-                        <a class="dropdown-item" href="../ModificacionCreacion/crearDoctor.jsp">Crear</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/editarDoctor.jsp">Editar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/crearDoctor.jsp">Crear</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Laboratorista</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="../ModificacionCreacion/editarLaboratorista.jsp">Editar</a>
-                        <a class="dropdown-item" href="../ModificacionCreacion/crearLaboratorista.jsp">Crear</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/editarLaboratorista.jsp">Editar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/crearLaboratorista.jsp">Crear</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Examenes</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="../ModificacionCreacion/editarExamen.jsp">Editar</a>
-                        <a class="dropdown-item" href="../ModificacionCreacion/crearExamen.jsp">Crear</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/editarExamen.jsp">Editar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/crearExamen.jsp">Crear</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Consultas</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="../ModificacionCreacion/modificarConsulta.jsp">Editar</a>
-                        <a class="dropdown-item" href="../ModificacionCreacion/crearModificarConsulta.jsp">Crear</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/modificarConsulta.jsp">Editar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/crearModificarConsulta.jsp">Crear</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Pacientes</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="../ModificacionCreacion/editarPaciente.jsp">Editar</a>
-                        <a class="dropdown-item" href="../ModificacionCreacion/crearPaciente.jsp">Crear</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/editarPaciente.jsp">Editar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ModificacionCreacion/crearPaciente.jsp">Crear</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../ModificacionCreacion/cargarXML.jsp">Cargar XML</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ModificacionCreacion/cargarXML.jsp">Cargar XML</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesAdmin?reporte=1">Los 10 medicos con mas informes</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesAdmin?reporte=2">Los 5 medicos con menor cantidad de citas</a>
+                        <a class="dropdown-item" href="">Los examenes de laboratorio mas demandados en un intervalo de tiempo</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesAdmin?reporte=4">Los medicos con mayor cantidad de examnes requeridos</a>
+                        <a class="dropdown-item" href="">Los 3 examenes mas requeridos en un intervalo de tiempo</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../Reportes/reportesAdmin.jsp">Reportes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.jsp">Cerrar sesion</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Cerrar sesion</a>
                 </li>
             </ul>
         </div>

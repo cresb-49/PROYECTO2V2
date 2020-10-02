@@ -736,4 +736,133 @@ public class ConsultasDB {
         }
         return cantidadconsultas;
     }
+
+    ////-------------------------------------------REPORTES DE ADMIN
+    /**
+     * RETORNA LOS MEDICOS CON MAS INFROMES EN EL HOSPITAL
+     * @return
+     */
+    public List<String[]> diezMedicosMasInforme (){
+        List<String[]> cantidadInformes = new ArrayList<>();
+        String consulta = "SELECT COUNT(MEDICO.codigo) AS cantidad ,MEDICO.nombre,MEDICO.codigo FROM MEDICO INNER JOIN REPORTE ON REPORTE.MEDICO_codigo = MEDICO.codigo GROUP BY MEDICO.codigo ORDER BY cantidad DESC LIMIT 10";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    cantidadInformes.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de diezMedicosMasInforme admin: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de diezMedicosMasInforme admin: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return cantidadInformes;
+    }
+
+    /**
+     * LOS 5 MEDICOS CON MENOR CANTIDAD DE CITAS
+     */
+    public List<String[]> cincoMedicosMenorCitas (){
+        List<String[]> cantidadInformes = new ArrayList<>();
+        String consulta = "SELECT COUNT(CITA.MEDICO_codigo) AS C,MEDICO.codigo,MEDICO.nombre FROM MEDICO INNER JOIN CITA WHERE MEDICO.codigo = CITA.MEDICO_codigo GROUP BY MEDICO.codigo ORDER BY C ASC LIMIT 5";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    cantidadInformes.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de cincoMedicosMenorCitas admin: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de cincoMedicosMenorCitas admin: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return cantidadInformes;
+    }
+    /**
+     * LOS EMDICOS QUE DEMANDAN MAS EXAMENES
+     * @return
+     */
+    public List<String[]> medicosQueDemandanMasExamenes(){
+        List<String[]> cantidadInformes = new ArrayList<>();
+        String consulta = "SELECT COUNT(RESULTADO.MEDICO_codigo) AS C, MEDICO.codigo,MEDICO.nombre  FROM RESULTADO INNER JOIN MEDICO ON RESULTADO.MEDICO_codigo = MEDICO.codigo GROUP BY MEDICO.codigo ORDER BY C DESC";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    cantidadInformes.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de medicosQueDemandanMasExamenes admin: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de medicosQueDemandanMasExamenes admin: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return cantidadInformes;
+    }
+
+    /**
+     * RETORNA LOS EXAMENES MAS DEMANDADOS EN UN INTERVALO DE TIEMPO
+     * @param fecha1
+     * @param fecha2
+     * @return
+     */
+    public List<String[]> examenesMasDemandadosEnTiempo(Date fecha1, Date fecha2){
+        List<String[]> cantidadInformes = new ArrayList<>();
+        String consulta = "SELECT COUNT(RESULTADO.EXAMEN_codigo) AS C, EXAMEN.codigo, EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.fecha BETWEEN ? AND ? GROUP BY EXAMEN.codigo ORDER BY C DESC";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()){
+                preSt.setDate(1, fecha1);
+                preSt.setDate(2, fecha2);
+                while (result.next()) {
+                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    cantidadInformes.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return cantidadInformes;
+    }
+    /**
+     * LOS TRES EXAMENES MAS DEMANDADOS ES UN INTERVALO DE TIEMPO
+     * @param fecha1
+     * @param fecha2
+     * @return
+     */
+    public List<String[]> TRESexamenesMasDemandadosEnTiempo(Date fecha1, Date fecha2){
+        List<String[]> cantidadInformes = new ArrayList<>();
+        String consulta = "SELECT COUNT(RESULTADO.EXAMEN_codigo) AS C, EXAMEN.codigo, EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.fecha BETWEEN ? AND ? GROUP BY EXAMEN.codigo ORDER BY C DESC LIMIT 3";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()){
+                preSt.setDate(1, fecha1);
+                preSt.setDate(2, fecha2);
+                while (result.next()) {
+                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    cantidadInformes.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return cantidadInformes;
+    }
+
+
+
 }
