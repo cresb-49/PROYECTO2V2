@@ -635,8 +635,8 @@ public class ConsultasDB {
      * @param fecha2
      * @return
      */
-    public List<Resultado> examenesRealizadosEnIntervalo (String codigoPaciente, Date fecha1, Date fecha2){
-        List<Resultado> resultados = new ArrayList<>();
+    public List<String[]> CantidadExamenesRealizadosEnIntervalo (String codigoPaciente, Date fecha1, Date fecha2){
+        List<String[]> resultados = new ArrayList<>();
         String consulta = "SELECT COUNT(EXAMEN_codigo) AS ex,EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.PACIENTE_codigo= ? AND RESULTADO.fecha BETWEEN ? AND ? GROUP BY EXAMEN.codigo ORDER BY ex DESC";
         try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoPaciente);
@@ -644,14 +644,15 @@ public class ConsultasDB {
             preSt.setDate(3, fecha2);
             try (ResultSet result = preSt.executeQuery()){
                 while (result.next()) {
-                    resultados.add( new Resultado(result.getLong(1), result.getLong(3), result.getLong(2), null, null, null, null, null, this.conv.stringToTime( result.getString(4))));
+                    String[] temp = {result.getString(1),result.getString(2)};
+                    resultados.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de resultadosHechos lab: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de CantidadExamenesRealizadosEnIntervalo paciente: "+e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de resultadosHechos lab: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de CantidadExamenesRealizadosEnIntervalo paciente: "+e.getMessage());
             e.printStackTrace();
         }
         return resultados;
@@ -718,6 +719,8 @@ public class ConsultasDB {
         String consulta = "SELECT COUNT(CITA.MEDICO_codigo),MEDICO.nombre,MEDICO.codigo FROM CITA INNER JOIN MEDICO ON CITA.MEDICO_codigo = MEDICO.codigo AND CITA.PACIENTE_codigo = ? AND CITA.fecha BETWEEN ? AND ? GROUP BY MEDICO.codigo ORDER BY CITA.fecha DESC";
         try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoPaciente);
+            preSt.setDate(2, fecha1);
+            preSt.setDate(3, fecha2);
             try (ResultSet result = preSt.executeQuery()){
                 while (result.next()) {
                     String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
