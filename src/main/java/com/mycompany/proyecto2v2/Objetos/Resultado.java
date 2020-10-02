@@ -16,6 +16,18 @@ public class Resultado {
     private Archivo informe = new Archivo();
     private Date fecha;
     private Time hora;
+
+    public Resultado(Long codigo, Long codigoPaciente, Long codigoExamen, String codigoMedico, String codigoLaboratorista, String NombreOrden, String NombreInforme, Date fecha, Time hora) {
+        this.codigo = codigo;
+        this.codigoPaciente = codigoPaciente;
+        this.codigoExamen = codigoExamen;
+        this.codigoMedico = codigoMedico;
+        this.codigoLaboratorista = codigoLaboratorista;
+        this.NombreOrden = NombreOrden;
+        this.NombreInforme = NombreInforme;
+        this.fecha = fecha;
+        this.hora = hora;
+    }
     
     public Resultado(){
         

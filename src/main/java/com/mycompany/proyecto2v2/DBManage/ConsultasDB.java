@@ -2,10 +2,15 @@ package com.mycompany.proyecto2v2.DBManage;
 
 import com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables;
 import com.mycompany.proyecto2v2.Objetos.*;
+import com.mycompany.proyecto2v2.QueryObjets.QueryCita;
+import com.mycompany.proyecto2v2.QueryObjets.QueryPaciente;
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -404,5 +409,141 @@ public class ConsultasDB {
             usuario.setCodigoEntidad(usuario.getEmail());
         }
         return usuario;
+    }
+    ////---------------------------------------REPORTES DE MEDICO---------------------------
+    /**
+     * RETORNA LAS CITAS EN UN INTERVALO DE TIEMPO DETERMINADO SEGUN EL MEDICO QEU REALIZA LA CONSULTA
+     * @param codigoMedico
+     * @param fecha1
+     * @param fecha2
+     * @return
+     */
+    public List<QueryCita> citasAgendadasIntevaloTiempo(String codigoMedico,Date fecha1, Date fecha2){
+        List<QueryCita> citas = new ArrayList<>();
+        String consulta = "SELECT CITA.codigo,PACIENTE.nombre,PACIENTE.codigo,CITA.hora,CITA.especialidad FROM CITA INNER JOIN PACIENTE ON MEDICO_codigo = ? AND CITA.PACIENTE_codigo=PACIENTE.codigo AND fecha BETWEEN ? AND ? ORDER BY hora ASC";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoMedico);
+            preSt.setDate(2, fecha1);
+            preSt.setDate(3, fecha2);
+            
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    citas.add(new QueryCita(result.getLong(1),result.getString(2), result.getLong(3), this.conv.stringToTime(result.getString(4)), result.getString(5)));
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de citas por medico e intevalo fechas: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("2- Error en la recuperacion de citas por medico e intevalo fechas: "+e.getMessage());
+            e.printStackTrace();
+        }
+
+        return citas;
+    }
+    /**
+     * RETORNA LAS CITAS SEGUN LA FECHA Y EL CODIGO DEL MEDICO QUIEN REALIZA LA CONSULTA
+     * @param codigoMedico
+     * @param fecha
+     * @return
+     */
+    public List<QueryCita> citasAgendadasDia(String codigoMedico,Date fecha){
+        List<QueryCita> citas = new ArrayList<>();
+        String consulta = "SELECT CITA.codigo,PACIENTE.nombre,PACIENTE.codigo,CITA.hora,CITA.especialidad FROM CITA INNER JOIN PACIENTE ON MEDICO_codigo = ? AND CITA.PACIENTE_codigo=PACIENTE.codigo AND fecha = ? ORDER BY hora ASC";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoMedico);
+            preSt.setDate(2, fecha);
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    citas.add(new QueryCita(result.getLong(1),result.getString(2), result.getLong(3), this.conv.stringToTime(result.getString(4)), result.getString(5)));
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de citas por medico dia en curso: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de citas por medico dia en curso: "+e.getMessage());
+            e.printStackTrace();
+        }
+
+        return citas;
+    }
+
+    /**
+     * RETORNA LOS PACIENTES CON MAYOR CANTIDAD DE REPORTES MEDICOS EN UN INTERVALO DE TIEMPO
+     * @param fecha1
+     * @param fecha2
+     * @return
+     */
+    public List<QueryPaciente> pacientesConMasReportes (Date fecha1, Date fecha2){
+        List<QueryPaciente> pacientes = new ArrayList<>();
+        String consulta = "SELECT COUNT(PACIENTE_codigo) AS cantidad,PACIENTE.nombre,PACIENTE.codigo FROM REPORTE INNER JOIN PACIENTE ON PACIENTE.codigo = REPORTE.PACIENTE_codigo AND REPORTE.fecha BETWEEN ? AND ? GROUP BY PACIENTE.nombre ORDER BY cantidad DESC";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setDate(1, fecha1);
+            preSt.setDate(2, fecha2);
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    pacientes.add( new QueryPaciente(result.getLong(1), result.getString(2), result.getLong(3)));
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de pacientes con mas reportes: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de pacientes con mas reportes: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return pacientes;
+    }
+
+    /**
+     * RETORNA LAS CITAS DE UN PACIENTE EN ESPECIFICO SEGUN SU CODIGO DE IDENTIFIACION EN LA BASE DE DATOS
+     * @param codigoPaciente
+     * @return
+     */
+    public List<Cita> citasPacientes (String codigoPaciente){
+        List<Cita> citas = new ArrayList<>();
+        String consulta = "SELECT CITA.codigo,CITA.MEDICO_codigo,CITA.fecha,CITA.especialidad FROM CITA WHERE PACIENTE_codigo = ?";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoPaciente);
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    citas.add(new Cita(result.getLong(1), this.conv.stringToLong(codigoPaciente), result.getString(2), result.getString(4), result.getDate(3), null));
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return citas;
+    }
+    /**
+     * RETORNO DE LOS RESULTADOS DE UN PACIENTE EN ESPECIFICO EN EL SISTEMA
+     * @param codigoPaciente
+     * @return
+     */
+    public List<Resultado> resultadosPaciente (String codigoPaciente){
+        List<Resultado> resultados = new ArrayList<>();
+        String consulta = "SELECT R.codigo,R.LABORATORISTA_codigo,R.MEDICO_codigo,R.EXAMEN_codigo,R.fecha,R.nombre_informe,R.informe FROM RESULTADO AS R WHERE PACIENTE_codigo =?";
+        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoPaciente);
+            try (ResultSet result = preSt.executeQuery()){
+                while (result.next()) {
+                    Resultado temp = new Resultado(result.getLong(1), this.conv.stringToLong(codigoPaciente), result.getLong(4), result.getString(3), result.getString(2), null, result.getString(6), result.getDate(5), null);
+                    temp.setInforme(new Archivo(temp.getNombreInforme(), result.getBinaryStream(7)));
+                    resultados.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de resultados paciente: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de resultados paciente: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return resultados;
     }
 }

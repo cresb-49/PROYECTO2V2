@@ -15,6 +15,15 @@ public class Cita {
         
     }
 
+    public Cita(Long codigo, Long codigoPaciente, String codigoMedico, String especialidad, Date fecha, Time hora) {
+        this.codigo = codigo;
+        this.codigoPaciente = codigoPaciente;
+        this.codigoMedico = codigoMedico;
+        this.especialidad = especialidad;
+        this.fecha = fecha;
+        this.hora = hora;
+    }
+    
     public Long getCodigo() {
         return codigo;
     }

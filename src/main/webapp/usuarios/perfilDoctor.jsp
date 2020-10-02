@@ -6,8 +6,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DOCTOR</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <link rel="stylesheet" href="../css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css"/>
+        <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/comportamientoPerfiles.js" ></script>
     </head>
     <%
         usuarioSistema user = (usuarioSistema)session.getAttribute("USER");
@@ -26,24 +30,24 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Consultar Historial Paciente</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Paciente en Especifico</a>
-                        <a class="dropdown-item" href="../reportesMedico/mayorCantidad.jsp">Pacientes en General</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/Medico/historialPaciente.jsp">Paciente en especifico</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/Medico/mayorCantidad.jsp">Pacientes con mas reportes</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Citas Agendadas</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Consultar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/Medico/citasAgendadas.jsp">Consultar</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Generar Reporte de Cita</a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Citas del Dia</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Redactar</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/Medico/citasDiaCurso.jsp">Consultar</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../index.jsp">Cerrar sesion</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Cerrar sesion</a>
                 </li>
             </ul>
         </div>
@@ -56,9 +60,5 @@
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
-        <script src="../js/jquery-3.5.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/comportamientoPerfiles.js" ></script>
     </body>
 </html>
