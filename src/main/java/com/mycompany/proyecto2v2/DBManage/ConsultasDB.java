@@ -104,6 +104,7 @@ public class ConsultasDB {
         }
         return examen;
     }
+
     /**
      * Obtiene una consulta segun nombre de la consulta
      *
@@ -131,6 +132,7 @@ public class ConsultasDB {
         }
         return consulta;
     }
+
     /**
      * REALIZA LA BUSQUEDA DE UN ADMINISTRADOR SEGUN CODIGO DE IDENTIFICACION
      *
@@ -325,10 +327,12 @@ public class ConsultasDB {
         }
         return consulta;
     }
+
     /**
      * RETORNA EL PACIENTE SEGUN EL CODIGO DEL PACIENTE
+     *
      * @param codigoPaciente
-     * @return 
+     * @return
      */
     public Paciente retornarPaciente(String codigoPaciente) {
         Paciente paciente = new Paciente();
@@ -356,13 +360,15 @@ public class ConsultasDB {
 
         return paciente;
     }
+
     /**
      * Retorna el codigo dependiente de usuario segun su usuarioSistema
+     *
      * @return
      */
-    public usuarioSistema retornoCodigoDependiente(usuarioSistema usuario){
-        String consulta="";
-        if(usuario.getRol().equals("paciente")){
+    public usuarioSistema retornoCodigoDependiente(usuarioSistema usuario) {
+        String consulta = "";
+        if (usuario.getRol().equals("paciente")) {
             consulta = "SELECT codigo FROM PACIENTE WHERE id_USUARIO = ?";
             try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
                 preSt.setLong(1, usuario.getCodigoReferencia());
@@ -377,7 +383,7 @@ public class ConsultasDB {
                 System.out.println("Error asignacion de codigo" + e.getMessage());
             }
         }
-        if(usuario.getRol().equals("doctor")){
+        if (usuario.getRol().equals("doctor")) {
             consulta = "SELECT codigo FROM MEDICO WHERE id_USUARIO = ?";
             try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
                 preSt.setLong(1, usuario.getCodigoReferencia());
@@ -392,7 +398,7 @@ public class ConsultasDB {
                 System.out.println("Error asignacion de codigo" + e.getMessage());
             }
         }
-        if(usuario.getRol().equals("laboratorista")){
+        if (usuario.getRol().equals("laboratorista")) {
             consulta = "SELECT codigo FROM LABORATORISTA WHERE id_USUARIO = ?";
             try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
                 preSt.setLong(1, usuario.getCodigoReferencia());
@@ -407,64 +413,70 @@ public class ConsultasDB {
                 System.out.println("Error asignacion de codigo" + e.getMessage());
             }
         }
-        if(usuario.getRol().equals("admin")){
+        if (usuario.getRol().equals("admin")) {
             usuario.setCodigoEntidad(usuario.getEmail());
         }
         return usuario;
     }
+
     ////---------------------------------------REPORTES DE MEDICO---------------------------
     /**
-     * RETORNA LAS CITAS EN UN INTERVALO DE TIEMPO DETERMINADO SEGUN EL MEDICO QEU REALIZA LA CONSULTA
+     * RETORNA LAS CITAS EN UN INTERVALO DE TIEMPO DETERMINADO SEGUN EL MEDICO
+     * QEU REALIZA LA CONSULTA
+     *
      * @param codigoMedico
      * @param fecha1
      * @param fecha2
      * @return
      */
-    public List<QueryCita> citasAgendadasIntevaloTiempo(String codigoMedico,Date fecha1, Date fecha2){
+    public List<QueryCita> citasAgendadasIntevaloTiempo(String codigoMedico, Date fecha1, Date fecha2) {
         List<QueryCita> citas = new ArrayList<>();
         String consulta = "SELECT CITA.codigo,PACIENTE.nombre,PACIENTE.codigo,CITA.hora,CITA.especialidad FROM CITA INNER JOIN PACIENTE ON MEDICO_codigo = ? AND CITA.PACIENTE_codigo=PACIENTE.codigo AND fecha BETWEEN ? AND ? ORDER BY hora ASC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoMedico);
             preSt.setDate(2, fecha1);
             preSt.setDate(3, fecha2);
-            
-            try (ResultSet result = preSt.executeQuery()){
+
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    citas.add(new QueryCita(result.getLong(1),result.getString(2), result.getLong(3), this.conv.stringToTime(result.getString(4)), result.getString(5)));
+                    citas.add(new QueryCita(result.getLong(1), result.getString(2), result.getLong(3), this.conv.stringToTime(result.getString(4)), result.getString(5)));
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de citas por medico e intevalo fechas: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de citas por medico e intevalo fechas: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("2- Error en la recuperacion de citas por medico e intevalo fechas: "+e.getMessage());
+            System.out.println("2- Error en la recuperacion de citas por medico e intevalo fechas: " + e.getMessage());
             e.printStackTrace();
         }
 
         return citas;
     }
+
     /**
-     * RETORNA LAS CITAS SEGUN LA FECHA Y EL CODIGO DEL MEDICO QUIEN REALIZA LA CONSULTA
+     * RETORNA LAS CITAS SEGUN LA FECHA Y EL CODIGO DEL MEDICO QUIEN REALIZA LA
+     * CONSULTA
+     *
      * @param codigoMedico
      * @param fecha
      * @return
      */
-    public List<QueryCita> citasAgendadasDia(String codigoMedico,Date fecha){
+    public List<QueryCita> citasAgendadasDia(String codigoMedico, Date fecha) {
         List<QueryCita> citas = new ArrayList<>();
         String consulta = "SELECT CITA.codigo,PACIENTE.nombre,PACIENTE.codigo,CITA.hora,CITA.especialidad FROM CITA INNER JOIN PACIENTE ON MEDICO_codigo = ? AND CITA.PACIENTE_codigo=PACIENTE.codigo AND fecha = ? ORDER BY hora ASC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoMedico);
             preSt.setDate(2, fecha);
-            try (ResultSet result = preSt.executeQuery()){
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    citas.add(new QueryCita(result.getLong(1),result.getString(2), result.getLong(3), this.conv.stringToTime(result.getString(4)), result.getString(5)));
+                    citas.add(new QueryCita(result.getLong(1), result.getString(2), result.getLong(3), this.conv.stringToTime(result.getString(4)), result.getString(5)));
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de citas por medico dia en curso: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de citas por medico dia en curso: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de citas por medico dia en curso: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de citas por medico dia en curso: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -472,238 +484,255 @@ public class ConsultasDB {
     }
 
     /**
-     * RETORNA LOS PACIENTES CON MAYOR CANTIDAD DE REPORTES MEDICOS EN UN INTERVALO DE TIEMPO
+     * RETORNA LOS PACIENTES CON MAYOR CANTIDAD DE REPORTES MEDICOS EN UN
+     * INTERVALO DE TIEMPO
+     *
      * @param fecha1
      * @param fecha2
      * @return
      */
-    public List<QueryPaciente> pacientesConMasReportes (Date fecha1, Date fecha2){
+    public List<QueryPaciente> pacientesConMasReportes(Date fecha1, Date fecha2) {
         List<QueryPaciente> pacientes = new ArrayList<>();
         String consulta = "SELECT COUNT(PACIENTE_codigo) AS cantidad,PACIENTE.nombre,PACIENTE.codigo FROM REPORTE INNER JOIN PACIENTE ON PACIENTE.codigo = REPORTE.PACIENTE_codigo AND REPORTE.fecha BETWEEN ? AND ? GROUP BY PACIENTE.nombre ORDER BY cantidad DESC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setDate(1, fecha1);
             preSt.setDate(2, fecha2);
-            try (ResultSet result = preSt.executeQuery()){
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    pacientes.add( new QueryPaciente(result.getLong(1), result.getString(2), result.getLong(3)));
+                    pacientes.add(new QueryPaciente(result.getLong(1), result.getString(2), result.getLong(3)));
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de pacientes con mas reportes: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de pacientes con mas reportes: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de pacientes con mas reportes: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de pacientes con mas reportes: " + e.getMessage());
             e.printStackTrace();
         }
         return pacientes;
     }
 
     /**
-     * RETORNA LAS CITAS DE UN PACIENTE EN ESPECIFICO SEGUN SU CODIGO DE IDENTIFIACION EN LA BASE DE DATOS
+     * RETORNA LAS CITAS DE UN PACIENTE EN ESPECIFICO SEGUN SU CODIGO DE
+     * IDENTIFIACION EN LA BASE DE DATOS
+     *
      * @param codigoPaciente
      * @return
      */
-    public List<Cita> citasPacientes (String codigoPaciente){
+    public List<Cita> citasPacientes(String codigoPaciente) {
         List<Cita> citas = new ArrayList<>();
         String consulta = "SELECT CITA.codigo,CITA.MEDICO_codigo,CITA.fecha,CITA.especialidad FROM CITA WHERE PACIENTE_codigo = ?";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoPaciente);
-            try (ResultSet result = preSt.executeQuery()){
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
                     citas.add(new Cita(result.getLong(1), this.conv.stringToLong(codigoPaciente), result.getString(2), result.getString(4), result.getDate(3), null));
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de citas paciente: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de citas paciente: " + e.getMessage());
             e.printStackTrace();
         }
         return citas;
     }
+
     /**
      * RETORNO DE LOS RESULTADOS DE UN PACIENTE EN ESPECIFICO EN EL SISTEMA
+     *
      * @param codigoPaciente
      * @return
      */
-    public List<Resultado> resultadosPaciente (String codigoPaciente){
+    public List<Resultado> resultadosPaciente(String codigoPaciente) {
         List<Resultado> resultados = new ArrayList<>();
         String consulta = "SELECT R.codigo,R.LABORATORISTA_codigo,R.MEDICO_codigo,R.EXAMEN_codigo,R.fecha,R.nombre_informe,R.informe FROM RESULTADO AS R WHERE PACIENTE_codigo =?";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoPaciente);
-            try (ResultSet result = preSt.executeQuery()){
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
                     Resultado temp = new Resultado(result.getLong(1), this.conv.stringToLong(codigoPaciente), result.getLong(4), result.getString(3), result.getString(2), null, result.getString(6), result.getDate(5), null);
                     temp.setInforme(new Archivo(result.getString(6), result.getBinaryStream(7)));
                     resultados.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de resultados paciente: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de resultados paciente: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de resultados paciente: "+e.getMessage());
-            e.printStackTrace();
-        }
-        return resultados;
-    }
-    /////////-------------------------CONSULTAS LABORATORISTA--------------------------
-    /**
-     * RECUPERA LA SOLICITUDES PARA PROCESAR
-     * @param codigoLab
-     * @return
-     */
-    public List<SolicitudExamen> solicitudesExamen(String codigoLab,Date fecha){
-        List<SolicitudExamen> solicitudExamen = new ArrayList<>();
-        String consulta = "SELECT * FROM SOLUCITUD_EXAMEN WHERE LABORATORISTA_codigo = ? AND fecha =?";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            preSt.setString(1, codigoLab);
-            preSt.setDate(2, fecha);
-            try (ResultSet result = preSt.executeQuery()){
-                while (result.next()) {
-                    SolicitudExamen temp = new SolicitudExamen(result.getLong(1),result.getLong(7), result.getLong(5), result.getString(8), result.getString(6), result.getDate(4));
-                    temp.setOrden(new Archivo(result.getString(2), result.getBinaryStream(3)));
-                    solicitudExamen.add(temp);
-                }
-            } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de solicitudesExamen lab: "+e.getMessage());
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de solicitudesExamen lab: "+e.getMessage());
-            e.printStackTrace();
-        }
-        return solicitudExamen;
-    }
-    /**
-     * EXAMENES PROCESADOS SEGUN EL DIA Y LABORATORISTA DE ENTRADA
-     * @param codigoLab
-     * @param fecha
-     * @return
-     */
-    public List<Resultado> resultadosHechos(String codigoLab, Date fecha){
-        List<Resultado> resultados = new ArrayList<>();
-        String consulta = "SELECT R.codigo,R.EXAMEN_codigo,R.PACIENTE_codigo,R.hora FROM RESULTADO AS R WHERE LABORATORISTA_codigo = ? AND fecha = ? ORDER BY hora ASC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            preSt.setString(1, codigoLab);
-            preSt.setDate(2, fecha);
-            try (ResultSet result = preSt.executeQuery()){
-                while (result.next()) {
-                    resultados.add( new Resultado(result.getLong(1), result.getLong(3), result.getLong(2), null, codigoLab, null, null, fecha, this.conv.stringToTime( result.getString(4))));
-                }
-            } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de resultadosHechos lab: "+e.getMessage());
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de resultadosHechos lab: "+e.getMessage());
-            e.printStackTrace();
-        }
-        return resultados;
-    }
-    /**
-     * LAS 10 FECHAS CON MAS TRABAJO
-     * @param codigoLab
-     * @return
-     */
-    public List<String[]> cantidadResultadosHechos(String codigoLab){
-        List<String[]> cantidad = new ArrayList<>();
-        String consulta = "SELECT COUNT(fecha) AS cantidad,fecha FROM RESULTADO WHERE LABORATORISTA_codigo = ? GROUP BY fecha ORDER BY cantidad DESC LIMIT 10";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            preSt.setString(1, codigoLab);
-            try (ResultSet result = preSt.executeQuery()){
-                while (result.next()) {
-                    String[] temp = {result.getString(1),result.getString(2)};
-                    cantidad.add(temp);
-                }
-            } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de resultadosHechos lab: "+e.getMessage());
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de resultadosHechos lab: "+e.getMessage());
-            e.printStackTrace();
-        }
-        return cantidad;
-    }
-    ///-------------------------------------------------------------PACIENTE
-    /**
-     * 
-     * @param codigoPaciente
-     * @param fecha1
-     * @param fecha2
-     * @return
-     */
-    public List<String[]> CantidadExamenesRealizadosEnIntervalo (String codigoPaciente, Date fecha1, Date fecha2){
-        List<String[]> resultados = new ArrayList<>();
-        String consulta = "SELECT COUNT(EXAMEN_codigo) AS ex,EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.PACIENTE_codigo= ? AND RESULTADO.fecha BETWEEN ? AND ? GROUP BY EXAMEN.codigo ORDER BY ex DESC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            preSt.setString(1, codigoPaciente);
-            preSt.setDate(2, fecha1);
-            preSt.setDate(3, fecha2);
-            try (ResultSet result = preSt.executeQuery()){
-                while (result.next()) {
-                    String[] temp = {result.getString(1),result.getString(2)};
-                    resultados.add(temp);
-                }
-            } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de CantidadExamenesRealizadosEnIntervalo paciente: "+e.getMessage());
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de CantidadExamenesRealizadosEnIntervalo paciente: "+e.getMessage());
-            e.printStackTrace();
-        }
-        return resultados;
-    }
-    /**
-     * RETORNO DE LOS RESULTADOS DE UN PACIENTE EN ESPECIFICO EN EL SISTEMA
-     * @param codigoPaciente
-     * @return
-     */
-    public List<Resultado> ultimos5ResultadosPaciente (String codigoPaciente){
-        List<Resultado> resultados = new ArrayList<>();
-        String consulta = "SELECT R.codigo,R.LABORATORISTA_codigo,R.MEDICO_codigo,R.EXAMEN_codigo,R.fecha,R.nombre_informe,R.informe FROM RESULTADO AS R WHERE PACIENTE_codigo =? ORDER BY R.fecha DESC LIMIT 5";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            preSt.setString(1, codigoPaciente);
-            try (ResultSet result = preSt.executeQuery()){
-                while (result.next()) {
-                    Resultado temp = new Resultado(result.getLong(1), this.conv.stringToLong(codigoPaciente), result.getLong(4), result.getString(3), result.getString(2), null, result.getString(6), result.getDate(5), null);
-                    temp.setInforme(new Archivo(result.getString(6), result.getBinaryStream(7)));
-                    resultados.add(temp);
-                }
-            } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de resultados paciente: "+e.getMessage());
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de resultados paciente: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de resultados paciente: " + e.getMessage());
             e.printStackTrace();
         }
         return resultados;
     }
 
-     /**
-     * RETORNA LAS CITAS DE UN PACIENTE EN ESPECIFICO SEGUN SU CODIGO DE IDENTIFIACION EN LA BASE DE DATOS
+    /////////-------------------------CONSULTAS LABORATORISTA--------------------------
+    /**
+     * RECUPERA LA SOLICITUDES PARA PROCESAR
+     *
+     * @param codigoLab
+     * @return
+     */
+    public List<SolicitudExamen> solicitudesExamen(String codigoLab, Date fecha) {
+        List<SolicitudExamen> solicitudExamen = new ArrayList<>();
+        String consulta = "SELECT * FROM SOLUCITUD_EXAMEN WHERE LABORATORISTA_codigo = ? AND fecha =?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoLab);
+            preSt.setDate(2, fecha);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    SolicitudExamen temp = new SolicitudExamen(result.getLong(1), result.getLong(7), result.getLong(5), result.getString(8), result.getString(6), result.getDate(4));
+                    temp.setOrden(new Archivo(result.getString(2), result.getBinaryStream(3)));
+                    solicitudExamen.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de solicitudesExamen lab: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de solicitudesExamen lab: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return solicitudExamen;
+    }
+
+    /**
+     * EXAMENES PROCESADOS SEGUN EL DIA Y LABORATORISTA DE ENTRADA
+     *
+     * @param codigoLab
+     * @param fecha
+     * @return
+     */
+    public List<Resultado> resultadosHechos(String codigoLab, Date fecha) {
+        List<Resultado> resultados = new ArrayList<>();
+        String consulta = "SELECT R.codigo,R.EXAMEN_codigo,R.PACIENTE_codigo,R.hora FROM RESULTADO AS R WHERE LABORATORISTA_codigo = ? AND fecha = ? ORDER BY hora ASC";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoLab);
+            preSt.setDate(2, fecha);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    resultados.add(new Resultado(result.getLong(1), result.getLong(3), result.getLong(2), null, codigoLab, null, null, fecha, this.conv.stringToTime(result.getString(4))));
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de resultadosHechos lab: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de resultadosHechos lab: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return resultados;
+    }
+
+    /**
+     * LAS 10 FECHAS CON MAS TRABAJO
+     *
+     * @param codigoLab
+     * @return
+     */
+    public List<String[]> cantidadResultadosHechos(String codigoLab) {
+        List<String[]> cantidad = new ArrayList<>();
+        String consulta = "SELECT COUNT(fecha) AS cantidad,fecha FROM RESULTADO WHERE LABORATORISTA_codigo = ? GROUP BY fecha ORDER BY cantidad DESC LIMIT 10";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoLab);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    String[] temp = {result.getString(1), result.getString(2)};
+                    cantidad.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de resultadosHechos lab: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de resultadosHechos lab: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return cantidad;
+    }
+
+    ///-------------------------------------------------------------PACIENTE
+    /**
+     *
+     * @param codigoPaciente
+     * @param fecha1
+     * @param fecha2
+     * @return
+     */
+    public List<String[]> CantidadExamenesRealizadosEnIntervalo(String codigoPaciente, Date fecha1, Date fecha2) {
+        List<String[]> resultados = new ArrayList<>();
+        String consulta = "SELECT COUNT(EXAMEN_codigo) AS ex,EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.PACIENTE_codigo= ? AND RESULTADO.fecha BETWEEN ? AND ? GROUP BY EXAMEN.codigo ORDER BY ex DESC";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoPaciente);
+            preSt.setDate(2, fecha1);
+            preSt.setDate(3, fecha2);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    String[] temp = {result.getString(1), result.getString(2)};
+                    resultados.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de CantidadExamenesRealizadosEnIntervalo paciente: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de CantidadExamenesRealizadosEnIntervalo paciente: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return resultados;
+    }
+
+    /**
+     * RETORNO DE LOS RESULTADOS DE UN PACIENTE EN ESPECIFICO EN EL SISTEMA
+     *
      * @param codigoPaciente
      * @return
      */
-    public List<Cita> ultimas5CitasPacientes (String codigoPaciente){
+    public List<Resultado> ultimos5ResultadosPaciente(String codigoPaciente) {
+        List<Resultado> resultados = new ArrayList<>();
+        String consulta = "SELECT R.codigo,R.LABORATORISTA_codigo,R.MEDICO_codigo,R.EXAMEN_codigo,R.fecha,R.nombre_informe,R.informe FROM RESULTADO AS R WHERE PACIENTE_codigo =? ORDER BY R.fecha DESC LIMIT 5";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoPaciente);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    Resultado temp = new Resultado(result.getLong(1), this.conv.stringToLong(codigoPaciente), result.getLong(4), result.getString(3), result.getString(2), null, result.getString(6), result.getDate(5), null);
+                    temp.setInforme(new Archivo(result.getString(6), result.getBinaryStream(7)));
+                    resultados.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de resultados paciente: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de resultados paciente: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return resultados;
+    }
+
+    /**
+     * RETORNA LAS CITAS DE UN PACIENTE EN ESPECIFICO SEGUN SU CODIGO DE
+     * IDENTIFIACION EN LA BASE DE DATOS
+     *
+     * @param codigoPaciente
+     * @return
+     */
+    public List<Cita> ultimas5CitasPacientes(String codigoPaciente) {
         List<Cita> citas = new ArrayList<>();
         String consulta = "SELECT CITA.codigo,CITA.MEDICO_codigo,CITA.fecha,CITA.especialidad FROM CITA WHERE PACIENTE_codigo = ? ORDER BY CITA.fecha DESC LIMIT 5 ";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoPaciente);
-            try (ResultSet result = preSt.executeQuery()){
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
                     citas.add(new Cita(result.getLong(1), this.conv.stringToLong(codigoPaciente), result.getString(2), result.getString(4), result.getDate(3), null));
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de citas paciente: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de citas paciente: " + e.getMessage());
             e.printStackTrace();
         }
         return citas;
@@ -711,27 +740,28 @@ public class ConsultasDB {
 
     /**
      * CONSULTAS REALIZADAS CON UN MEDICO EN ESPECIFICO EN INTERVALO DE TIMEPO
+     *
      * @param codigoPaciente
      * @return
      */
-    public List<String[]> consultasConMedico (String codigoPaciente, Date fecha1, Date fecha2){
+    public List<String[]> consultasConMedico(String codigoPaciente, Date fecha1, Date fecha2) {
         List<String[]> cantidadconsultas = new ArrayList<>();
         String consulta = "SELECT COUNT(CITA.MEDICO_codigo),MEDICO.nombre,MEDICO.codigo FROM CITA INNER JOIN MEDICO ON CITA.MEDICO_codigo = MEDICO.codigo AND CITA.PACIENTE_codigo = ? AND CITA.fecha BETWEEN ? AND ? GROUP BY MEDICO.codigo ORDER BY CITA.fecha DESC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             preSt.setString(1, codigoPaciente);
             preSt.setDate(2, fecha1);
             preSt.setDate(3, fecha2);
-            try (ResultSet result = preSt.executeQuery()){
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadconsultas.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de citas paciente: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de citas paciente: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de citas paciente: " + e.getMessage());
             e.printStackTrace();
         }
         return cantidadconsultas;
@@ -740,23 +770,24 @@ public class ConsultasDB {
     ////-------------------------------------------REPORTES DE ADMIN
     /**
      * RETORNA LOS MEDICOS CON MAS INFROMES EN EL HOSPITAL
+     *
      * @return
      */
-    public List<String[]> diezMedicosMasInforme (){
+    public List<String[]> diezMedicosMasInforme() {
         List<String[]> cantidadInformes = new ArrayList<>();
         String consulta = "SELECT COUNT(MEDICO.codigo) AS cantidad ,MEDICO.nombre,MEDICO.codigo FROM MEDICO INNER JOIN REPORTE ON REPORTE.MEDICO_codigo = MEDICO.codigo GROUP BY MEDICO.codigo ORDER BY cantidad DESC LIMIT 10";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            try (ResultSet result = preSt.executeQuery()){
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadInformes.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de diezMedicosMasInforme admin: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de diezMedicosMasInforme admin: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de diezMedicosMasInforme admin: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de diezMedicosMasInforme admin: " + e.getMessage());
             e.printStackTrace();
         }
         return cantidadInformes;
@@ -765,44 +796,46 @@ public class ConsultasDB {
     /**
      * LOS 5 MEDICOS CON MENOR CANTIDAD DE CITAS
      */
-    public List<String[]> cincoMedicosMenorCitas (){
+    public List<String[]> cincoMedicosMenorCitas() {
         List<String[]> cantidadInformes = new ArrayList<>();
         String consulta = "SELECT COUNT(CITA.MEDICO_codigo) AS C,MEDICO.codigo,MEDICO.nombre FROM MEDICO INNER JOIN CITA WHERE MEDICO.codigo = CITA.MEDICO_codigo GROUP BY MEDICO.codigo ORDER BY C ASC LIMIT 5";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            try (ResultSet result = preSt.executeQuery()){
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadInformes.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de cincoMedicosMenorCitas admin: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de cincoMedicosMenorCitas admin: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de cincoMedicosMenorCitas admin: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de cincoMedicosMenorCitas admin: " + e.getMessage());
             e.printStackTrace();
         }
         return cantidadInformes;
     }
+
     /**
      * LOS EMDICOS QUE DEMANDAN MAS EXAMENES
+     *
      * @return
      */
-    public List<String[]> medicosQueDemandanMasExamenes(){
+    public List<String[]> medicosQueDemandanMasExamenes() {
         List<String[]> cantidadInformes = new ArrayList<>();
         String consulta = "SELECT COUNT(RESULTADO.MEDICO_codigo) AS C, MEDICO.codigo,MEDICO.nombre  FROM RESULTADO INNER JOIN MEDICO ON RESULTADO.MEDICO_codigo = MEDICO.codigo GROUP BY MEDICO.codigo ORDER BY C DESC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            try (ResultSet result = preSt.executeQuery()){
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadInformes.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de medicosQueDemandanMasExamenes admin: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de medicosQueDemandanMasExamenes admin: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de medicosQueDemandanMasExamenes admin: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de medicosQueDemandanMasExamenes admin: " + e.getMessage());
             e.printStackTrace();
         }
         return cantidadInformes;
@@ -810,59 +843,64 @@ public class ConsultasDB {
 
     /**
      * RETORNA LOS EXAMENES MAS DEMANDADOS EN UN INTERVALO DE TIEMPO
+     *
      * @param fecha1
      * @param fecha2
      * @return
      */
-    public List<String[]> examenesMasDemandadosEnTiempo(Date fecha1, Date fecha2){
+    public List<String[]> examenesMasDemandadosEnTiempo(Date fecha1, Date fecha2) {
         List<String[]> cantidadInformes = new ArrayList<>();
         String consulta = "SELECT COUNT(RESULTADO.EXAMEN_codigo) AS C, EXAMEN.codigo, EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.fecha BETWEEN ? AND ? GROUP BY EXAMEN.codigo ORDER BY C DESC";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            try (ResultSet result = preSt.executeQuery()){
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setDate(1, fecha1);
+            preSt.setDate(2, fecha2);
+            try (ResultSet result = preSt.executeQuery()) {
                 preSt.setDate(1, fecha1);
                 preSt.setDate(2, fecha2);
                 while (result.next()) {
-                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadInformes.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: " + e.getMessage());
             e.printStackTrace();
         }
         return cantidadInformes;
     }
+
     /**
      * LOS TRES EXAMENES MAS DEMANDADOS ES UN INTERVALO DE TIEMPO
+     *
      * @param fecha1
      * @param fecha2
      * @return
      */
-    public List<String[]> TRESexamenesMasDemandadosEnTiempo(Date fecha1, Date fecha2){
+    public List<String[]> TRESexamenesMasDemandadosEnTiempo(Date fecha1, Date fecha2) {
         List<String[]> cantidadInformes = new ArrayList<>();
         String consulta = "SELECT COUNT(RESULTADO.EXAMEN_codigo) AS C, EXAMEN.codigo, EXAMEN.nombre FROM RESULTADO INNER JOIN EXAMEN ON RESULTADO.EXAMEN_codigo = EXAMEN.codigo AND RESULTADO.fecha BETWEEN ? AND ? GROUP BY EXAMEN.codigo ORDER BY C DESC LIMIT 3";
-        try(PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            try (ResultSet result = preSt.executeQuery()){
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setDate(1, fecha1);
+            preSt.setDate(2, fecha2);
+            try (ResultSet result = preSt.executeQuery()) {
                 preSt.setDate(1, fecha1);
                 preSt.setDate(2, fecha2);
                 while (result.next()) {
-                    String temp [] = {result.getString(1),result.getString(2),result.getString(3)};
+                    String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadInformes.add(temp);
                 }
             } catch (Exception e) {
-                System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+                System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: "+e.getMessage());
+            System.out.println("1- Error en la recuperacion de examenesMasDemandadosEnTiempo admin: " + e.getMessage());
             e.printStackTrace();
         }
         return cantidadInformes;
     }
-
-
 
 }

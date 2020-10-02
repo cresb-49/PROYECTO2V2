@@ -85,9 +85,9 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesAdmin?reporte=1">Los 10 medicos con mas informes</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesAdmin?reporte=2">Los 5 medicos con menor cantidad de citas</a>
-                        <a class="dropdown-item" href="">Los examenes de laboratorio mas demandados en un intervalo de tiempo</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/accionesAdmin/examenesDeLaboratorioMasDemandadosEnIntervalo.jsp">Los examenes de laboratorio mas demandados en un intervalo de tiempo</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesAdmin?reporte=4">Los medicos con mayor cantidad de examnes requeridos</a>
-                        <a class="dropdown-item" href="">Los 3 examenes mas requeridos en un intervalo de tiempo</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/accionesAdmin/tresExamenesMasSolicitadosIntervalo.jsp">Los 3 examenes mas requeridos en un intervalo de tiempo</a>
                     </div>
                 </li>
                 <li class="nav-item">

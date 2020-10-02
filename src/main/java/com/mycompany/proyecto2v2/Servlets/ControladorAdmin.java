@@ -55,8 +55,6 @@ public class ControladorAdmin extends HttpServlet {
                         List<String[]> examenes = consultas.examenesMasDemandadosEnTiempo(conv.stringToDate(f1), conv.stringToDate(f2));
                         req.setAttribute("examDem", examenes);
                         req.getRequestDispatcher("/accionesAdmin/examenesDeLaboratorioMasDemandadosEnIntervalo.jsp").forward(req, resp);
-
-                        req.getRequestDispatcher("/accionesAdmin/examenesDeLaboratorioMasDemandadosEnIntervalo.jsp?error=Debe asignar un rengo de fechas para consultas").forward(req, resp);
                     } else {
                         req.getRequestDispatcher("/accionesAdmin/examenesDeLaboratorioMasDemandadosEnIntervalo.jsp?error=Debe asignar un rengo de fechas para consultas").forward(req, resp);
                     }
@@ -69,7 +67,6 @@ public class ControladorAdmin extends HttpServlet {
                 } else if (reporte.equals("5")) {
                     String f1 = req.getParameter("fechaMenor");
                     String f2 = req.getParameter("fechaMayor");
-
                     if (!f1.isEmpty() || !f2.isEmpty()) {
                         String codigo = ((usuarioSistema) req.getSession().getAttribute("USER")).getCodigoEntidad();
                         System.out.println("Codigo: " + codigo);
@@ -79,8 +76,6 @@ public class ControladorAdmin extends HttpServlet {
                         List<String[]> examenes = consultas.TRESexamenesMasDemandadosEnTiempo(conv.stringToDate(f1), conv.stringToDate(f2));
                         req.setAttribute("treEx", examenes);
                         req.getRequestDispatcher("/accionesAdmin/tresExamenesMasSolicitadosIntervalo.jsp").forward(req, resp);
-
-                        req.getRequestDispatcher("/accionesAdmin/tresExamenesMasSolicitadosIntervalo.jsp?error=Debe asignar un rengo de fechas para consultas").forward(req, resp);
                     } else {
                         req.getRequestDispatcher("/accionesAdmin/tresExamenesMasSolicitadosIntervalo.jsp?error=Debe asignar un rengo de fechas para consultas").forward(req, resp);
                     }
