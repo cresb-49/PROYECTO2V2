@@ -23,13 +23,13 @@
         <div class="container">
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/ReportesLab?reporte=1" >Examenes a procesar</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Lab/examenesProcesar.jsp" >Examenes a procesar</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Examenes realizados durante el dia</a>
-                        <a class="dropdown-item" href="#">Las 10 fechas con mas trabajo</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/Lab/examenesRealizados.jsp">Examenes realizados durante el dia</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesLab?reporte=3">Las 10 fechas con mas trabajo</a>
                     </div>
                 </li>
                 <li class="nav-item">

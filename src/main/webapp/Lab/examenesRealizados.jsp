@@ -1,16 +1,17 @@
 <%-- 
-    Document   : examenesProcesar
-    Created on : 1/10/2020, 20:37:02
+    Document   : examenesRealizados
+    Created on : 1/10/2020, 22:00:38
     Author     : carlo
 --%>
 
+<%@page import="com.mycompany.proyecto2v2.Objetos.Reporte"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>PROCESAR EXAMEN</title>
+        <title>Examenes Realizados</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css"/>
@@ -35,11 +36,11 @@
             <form method="GET" action="${pageContext.request.contextPath}/ReportesLab">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="fechaDia">Dia</label>
-                        <input type="date" class="form-control" name="fechaDia" id="fechaDia" placeholder="Fecha">
+                        <label for="fechaR">Dia</label>
+                        <input type="date" class="form-control" name="fechaR" id="fechaR" placeholder="Fecha">
                     </div>
                     <div class="form-group col-md-12">
-                        <button class="btn btn-primary" type="submit" id="reporte" name="reporte" value="1" >Buscar</button>
+                        <button class="btn btn-primary" type="submit" id="reporte" name="reporte" value="2" >Buscar</button>
                     </div>
                 </div>
             </form>
@@ -49,19 +50,19 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Codigo Solicitud</th>
+                        <th scope="col">Codigo</th>
                         <th scope="col">Codigo Examen</th>
                         <th scope="col">Codigo Paciente</th>
-                        <th scope="col">Procesar Solicitud</th>
+                        <th scope="col">Hora</th>
                     </tr>
                 <tbody>
                     <%-----ESTE DEBE SER EL BUCLE PARA LA IMPRECION DE LA INFROMACION----%>
-                <c:forEach items="${soliExamen}" var="examen">
+                <c:forEach items="${examHechos}" var="examen">
                     <tr>
-                        <td>${examen.codigoSolicitud}</td>
+                        <td>${examen.codigo}</td>
                         <td>${examen.codigoExamen}</td>
                         <td>${examen.codigoPaciente}</td>
-                        <td><a href="#">Procesar Examen</a></td>
+                        <td>${examen.hora}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -75,5 +76,5 @@
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
-</body>
+    </body>
 </html>
