@@ -72,6 +72,7 @@ public class ControladorCitas extends HttpServlet {
                 } else {
                     resp.sendRedirect(req.getContextPath() + "/usuarios/perfilPaciente.jsp");
                 }
+                con.cerrarConexion();
             } catch (Exception e) {
                 resp.sendRedirect(req.getContextPath() + "/usuarios/perfilPaciente.jsp");
                 System.out.println("com.mycompany.proyecto2v2.Servlets.controladorPaciente.doPost() " + e.getMessage());

@@ -53,6 +53,12 @@
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesMedico?reporte=5">Agendar</a>
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Agendar Cita Medica</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/GenerarCitaMedico">Agendar</a>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Cerrar sesion</a>
                 </li>

@@ -40,6 +40,7 @@ public class controladorPaciente extends HttpServlet {
                 }else{
                     resp.sendRedirect(req.getContextPath() + "/usuarios/perfilPaciente.jsp");
                 }
+                con.cerrarConexion();
             } catch (Exception e) {
                 resp.sendRedirect(req.getContextPath() + "/usuarios/perfilPaciente.jsp");
                 System.out.println("com.mycompany.proyecto2v2.Servlets.controladorPaciente.doPost() " +e.getMessage());
@@ -111,7 +112,7 @@ public class controladorPaciente extends HttpServlet {
                     req.setAttribute("examenes", examenes);
                     req.getRequestDispatcher("/AccionesPaciente/CitaLaboratorio.jsp").forward(req, resp);
                 }
-
+                con.cerrarConexion();
             } catch (Exception e) {
                 resp.sendRedirect(req.getContextPath() + "/usuarios/perfilPaciente.jsp");
                 System.out.println("Error en controlador Pacietne" + e.getClass().toString() + e.getMessage());

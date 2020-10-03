@@ -73,6 +73,7 @@ public class logIn extends HttpServlet {
                 }
                 cnx.cerrarConexion();
             }
+            cnx.cerrarConexion();
         } else {
             resp.sendRedirect("/proyecto2v2/index.jsp?errorInicio=Debe de introducir las credenciales");
         }

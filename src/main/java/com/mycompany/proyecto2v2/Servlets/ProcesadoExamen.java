@@ -79,6 +79,7 @@ public class ProcesadoExamen extends HttpServlet {
                 System.out.println("Un campo estaba nulo");
                 req.getRequestDispatcher("/Lab/examenesProcesar.jsp").forward(req, resp);
             }
+            con.cerrarConexion();
         } catch (Exception e) {
             req.getRequestDispatcher("/Lab/examenesProcesar.jsp").forward(req, resp);
             System.out.println("Error en post procesado de examen " + e.getMessage());
@@ -115,7 +116,7 @@ public class ProcesadoExamen extends HttpServlet {
             } else {
                 req.getRequestDispatcher("/Lab/examenesProcesar.jsp").forward(req, resp);
             }
-
+            con.cerrarConexion();
         } catch (Exception e) {
             System.out.println("Error en servlet de procesado de examen " + e.getMessage());
             e.printStackTrace();

@@ -202,7 +202,7 @@ public class ConsultasDB {
      * @param codigoMedico
      * @return
      */
-    private ArrayList<String> obtenerEspecialidades(String codigoMedico) {
+    public ArrayList<String> obtenerEspecialidades(String codigoMedico) {
         ArrayList<String> especialidades = new ArrayList<>();
         String consulta = "";
         consulta = "SELECT nombre FROM ESPECIALIDAD_MEDICO WHERE MEDICO_codigo = ?";

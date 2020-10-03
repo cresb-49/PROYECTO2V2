@@ -79,7 +79,9 @@ public class ControladorAdmin extends HttpServlet {
                     } else {
                         req.getRequestDispatcher("/accionesAdmin/tresExamenesMasSolicitadosIntervalo.jsp?error=Debe asignar un rengo de fechas para consultas").forward(req, resp);
                     }
+                    con.cerrarConexion();
                 }
+                con.cerrarConexion();
             } catch (Exception e) {
                 System.out.println("Error en controlador admin" + e.getClass().toString() + e.getMessage());
                 resp.sendRedirect(req.getContextPath() + "/usuarios/ADMINISTRADOR.jsp");

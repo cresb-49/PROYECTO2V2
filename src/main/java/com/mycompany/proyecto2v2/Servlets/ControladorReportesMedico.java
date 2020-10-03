@@ -96,7 +96,7 @@ public class ControladorReportesMedico extends HttpServlet {
                     req.setAttribute("examenes", examenes);
                     req.getRequestDispatcher("/Medico/citaLabMedico.jsp").forward(req, resp);
                 }
-
+                con.cerrarConexion();
                 /////////////////////FIN DE TRY CACHT///////////////////////////////////////////
             } catch (Exception e) {
                 resp.sendRedirect(req.getContextPath() + "/usuarios/perfilDoctor.jsp");

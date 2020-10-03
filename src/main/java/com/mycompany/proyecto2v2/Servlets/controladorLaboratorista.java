@@ -72,6 +72,7 @@ public class controladorLaboratorista extends HttpServlet {
                     req.setAttribute("mayorT",diasTrabajo);
                     req.getRequestDispatcher("/Lab/cantidadTrabajo.jsp").forward(req, resp);
                 }
+                con.cerrarConexion();
             } catch (Exception e) {
                 resp.sendRedirect(req.getContextPath() + "/usuarios/perfilLaboratorista.jsp");
                 System.out.println("Error en controlador laboratorista" + e.getClass().toString() + e.getMessage());

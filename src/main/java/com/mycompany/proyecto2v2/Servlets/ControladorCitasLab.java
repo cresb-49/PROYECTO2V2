@@ -87,7 +87,7 @@ public class ControladorCitasLab extends HttpServlet {
             }else{
                 req.getRequestDispatcher("/AccionesPaciente/errorCitaLab.jsp?errorP="+resultado).forward(req, resp);
             }
-
+            conexion.cerrarConexion();
         } catch (Exception e) {
             req.getRequestDispatcher("/AccionesPaciente/errorCitaLab.jsp?errorP="+e.getMessage()).forward(req, resp);
             System.out.println("Error en controlador cita lab " + e.getMessage());
@@ -134,6 +134,7 @@ public class ControladorCitasLab extends HttpServlet {
                     System.out.println("Error controlador citas lab cantidad ");
                     req.getRequestDispatcher("/ReportesPaciente?reporte=6").forward(req, resp);
                 }
+                conexion.cerrarConexion();
             } catch (Exception e) {
                 req.getRequestDispatcher("/ReportesPaciente?reporte=6").forward(req, resp);
                 System.out.println("Error controlador citas lab " + e.getMessage());
