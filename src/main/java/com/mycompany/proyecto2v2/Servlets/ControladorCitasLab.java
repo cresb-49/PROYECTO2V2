@@ -5,11 +5,15 @@
  */
 package com.mycompany.proyecto2v2.Servlets;
 
+import com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables;
 import com.mycompany.proyecto2v2.DBManage.ConnectionDB;
 import com.mycompany.proyecto2v2.DBManage.ConsultasDB;
+import com.mycompany.proyecto2v2.DBManage.RegistroDB;
 import com.mycompany.proyecto2v2.Objetos.Archivo;
 import com.mycompany.proyecto2v2.Objetos.Consulta;
 import com.mycompany.proyecto2v2.Objetos.Examen;
+import com.mycompany.proyecto2v2.Objetos.SolicitudExamen;
+import com.mycompany.proyecto2v2.Objetos.usuarioSistema;
 import com.mycompany.proyecto2v2.Paths.obtenerNombreArchivo;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,24 +43,56 @@ public class ControladorCitasLab extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Archivo orden = new Archivo();
-        String codigoLab = req.getParameter("codigoLab");
-        String codigoExame = req.getParameter("codigoExamen");
-        String fechaCita = req.getParameter("fechaCita");
-        InputStream inputStream = null;
+        ConvercionesVariables conv = new ConvercionesVariables();
         try {
-            Part filePart = req.getPart("fileOrden");
-            if (filePart.getSize() > 0) {
-                inputStream = filePart.getInputStream();
-                orden.setNombre(filePart.getName());
-                orden.setContentType(filePart.getContentType());
-                inputStream = filePart.getInputStream();
-                orden.setDatos(inputStream);
+            ConnectionDB conexion = new ConnectionDB();
+            ConsultasDB consultas = new ConsultasDB();
+            RegistroDB registro = new RegistroDB();
+            consultas.setConexion(conexion.getConexion());
+            registro.setConexion(conexion.getConexion());
+            Archivo orden = new Archivo();
+            String codigoLab = req.getParameter("codigoLab");
+            String codigoExame = req.getParameter("codigoExamen");
+            String fechaCita = req.getParameter("fechaCita");
+            
+            InputStream inputStream = null;
+            try {
+                Part filePart = req.getPart("fileOrden");
+                if (filePart.getSize() > 0) {
+                    inputStream = filePart.getInputStream();
+                    orden.setNombre(filePart.getName());
+                    orden.setContentType(filePart.getContentType());
+                    inputStream = filePart.getInputStream();
+                    orden.setDatos(inputStream);
+                }
+            } catch (Exception ex) {
+                System.out.println("fichero: " + ex.getMessage());
             }
-        } catch (Exception ex) {
-            System.out.println("fichero: "+ex.getMessage());
+            Examen examen = consultas.retornarExamen(codigoExame);
+            System.out.println("Cita lab: codigolab=" + codigoLab + " codigoExamen=" + codigoExame + " fechaCita=" + fechaCita + " Orden=" + orden.toString());
+            SolicitudExamen solicitud = new SolicitudExamen();
+            String codigoPaciente = ((usuarioSistema) req.getSession().getAttribute("USER")).getCodigoEntidad();
+            System.out.println("Codigo Entidad: " + codigoPaciente);
+            
+            solicitud.setCodigoExamen(examen.getCodigo());
+            solicitud.setCodigoLaboratorista(codigoLab);
+            solicitud.setCodigoPaciente(conv.stringToLong(codigoPaciente));
+            solicitud.setOrden(orden);
+            solicitud.setFecha(conv.stringToDate(fechaCita));
+
+            String resultado = registro.registroSolicitudExamen(solicitud);
+            
+            if(resultado.equals("")){
+                req.getRequestDispatcher("/AccionesPaciente/errorCitaLab.jsp?logroP=Se registro con exito su cita de laboratorio").forward(req, resp);
+            }else{
+                req.getRequestDispatcher("/AccionesPaciente/errorCitaLab.jsp?errorP="+resultado).forward(req, resp);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error en controlador cita lab " + e.getMessage());
+            e.printStackTrace();
         }
-        System.out.println("Cita lab: codigolab="+codigoLab+" codigoExamen="+codigoExame+" fechaCita="+fechaCita+" Orden="+orden.toString());
+
     }
 
     @Override

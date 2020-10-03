@@ -61,7 +61,7 @@
                         <td>${examen.codigoSolicitud}</td>
                         <td>${examen.codigoExamen}</td>
                         <td>${examen.codigoPaciente}</td>
-                        <td><a href="#">Procesar Examen</a></td>
+                        <td><a href="${pageContext.request.contextPath}/ProcesarExamen?codigoSolicitud=${examen.codigoSolicitud}">Procesar Examen</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

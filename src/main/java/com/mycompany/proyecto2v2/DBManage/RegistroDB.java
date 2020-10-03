@@ -655,4 +655,30 @@ public class RegistroDB {
         System.out.println(errores.toString());
         return errores;
     }
+    /**
+     * REGISTRO DE UNA SOLICITUD DE EXAMEN EN LA BASE DE DATOS DEL HOSPITAL
+     * @return 
+     */
+    public String registroSolicitudExamen(SolicitudExamen solicitud){
+        String respuesta="";
+        String query = "";
+        query = "INSERT INTO SOLUCITUD_EXAMEN (EXAMEN_codigo, fecha, LABORATORISTA_codigo, MEDICO_codigo, nombre_orden, orden, PACIENTE_codigo) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        try (PreparedStatement preSt = conexion.prepareStatement(query)) {
+            Examen examen = consulta.retornarExamen(solicitud.getCodigoExamen().toString());
+            this.verificacion.validarSolicitudExamen(solicitud, examen.isOrden());
+            preSt.setLong(1, solicitud.getCodigoExamen());
+            preSt.setDate(2, solicitud.getFecha());
+            preSt.setString(3, solicitud.getCodigoLaboratorista());
+            preSt.setString(4, solicitud.getCodigoMedico());
+            preSt.setString(5, solicitud.getOrden().getNombre());
+            preSt.setBlob(6, solicitud.getOrden().getDatos());
+            preSt.setLong(7, solicitud.getCodigoPaciente());
+            preSt.executeUpdate();
+        }catch(Exception ex){
+            respuesta = ex.getMessage();
+            System.out.println("Registro de solicitus de examen "+respuesta);
+            ex.printStackTrace();
+        }
+        return respuesta;
+    }
 }

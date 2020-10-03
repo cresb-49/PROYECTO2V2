@@ -625,6 +625,35 @@ public class VerificarContenido {
             throw new AtributosIncompletos("El resultado no tiene asignado un hora");
         }
     }
+
+    public void validarSolicitudExamen(SolicitudExamen solicitud,Boolean aceptacionOrden) throws AtributosIncompletos {
+        if(!this.validarCodigoNumerico(solicitud.getCodigoExamen())){
+            throw new AtributosIncompletos("La solicitud no tiene un codigo de examen valido");
+        }
+        if(solicitud.getCodigoMedico()!=null){
+            if(!solicitud.getCodigoMedico().isEmpty()){
+                if(this.validarCodigoDoctor(solicitud.getCodigoMedico())){
+                    throw new AtributosIncompletos("La solicitud no tiene un codigo de medico valido");
+                }
+            }
+        }
+        if(!this.validarCodigoLabora(solicitud.getCodigoLaboratorista())){
+            throw new AtributosIncompletos("La solicitud no tiene un codigo de medico valido");
+        }
+        if(aceptacionOrden==true && solicitud.getOrden().getDatos()==null){
+            throw new AtributosIncompletos("La solicitud debe de tener una orden de examen");
+        }
+        if(aceptacionOrden==false && solicitud.getOrden().getDatos()!=null){
+            throw new AtributosIncompletos("La solicitud no debe de tener una orden de examen");
+        }
+        if(solicitud.getFecha()==null){
+            throw new AtributosIncompletos("La solicitud no tiene un fecha aceptada");
+        }
+        if(!solicitud.getOrden().getContentType().endsWith("pdf")){
+            throw new AtributosIncompletos("La orden de la solicitud debe de ser de formato pdf");
+        }
+    }
+
     /**
      * VERIFICA SI HAY UNA PASSWORD EXISTENTE
      * @param password
