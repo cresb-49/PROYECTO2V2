@@ -93,7 +93,23 @@ public class ModificacionDB {
         }
         return resultado;
     }
-
+    /**
+     * ELIMINA UNA SOLICITUD DESPUES DE PROCESARLA
+     * @param codigoSolicitud
+     * @return
+     */
+    public String eliminarSolicitud(String codigoSolicitud) {
+        String resultado = "";
+        String consulta = "DELETE FROM SOLUCITUD_EXAMEN WHERE id = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoSolicitud);
+            preSt.executeUpdate();
+        } catch (Exception e) {
+            resultado = "Error en eliminarSolicitud de LAB: " + e.getMessage();
+            System.out.println(resultado);
+        }
+        return resultado;
+    }
     public String modificarLaboratorista(Laboratorista labo) {
         String resultado = "";
         String consulta = "UPDATE LABORATORISTA SET nombre =?,dpi=?,telefono=?,numero_registro=?,inicio_labores=?,tipo_examen=? WHERE codigo = ?";

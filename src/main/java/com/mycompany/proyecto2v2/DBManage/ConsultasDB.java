@@ -648,7 +648,36 @@ public class ConsultasDB {
         }
         return solicitudExamen;
     }
-
+    /**
+     *  RETORNA LA SOLICITUD DE EXAMEN CON EL CODIGO DADO
+     * @param codigoSolicitud
+     * @return
+     */
+    public SolicitudExamen SolicitudExamen(Long codigoSolicitud) {
+        SolicitudExamen solicitudExamen = new SolicitudExamen();
+        String consulta = "SELECT EXAMEN_codigo, fecha, LABORATORISTA_codigo, MEDICO_codigo, nombre_orden, orden, PACIENTE_codigo FROM SOLUCITUD_EXAMEN WHERE id = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setLong(1, codigoSolicitud);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    solicitudExamen.setCodigoSolicitud(codigoSolicitud);;
+                    solicitudExamen.setCodigoExamen(result.getLong(1));
+                    solicitudExamen.setFecha(result.getDate(2));
+                    solicitudExamen.setCodigoLaboratorista(result.getString(3));
+                    solicitudExamen.setCodigoMedico(result.getString(4));
+                    solicitudExamen.setOrden(new Archivo(result.getString(5), result.getBinaryStream(6)));
+                    solicitudExamen.setCodigoPaciente(result.getLong(7));
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de solicitudesExamen lab: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("1- Error en la recuperacion de solicitudesExamen lab: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return solicitudExamen;
+    }
     /**
      * EXAMENES PROCESADOS SEGUN EL DIA Y LABORATORISTA DE ENTRADA
      *
@@ -985,4 +1014,6 @@ public class ConsultasDB {
         return doctores;
     }
 
+
+    
 }
