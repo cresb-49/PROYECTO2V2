@@ -37,9 +37,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author carlo
  */
-@WebServlet("/ControladorCitaLab")
+@WebServlet("/ControladorCitaLabMed")
 @MultipartConfig(maxFileSize = 16177215)
-public class ControladorCitasLab extends HttpServlet {
+public class ControladorCitasLabMedico extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,12 +52,17 @@ public class ControladorCitasLab extends HttpServlet {
             consultas.setConexion(conexion.getConexion());
             registro.setConexion(conexion.getConexion());
             Archivo orden = new Archivo();
+
             String codigoLab = req.getParameter("codigoLab");
             String codigoExame = req.getParameter("codigoExamen");
             String fechaCita = req.getParameter("fechaCita");
+            String codigoPaciente = req.getParameter("codePaciente");
+
+            //InputStream inputStream = null;
             try {
                 Part filePart = req.getPart("fileOrden");
                 if (filePart.getSize() > 0) {
+
                     InputStream inputStream = filePart.getInputStream();
                     String nomA = filePart.getName() + "." + obtenerNom.obtenerNombre(filePart.getContentType());
                     inputStream = filePart.getInputStream();
@@ -71,26 +76,27 @@ public class ControladorCitasLab extends HttpServlet {
             Examen examen = consultas.retornarExamen(codigoExame);
             System.out.println("Cita lab: codigolab=" + codigoLab + " codigoExamen=" + codigoExame + " fechaCita=" + fechaCita + " Orden=" + orden.toString());
             SolicitudExamen solicitud = new SolicitudExamen();
-            String codigoPaciente = ((usuarioSistema) req.getSession().getAttribute("USER")).getCodigoEntidad();
-            System.out.println("Codigo Entidad: " + codigoPaciente);
-            
+            String codigoMedico = ((usuarioSistema) req.getSession().getAttribute("USER")).getCodigoEntidad();
+            System.out.println("Codigo Entidad: " + codigoMedico);
+
             solicitud.setCodigoExamen(examen.getCodigo());
             solicitud.setCodigoLaboratorista(codigoLab);
             solicitud.setCodigoPaciente(conv.stringToLong(codigoPaciente));
+            solicitud.setCodigoMedico(codigoMedico);
             solicitud.setOrden(orden);
             solicitud.setFecha(conv.stringToDate(fechaCita));
 
             String resultado = registro.registroSolicitudExamen(solicitud);
-            
-            if(resultado.equals("")){
-                req.getRequestDispatcher("/AccionesPaciente/errorCitaLab.jsp?logroP=Se registro con exito su cita de laboratorio").forward(req, resp);
-            }else{
-                req.getRequestDispatcher("/AccionesPaciente/errorCitaLab.jsp?errorP="+resultado).forward(req, resp);
+
+            if (resultado.equals("")) {
+                req.getRequestDispatcher("/Medico/errorCitaLabMed.jsp?logroP=Se registro con exito su cita de laboratorio").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("/Medico/errorCitaLabMed.jsp?errorP=" + resultado).forward(req, resp);
             }
 
         } catch (Exception e) {
-            req.getRequestDispatcher("/AccionesPaciente/errorCitaLab.jsp?errorP="+e.getMessage()).forward(req, resp);
-            System.out.println("Error en controlador cita lab " + e.getMessage());
+            req.getRequestDispatcher("/Medico/errorCitaLabMed.jsp?errorP=" + e.getMessage()).forward(req, resp);
+            System.out.println("Error en controlador cita lab medico " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -128,20 +134,20 @@ public class ControladorCitasLab extends HttpServlet {
                     req.setAttribute("admitidoOrden", examen.isOrden());
                     req.setAttribute("codigoLab", codigoLab);
 
-                    req.getRequestDispatcher("/AccionesPaciente/confirmarCitaLab.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/Medico/confirmarCitaLabMed.jsp").forward(req, resp);
 
                 } else {
-                    System.out.println("Error controlador citas lab cantidad ");
-                    req.getRequestDispatcher("/ReportesPaciente?reporte=6").forward(req, resp);
+                    System.out.println("Error controlador citas lab med cantidad ");
+                    req.getRequestDispatcher("/ReportesMedico?reporte=5").forward(req, resp);
                 }
             } catch (Exception e) {
-                req.getRequestDispatcher("/ReportesPaciente?reporte=6").forward(req, resp);
+                req.getRequestDispatcher("/ReportesMedico?reporte=5").forward(req, resp);
                 System.out.println("Error controlador citas lab " + e.getMessage());
                 e.printStackTrace();
             }
 
         } else {
-            req.getRequestDispatcher("/ReportesPaciente?reporte=6").forward(req, resp);
+            req.getRequestDispatcher("/ReportesMedico?reporte=5").forward(req, resp);
         }
     }
 

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : errorCitaLab
-    Created on : 2/10/2020, 17:15:04
+    Document   : errorCitaLabMed
+    Created on : 3/10/2020, 02:39:00
     Author     : carlo
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Info en cita</title>
+        <title>Info Cita</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css"/>
@@ -36,7 +36,7 @@
                 <%=error%>
             </div>
             <br/>
-            <h5><a href="${pageContext.request.contextPath}/ReportesPaciente?reporte=6" >Generar Cita</a></h5>
+            <h5><a href="${pageContext.request.contextPath}/ReportesMedico?reporte=5" >Generar Cita</a></h5>
             <br/>
         </div>
         <%
@@ -48,7 +48,7 @@
                 <%=logro%>
             </div>
             <br/>
-            <h5><a href="${pageContext.request.contextPath}/usuarios/perfilPaciente.jsp" >Regresar al perfil</a></h5>
+            <h5><a href="${pageContext.request.contextPath}/usuarios/perfilDoctor.jsp" >Regresar al perfil</a></h5>
             <br/>
         </div>
         <%

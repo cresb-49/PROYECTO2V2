@@ -643,7 +643,7 @@ public class VerificarContenido {
         }
         if (solicitud.getCodigoMedico() != null) {
             if (!solicitud.getCodigoMedico().isEmpty()) {
-                if (this.validarCodigoDoctor(solicitud.getCodigoMedico())) {
+                if (!this.validarCodigoDoctor(solicitud.getCodigoMedico())) {
                     throw new AtributosIncompletos("La solicitud no tiene un codigo de medico valido");
                 }
             }
@@ -663,9 +663,6 @@ public class VerificarContenido {
         if (aceptacionOrden == true) {
             if (!solicitud.getOrden().getContentType().endsWith("pdf")) {
                 throw new AtributosIncompletos("La orden de la solicitud debe de ser de formato pdf");
-            }
-            if (solicitud.getOrden().getContentType().endsWith("pdf")) {
-                solicitud.getOrden().setNombre(solicitud.getOrden().getNombre() + ".pdf");
             }
         }
 

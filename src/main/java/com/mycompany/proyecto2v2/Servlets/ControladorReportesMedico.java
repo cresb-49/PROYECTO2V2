@@ -9,6 +9,7 @@ import com.mycompany.proyecto2v2.Conversiones.ConvercionesVariables;
 import com.mycompany.proyecto2v2.DBManage.ConnectionDB;
 import com.mycompany.proyecto2v2.DBManage.ConsultasDB;
 import com.mycompany.proyecto2v2.Objetos.Cita;
+import com.mycompany.proyecto2v2.Objetos.Examen;
 import com.mycompany.proyecto2v2.Objetos.Resultado;
 import com.mycompany.proyecto2v2.Objetos.usuarioSistema;
 import com.mycompany.proyecto2v2.QueryObjets.QueryCita;
@@ -90,6 +91,10 @@ public class ControladorReportesMedico extends HttpServlet {
                     } else {
                         resp.sendRedirect(req.getContextPath() + "/Medico/historialPaciente.jsp?error=Debe introducir un codigo numerico");
                     }
+                }else if(reporte.equals("5")){
+                    List<Examen> examenes = consultas.retornarTodosExamen();
+                    req.setAttribute("examenes", examenes);
+                    req.getRequestDispatcher("/Medico/citaLabMedico.jsp").forward(req, resp);
                 }
 
                 /////////////////////FIN DE TRY CACHT///////////////////////////////////////////
