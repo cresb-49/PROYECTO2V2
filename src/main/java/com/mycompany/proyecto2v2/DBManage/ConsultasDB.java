@@ -246,6 +246,29 @@ public class ConsultasDB {
         }
         return labo;
     }
+    /**
+     * RETORBNA LOS CODIGOS DE LOS LABORATORISTA SEGUN EL EXAMEN QUE REALIZA
+     * @param nombreExamen
+     * @return
+     */
+    public ArrayList<String> retornarCodigosSegunExamenLab(String nombreExamen) {
+        ArrayList<String> codigos = new ArrayList<>();
+        String consulta = "";
+        consulta = "SELECT codigo FROM LABORATORISTA WHERE tipo_examen = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1,nombreExamen);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    codigos.add(result.getString(1));
+                }
+            } catch (Exception e) {
+                System.out.println("Error retornarCodigosSegunExamenLab laboratorista" + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Error retornarCodigosSegunExamenLab laboratorista" + e.getMessage());
+        }
+        return codigos;
+    }
 
     /**
      * RETORNA LOS DIAS DE TRABAJO DEL LABORATORISTA
@@ -299,6 +322,35 @@ public class ConsultasDB {
             System.out.println("Error buesqueda examen" + e.getMessage());
         }
         return examen;
+    }   
+    /**
+     * RETORNA TODOS LOS EXAMENES QUE HAY EN EL HOSPITAL
+     * @param codigoExamen
+     * @return
+     */
+    public List<Examen> retornarTodosExamen() {
+        List<Examen> examenes = new ArrayList<>();
+        String consulta = "";
+        consulta = "SELECT codigo,nombre,orden,descripcion,costo,tipo_informe FROM EXAMEN";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    Examen temp = new Examen();
+                    temp.setCodigo(result.getLong(1));
+                    temp.setNombre(result.getString(2));
+                    temp.setOrden(result.getBoolean(3));
+                    temp.setDescripcion(result.getString(4));
+                    temp.setCosto(result.getDouble(5));
+                    temp.setInforme(result.getString(6));
+                    examenes.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("Error retornarTodosExamen examen" + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Error retornarTodosExamen examen" + e.getMessage());
+        }
+        return examenes;
     }
 
     /**
@@ -855,8 +907,6 @@ public class ConsultasDB {
             preSt.setDate(1, fecha1);
             preSt.setDate(2, fecha2);
             try (ResultSet result = preSt.executeQuery()) {
-                preSt.setDate(1, fecha1);
-                preSt.setDate(2, fecha2);
                 while (result.next()) {
                     String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadInformes.add(temp);
@@ -886,8 +936,6 @@ public class ConsultasDB {
             preSt.setDate(1, fecha1);
             preSt.setDate(2, fecha2);
             try (ResultSet result = preSt.executeQuery()) {
-                preSt.setDate(1, fecha1);
-                preSt.setDate(2, fecha2);
                 while (result.next()) {
                     String temp[] = {result.getString(1), result.getString(2), result.getString(3)};
                     cantidadInformes.add(temp);
@@ -901,6 +949,40 @@ public class ConsultasDB {
             e.printStackTrace();
         }
         return cantidadInformes;
+    }
+
+    public List<String[]> obtenerDoctores(String nombre, String especialidad,String hora) {
+        List<String[]> doctores = new ArrayList<>();
+        String consulta = "SELECT M.codigo,M.nombre,M.numero_colegiado,EM.nombre,M.inicio_horario,M.fin_horario,M.email FROM MEDICO AS M INNER JOIN ESPECIALIDAD_MEDICO AS EM ON M.codigo = EM.MEDICO_codigo";
+
+        if (nombre != null) {
+            if (!nombre.isEmpty()) {
+                consulta = consulta + " AND M.nombre LIKE \"%" + nombre + "%\"";
+            }
+        }
+        if (especialidad != null) {
+            if (!especialidad.isEmpty()) {
+                consulta = consulta + " AND EM.nombre LIKE \"%" + especialidad + "%\"";
+            }
+        }
+        if (hora!=null) {
+            if(!hora.isEmpty()){
+                consulta = consulta + "  AND \""+hora+"\" BETWEEN M.inicio_horario AND M.fin_horario";
+            }
+        }
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    String[] temp = {result.getString(1),result.getString(2),result.getString(3),result.getString(4),result.getString(5),result.getString(6),result.getString(7)};
+                    doctores.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de obtenerDoctores paciente: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("2- Error en la recuperacion de obtenerDoctores paciente: " + e.getMessage());
+        }
+        return doctores;
     }
 
 }

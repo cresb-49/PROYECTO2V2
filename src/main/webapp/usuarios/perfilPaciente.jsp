@@ -23,10 +23,10 @@
         <div class="container">
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link" href="">Cita Medica</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ReportesPaciente?reporte=5">Cita Medica</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" >Cita Laboratorio</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ReportesPaciente?reporte=6" >Cita Laboratorio</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>

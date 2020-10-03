@@ -7,6 +7,7 @@ public class Archivo {
     
     private String nombre;
     private InputStream datos;
+    private String ContentType;
 
     public Archivo(String nombre, InputStream datos) {
         this.nombre = nombre;
@@ -31,9 +32,17 @@ public class Archivo {
         this.datos = datos;
     }
     
+    public void setContentType(String ContentType) {
+        this.ContentType = ContentType;
+    }
+    public String getContentType() {
+        return ContentType;
+    }
+
     @Override
     public String toString() {
-        return "Archivo{" + "nombre=" + nombre + ", datos=" + datos + '}';
+        return "Archivo{" + "nombre=" + nombre + ", datos=" + datos + ", ContentType=" + ContentType + '}';
     }
+    
     
 }

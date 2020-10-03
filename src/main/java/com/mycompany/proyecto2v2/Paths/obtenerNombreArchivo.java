@@ -12,6 +12,7 @@ public class obtenerNombreArchivo {
      * @return 
      */
     public String obtenerNombre(String archivo) {
+        System.out.println("Nombre de Archivo: "+archivo);
         String nombre = "";
         int busqueda = archivo.indexOf("/");
         if (busqueda == -1) {

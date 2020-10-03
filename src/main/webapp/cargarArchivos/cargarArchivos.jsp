@@ -19,8 +19,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Carga de Archivos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <link rel="stylesheet" href="../css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css"/>
+        <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/comportamientoPerfiles.js" ></script>
     </head>
     <body>
         <header>
@@ -41,6 +45,8 @@
             ServletFileUpload upload = new ServletFileUpload(itemFactory);
             //Partes del archivo
             List<FileItem> partes = upload.parseRequest(request);
+            
+            
             ArrayList<Archivo> archivos = new ArrayList<Archivo>();
             try {
                 //Escritura de todos los archivos en la entrada de la pagina WEB
@@ -85,7 +91,7 @@
                         %>
                         
                     </div>
-                    <a class="btn btn-danger" href="../index.jsp">Regresar al inicio</a>
+                    <a class="btn btn-danger" href="${pageContext.request.contextPath}/index.jsp">Regresar al inicio</a>
                 </div>
                 <%
                     
@@ -94,7 +100,7 @@
                 <div class="container">
                     <h1>EL ARCHIVO SE A SUBIDO CORRECTAMENTE</h1>
                     <div class="container alert alert-success" role="alert">Datos trasladados al 100% puede regresar al inicio</div>
-                    <a class="btn btn-success" href="../index.jsp">Regresar al inicio</a>
+                    <a class="btn btn-success" href="${pageContext.request.contextPath}/index.jsp">Regresar al inicio</a>
                 </div>
                 <%
                 }
@@ -103,7 +109,7 @@
                 <div class="container">
                     <h1>ERROR EN LA CARGA DE DATOS EN LA BASE DE DATOS</h1>
                     <div class="container alert alert-danger" role="alert"><%out.write(e.getMessage());%></div>
-                    <a class="btn btn-danger" href="../index.jsp">Regresar al inicio</a>
+                    <a class="btn btn-danger" href="${pageContext.request.contextPath}/index.jsp">Regresar al inicio</a>
                 </div>
                 <%
             }
@@ -114,8 +120,5 @@
                 <h3>© HOSPITAL 2020</h3>
             </div>
         </footer>
-        <script src="../js/jquery-3.5.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-        <script src="../js/bootstrap.min.js"></script>
     </body>
 </html>

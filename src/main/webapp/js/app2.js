@@ -98,3 +98,50 @@ function validarModificacionAdmin(){
     }
     return true;
 }
+
+function validarCita(){
+    var codigoDoc,especialidad,fecha,hora;
+    codigoDoc = document.getElementById("codigoDoctor").value;
+    especialidad = document.getElementById("especilidadCita").value;
+    fecha = document.getElementById("fechaCita").value;
+    hora = document.getElementById("horaCita").value;
+    
+    if(!exprecionesRegulares.codigoDoctor.test(codigoDoc)){
+        alert("El codigo del doctor no es valido");
+        return false;
+    }else if(!exprecionesRegulares.texto.test(especialidad)){
+        alert("El nombre de la especialidad no es valido");
+        return false;
+    }else if(fecha.length===0){
+        alert("La fecha no es valida");
+        return false;
+    }else if(hora.length===0){
+        alerte("La hora no es valida");
+        return false;
+    }else if(!exprecionesRegulares.fecha.test(fecha)){
+        alert("La fecha no es valida");
+        return false;
+    }
+    return true;
+}
+
+function validarCitaLab(){
+    var codigoExamen,codigoLab,fecha;
+    codigoExamen = document.getElementById("codigoExamen").value;
+    codigoLab = document.getElementById("codigoLab").value;
+    fecha = document.getElementById("fechaCita").value;
+    if(!exprecionesRegulares.codigoLaboratorista.test(codigoLab)){
+        alert("El codigo del doctor no es valido");
+        return false;
+    }else if(!exprecionesRegulares.numeroEntero.test(codigoExamen)){
+        alert("El codigo del examen debe ser numerico");
+        return false;
+    }else if(fecha.length===0){
+        alert("La fecha no es valida");
+        return false;
+    }if(!exprecionesRegulares.fecha.test(fecha)){
+        alert("La fecha no es valida");
+        return false;
+    }
+    return true;
+}

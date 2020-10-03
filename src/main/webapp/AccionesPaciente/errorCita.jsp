@@ -1,6 +1,6 @@
 <%-- 
-    Document   : error
-    Created on : 29/09/2020, 17:14:07
+    Document   : errorCita
+    Created on : 2/10/2020, 17:15:04
     Author     : carlo
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>AVISO DEL SISTEMA </title>
+        <title>Error en cita</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css"/>
@@ -25,6 +25,7 @@
                 <h1>HOSPITAL</h1>
             </div>
         </header>
+        <br/>
         <%
             String error = request.getParameter("errorP");
             String logro = request.getParameter("logroP");
@@ -34,6 +35,9 @@
             <div class="alert alert-danger" role="alert">
                 <%=error%>
             </div>
+            <br/>
+            <h5><a href="${pageContext.request.contextPath}/AccionesPaciente/CitaMedica.jsp" >Generar Cita</a></h5>
+            <br/>
         </div>
         <%
         } else {
@@ -43,6 +47,9 @@
             <div class="alert alert-success" role="alert">
                 <%=logro%>
             </div>
+            <br/>
+            <h5><a href="${pageContext.request.contextPath}/usuarios/perfilPaciente.jsp" >Regresar al perfil</a></h5>
+            <br/>
         </div>
         <%
                 }

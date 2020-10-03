@@ -5,19 +5,26 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cita Laboratorio</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <link rel="stylesheet" href="../css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css"/>
+        <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/comportamientoPerfiles.js" ></script>
     </head>
     <body>
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
+                <h5><a href="${pageContext.request.contextPath}/usuarios/perfilPaciente.jsp" >Regresar al perfil</a></h5>
+                <br/>
             </div>
         </header>
         <form class="container form-group" action="#" method="POST" >
@@ -71,21 +78,25 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Codigo</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Inicio Horario</th>
-                        <th scope="col">Fin Horario</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Costo</th>
+                        <th scope="col">Tipo Informe</th>
+                        <th scope="col">Generar Cita</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>MED-123</td>
-                        <td>Otto Juarez</td>
-                        <td>12:00:00</td>
-                        <td>19:00:00</td>
-                    </tr>
+                    <c:forEach items="${examenes}" var="exam">
+                        <tr>
+                            <td>${exam.codigo}</td>
+                            <td>${exam.nombre}</td>
+                            <td>${exam.descripcion}</td>
+                            <td>${exam.costo}</td>
+                            <td>${exam.informe}</td>
+                            <td><a href="${pageContext.request.contextPath}/ControladorCitaLab?codigo=${exam.codigo}&">Gererar Cita</a></td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -137,8 +148,5 @@
             <h3>© HOSPITAL 2020</h3>
         </div>
     </footer>
-    <script src="../js/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="../js/bootstrap.min.js"></script>
 </body>
 </html>
