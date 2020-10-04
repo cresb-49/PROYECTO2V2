@@ -64,9 +64,6 @@
                 </li>
             </ul>
         </div>
-        <%
-            
-        %>
         
         <footer>
             <div class="container">

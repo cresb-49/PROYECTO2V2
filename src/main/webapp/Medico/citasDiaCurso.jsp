@@ -65,7 +65,7 @@
                             <td>${cita.codigoPaciente}</td>
                             <td>${cita.hora}</td>
                             <td>${cita.especialidad}</td>
-                            <td><a href="#">Generar Reporte</a></td>
+                            <td><a href="${pageContext.request.contextPath}/RedactarReporte?citaCodigo=${cita.codigo}">Generar Reporte</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

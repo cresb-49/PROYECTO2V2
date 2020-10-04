@@ -36,7 +36,7 @@
                 <%=error%>
             </div>
             <br/>
-            <h5><a href="${pageContext.request.contextPath}/Medico/agendarCitaMedica.jsp" >Generar Cita</a></h5>
+            <h5><a href="${pageContext.request.contextPath}/Medico/agendarCitaMedica.jsp" >Regresar a registro de cita</a></h5>
             <br/>
         </div>
         <%

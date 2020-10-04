@@ -145,3 +145,31 @@ function validarCitaLab(){
     }
     return true;
 }
+
+function validarInforme(){
+    var cCita,cPaciente,EspeCita,fecha,hora;
+
+    cCita = document.getElementById("codeCita").value;
+    cPaciente = document.getElementById("codePaciente").value;
+    EspeCita = document.getElementById("especialidad").value;
+    fecha = document.getElementById("fechaCita").value;
+    hora = document.getElementById("horaCita").value;
+
+    if(!exprecionesRegulares.numeroEntero.test(cCita)){
+        alert("El codigo de cita no es correcto");
+        return false;
+    }else if(!exprecionesRegulares.numeroEntero.test(cPaciente)){
+        alert("El codigo del paciente no es valido");
+        return false;
+    }else if(!exprecionesRegulares.texto.test(EspeCita)){
+        alert("La especialidad de la cita no es correcta")
+        return false;
+    }else if(!exprecionesRegulares.fecha.test(fecha)){
+        alert("La fecha introducida no es valida");
+        return false;
+    }else if(hora.length===0){
+        alert("Debe de introducir una hora correcta");
+        return false;
+    }
+    return true;
+}

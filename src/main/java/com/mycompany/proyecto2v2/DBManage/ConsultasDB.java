@@ -293,6 +293,27 @@ public class ConsultasDB {
         }
         return diasTrabajo;
     }
+    /**
+     * 
+     * @param codigoCita
+     */
+     public Cita retornarCita(String codigoCita){
+        Cita cita = new Cita();
+        String consulta = "SELECT * FROM CITA WHERE codigo = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoCita);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    cita = new Cita(result.getLong("coidgo"), result.getLong("PACIENTE_codigo"), result.getString("MEDICO_codigo"), result.getString("especialidad"), result.getDate("fecha"), conv.stringToTime(result.getString("hora")));
+                }
+            } catch (Exception e) {
+                System.out.println("Error retornarCita medico" + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Error retornarCita dia medico" + e.getMessage());
+        }
+        return cita;
+    }
 
     /**
      * RETORNA UN EXAMEN SEGUN EL CODIGO DE INGRESO
