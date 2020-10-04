@@ -32,7 +32,7 @@
         </p>
         <form action="${pageContext.request.contextPath}/cargarArchivos/cargarArchivos.jsp" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <input class="form-control-file" type="file" multiple="multiple" name="selecFile"/>
+                <input class="form-control-file" type="file" multiple="multiple" name="selecFile" required="" />
             </div>
             <div class="form-group">
                 <input class="btn btn-success" type="submit" value="Cargar Archivo"/>
