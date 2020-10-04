@@ -28,6 +28,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/ReportesPaciente?reporte=6" >Cita Laboratorio</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ReportesPaciente?reporte=7" >Visualizar Resultados</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>
                     <div class="dropdown-menu">

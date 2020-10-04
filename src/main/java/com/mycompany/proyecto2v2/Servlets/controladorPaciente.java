@@ -111,6 +111,13 @@ public class controladorPaciente extends HttpServlet {
                     List<Examen> examenes = consultas.retornarTodosExamen();
                     req.setAttribute("examenes", examenes);
                     req.getRequestDispatcher("/AccionesPaciente/CitaLaboratorio.jsp").forward(req, resp);
+                }else if(reporte.equals("7")){
+                    String codigo = ((usuarioSistema) req.getSession().getAttribute("USER")).getCodigoEntidad();
+                    System.out.println("Codigo: " + codigo);
+                    List<Reporte> reportes = consultas.obtenerReportePaciente(codigo);
+                    req.setAttribute("reportesCitas", reportes);
+                    req.getRequestDispatcher("/AccionesPaciente/informesCitas.jsp").forward(req, resp);
+                    
                 }
                 con.cerrarConexion();
             } catch (Exception e) {

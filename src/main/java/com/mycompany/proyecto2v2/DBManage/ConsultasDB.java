@@ -304,7 +304,7 @@ public class ConsultasDB {
             preSt.setString(1, codigoCita);
             try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    cita = new Cita(result.getLong("coidgo"), result.getLong("PACIENTE_codigo"), result.getString("MEDICO_codigo"), result.getString("especialidad"), result.getDate("fecha"), conv.stringToTime(result.getString("hora")));
+                    cita = new Cita(result.getLong("codigo"), result.getLong("PACIENTE_codigo"), result.getString("MEDICO_codigo"), result.getString("especialidad"), result.getDate("fecha"), conv.stringToTime(result.getString("hora")));
                 }
             } catch (Exception e) {
                 System.out.println("Error retornarCita medico" + e.getMessage());
@@ -583,6 +583,65 @@ public class ConsultasDB {
             e.printStackTrace();
         }
         return pacientes;
+    }
+
+    /**
+     * REPORTES DE PACIENTE
+     * @param codigoPaciente
+     * @return
+     */
+    public List<Reporte> obtenerReportePaciente(String codigoPaciente){
+        List<Reporte> reportes = new ArrayList<>();
+        String consulta = "SELECT * FROM REPORTE WHERE PACIENTE_codigo = ? ORDER BY fecha DESC";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoPaciente);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    Reporte temp = new Reporte();
+                    temp.setCodigo(result.getLong("codigo"));
+                    temp.setInformeMedico(result.getString("informe"));
+                    temp.setFecha(result.getDate("fecha"));
+                    temp.setCodigoMedico(result.getString("MEDICO_codigo"));
+                    reportes.add(temp);
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }catch(Exception e){
+            System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return reportes;
+    }
+
+    /**
+     * RETORNA UN REPORTE CON UN CODIGO ESPECIFICO
+     * @param codigoReporte
+     * @return
+     */
+    public Reporte returnReporte (String codigoReporte){
+        Reporte reporte = new Reporte();
+        String consulta = "SELECT * FROM REPORTE WHERE codigo = ?";
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoReporte);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    reporte.setCodigo(result.getLong("codigo"));
+                    reporte.setInformeMedico(result.getString("informe"));
+                    reporte.setFecha(result.getDate("fecha"));
+                    reporte.setCodigoMedico(result.getString("MEDICO_codigo"));
+                }
+            } catch (Exception e) {
+                System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }catch(Exception e){
+            System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return reporte;
     }
 
     /**

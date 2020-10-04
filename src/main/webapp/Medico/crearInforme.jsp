@@ -32,7 +32,7 @@
             <br/>
             <h5>Reporte de cita medica</h5>
             <br/>
-            <form method="POST" action="${pageContext.request.contextPath}/GenerarCitaMedico" onsubmit="return validarInforme()" >
+            <form method="POST" action="${pageContext.request.contextPath}/RedactarReporte" onsubmit="return validarInforme()" >
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="codeCita">Codigo Cita</label>
