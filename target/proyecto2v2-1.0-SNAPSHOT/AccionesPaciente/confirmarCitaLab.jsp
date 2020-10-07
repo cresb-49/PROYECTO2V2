@@ -26,7 +26,7 @@
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
-                <h5><a href="${pageContext.request.contextPath}/AccionesPaciente/CitaLaboratorio.jsp" >Retornar a examenes</a></h5>
+                <h5><a href="${pageContext.request.contextPath}/ReportesPaciente?reporte=6" >Retornar a examenes</a></h5>
                 <br/>
             </div>
         </header>

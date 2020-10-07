@@ -23,7 +23,7 @@
         <header>
             <div class="container">
                 <h1>HOSPITAL</h1>
-                <h5><a href="${pageContext.request.contextPath}/AccionesPaciente/CitaMedica.jsp" >Retornar a busqueda</a></h5>
+                <h5><a href="${pageContext.request.contextPath}/ReportesPaciente?reporte=5" >Retornar a busqueda</a></h5>
                 <br/>
             </div>
         </header>
