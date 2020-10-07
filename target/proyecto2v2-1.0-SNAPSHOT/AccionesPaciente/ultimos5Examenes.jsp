@@ -38,6 +38,8 @@
                         <th scope="col">Codigo Laboratorista</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Nombre de Informe</th>
+                        <th scope="col">Orden</th>
+                        <th scope="col">Resultado</th>
                     </tr>
                 <tbody>
                     <%-----ESTE DEBE SER EL BUCLE PARA LA IMPRECION DE LA INFROMACION----%>
@@ -49,6 +51,8 @@
                             <td>${resultado.codigoLaboratorista}</td>
                             <td>${resultado.fecha}</td>
                             <td>${resultado.informe.nombre}</td>
+                            <td><a href="${pageContext.request.contextPath}/descargarArchivo?archivo=orden2&id=${resultado.codigo}" >Visualizar/Descargar</a></td>
+                            <td><a href="${pageContext.request.contextPath}/descargarArchivo?archivo=resultado&id=${resultado.codigo}" >Visualizar/Descargar</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

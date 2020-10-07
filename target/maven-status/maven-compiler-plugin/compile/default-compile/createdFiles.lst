@@ -11,6 +11,7 @@ com\mycompany\proyecto2v2\ExepcionesDePrograma\AtributosIncompletos.class
 com\mycompany\proyecto2v2\Objetos\Laboratorista.class
 com\mycompany\proyecto2v2\ExepcionesDePrograma\FormatoArchivoIncorrecto.class
 com\mycompany\proyecto2v2\Servlets\controladorLaboratorista.class
+com\mycompany\proyecto2v2\Servlets\Descargar.class
 com\mycompany\proyecto2v2\Objetos\Resultado.class
 com\mycompany\proyecto2v2\Paths\obtenerNombreArchivo.class
 com\mycompany\proyecto2v2\VerificarContenido\VerificarContenido.class

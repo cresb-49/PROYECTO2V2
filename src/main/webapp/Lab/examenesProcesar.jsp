@@ -52,6 +52,7 @@
                         <th scope="col">Codigo Solicitud</th>
                         <th scope="col">Codigo Examen</th>
                         <th scope="col">Codigo Paciente</th>
+                        <th scope="col">Visualizar Orden</th>
                         <th scope="col">Procesar Solicitud</th>
                     </tr>
                 <tbody>
@@ -61,6 +62,7 @@
                         <td>${examen.codigoSolicitud}</td>
                         <td>${examen.codigoExamen}</td>
                         <td>${examen.codigoPaciente}</td>
+                        <td><a href="${pageContext.request.contextPath}/descargarArchivo?archivo=orden&id=${examen.codigoSolicitud}" >Visualizar/Descargar</a></td>
                         <td><a href="${pageContext.request.contextPath}/ProcesarExamen?codigoSolicitud=${examen.codigoSolicitud}">Procesar Examen</a></td>
                     </tr>
                 </c:forEach>

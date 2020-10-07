@@ -246,8 +246,10 @@ public class ConsultasDB {
         }
         return labo;
     }
+
     /**
      * RETORBNA LOS CODIGOS DE LOS LABORATORISTA SEGUN EL EXAMEN QUE REALIZA
+     *
      * @param nombreExamen
      * @return
      */
@@ -256,7 +258,7 @@ public class ConsultasDB {
         String consulta = "";
         consulta = "SELECT codigo FROM LABORATORISTA WHERE tipo_examen = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
-            preSt.setString(1,nombreExamen);
+            preSt.setString(1, nombreExamen);
             try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
                     codigos.add(result.getString(1));
@@ -293,11 +295,12 @@ public class ConsultasDB {
         }
         return diasTrabajo;
     }
+
     /**
-     * 
+     *
      * @param codigoCita
      */
-     public Cita retornarCita(String codigoCita){
+    public Cita retornarCita(String codigoCita) {
         Cita cita = new Cita();
         String consulta = "SELECT * FROM CITA WHERE codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
@@ -343,9 +346,11 @@ public class ConsultasDB {
             System.out.println("Error buesqueda examen" + e.getMessage());
         }
         return examen;
-    }   
+    }
+
     /**
      * RETORNA TODOS LOS EXAMENES QUE HAY EN EL HOSPITAL
+     *
      * @param codigoExamen
      * @return
      */
@@ -587,10 +592,11 @@ public class ConsultasDB {
 
     /**
      * REPORTES DE PACIENTE
+     *
      * @param codigoPaciente
      * @return
      */
-    public List<Reporte> obtenerReportePaciente(String codigoPaciente){
+    public List<Reporte> obtenerReportePaciente(String codigoPaciente) {
         List<Reporte> reportes = new ArrayList<>();
         String consulta = "SELECT * FROM REPORTE WHERE PACIENTE_codigo = ? ORDER BY fecha DESC";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
@@ -608,7 +614,7 @@ public class ConsultasDB {
                 System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
                 e.printStackTrace();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
             e.printStackTrace();
         }
@@ -618,10 +624,11 @@ public class ConsultasDB {
 
     /**
      * RETORNA UN REPORTE CON UN CODIGO ESPECIFICO
+     *
      * @param codigoReporte
      * @return
      */
-    public Reporte returnReporte (String codigoReporte){
+    public Reporte returnReporte(String codigoReporte) {
         Reporte reporte = new Reporte();
         String consulta = "SELECT * FROM REPORTE WHERE codigo = ?";
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
@@ -637,7 +644,7 @@ public class ConsultasDB {
                 System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
                 e.printStackTrace();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("1- Error en la recuperacion de obtenerReportePaciente: " + e.getMessage());
             e.printStackTrace();
         }
@@ -728,8 +735,10 @@ public class ConsultasDB {
         }
         return solicitudExamen;
     }
+
     /**
-     *  RETORNA LA SOLICITUD DE EXAMEN CON EL CODIGO DADO
+     * RETORNA LA SOLICITUD DE EXAMEN CON EL CODIGO DADO
+     *
      * @param codigoSolicitud
      * @return
      */
@@ -758,6 +767,7 @@ public class ConsultasDB {
         }
         return solicitudExamen;
     }
+
     /**
      * EXAMENES PROCESADOS SEGUN EL DIA Y LABORATORISTA DE ENTRADA
      *
@@ -1060,7 +1070,7 @@ public class ConsultasDB {
         return cantidadInformes;
     }
 
-    public List<String[]> obtenerDoctores(String nombre, String especialidad,String hora) {
+    public List<String[]> obtenerDoctores(String nombre, String especialidad, String hora) {
         List<String[]> doctores = new ArrayList<>();
         String consulta = "SELECT M.codigo,M.nombre,M.numero_colegiado,EM.nombre,M.inicio_horario,M.fin_horario,M.email FROM MEDICO AS M INNER JOIN ESPECIALIDAD_MEDICO AS EM ON M.codigo = EM.MEDICO_codigo";
 
@@ -1074,15 +1084,15 @@ public class ConsultasDB {
                 consulta = consulta + " AND EM.nombre LIKE \"%" + especialidad + "%\"";
             }
         }
-        if (hora!=null) {
-            if(!hora.isEmpty()){
-                consulta = consulta + "  AND \""+hora+"\" BETWEEN M.inicio_horario AND M.fin_horario";
+        if (hora != null) {
+            if (!hora.isEmpty()) {
+                consulta = consulta + "  AND \"" + hora + "\" BETWEEN M.inicio_horario AND M.fin_horario";
             }
         }
         try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
             try (ResultSet result = preSt.executeQuery()) {
                 while (result.next()) {
-                    String[] temp = {result.getString(1),result.getString(2),result.getString(3),result.getString(4),result.getString(5),result.getString(6),result.getString(7)};
+                    String[] temp = {result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6), result.getString(7)};
                     doctores.add(temp);
                 }
             } catch (Exception e) {
@@ -1094,6 +1104,86 @@ public class ConsultasDB {
         return doctores;
     }
 
+    //////////////////////////////////////////////////////////RETORNO DE ARCHIVO DE LA BASE DE DATOS
+    /**
+     * RETORNA EL RESULTADO DE UN EXAMEN DE LA BASE DE DATOS
+     *
+     * @param codigoResultado
+     * @return
+     */
+    public Archivo retornarDocResultado(String codigoResultado) {
+        Archivo temp = new Archivo();
+        String consulta = "SELECT informe, nombre_informe FROM RESULTADO WHERE codigo = ?";
 
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoResultado);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    temp.setDatos(result.getBinaryStream("informe"));
+                    temp.setNombre(result.getString("nombre_informe"));
+                }
+            } catch (Exception e) {
+                System.out.println("1-Error en retornar retornarDocResultado: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("2-Error en retornar retornarDocResultado: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return temp;
+    }
+    /**
+     * RETORNO DE ORDEN PARA PROCESAR EXAMEN
+     * @param codigoResultado
+     * @return 
+     */
+    public Archivo retornarOrdenExamen(String codigoOrden) {
+        Archivo temp = new Archivo();
+        String consulta = "SELECT orden,nombre_orden FROM SOLUCITUD_EXAMEN WHERE id = ?;";
+
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoOrden);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    temp.setDatos(result.getBinaryStream("orden"));
+                    temp.setNombre(result.getString("nombre_orden"));
+                }
+            } catch (Exception e) {
+                System.out.println("1-Error en retornar retornarOrdenExamen: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("2-Error en retornar retornarOrdenExamen: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return temp;
+    }
     
+    /**
+     * RETORNA LA ORDEN UTILIZADA EN UN RESULTADO
+     * @param codigoResultado
+     * @return 
+     */
+    public Archivo retornarOrdenResultado(String codigoResultado) {
+        Archivo temp = new Archivo();
+        String consulta = "SELECT orden,nombre_orden FROM RESULTADO WHERE codigo = ?";
+
+        try (PreparedStatement preSt = conexion.prepareStatement(consulta)) {
+            preSt.setString(1, codigoResultado);
+            try (ResultSet result = preSt.executeQuery()) {
+                while (result.next()) {
+                    temp.setDatos(result.getBinaryStream("orden"));
+                    temp.setNombre(result.getString("nombre_orden"));
+                }
+            } catch (Exception e) {
+                System.out.println("1-Error en retornar retornarOrdenResultado: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println("2-Error en retornar retornarOrdenResultado: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return temp;
+    }
+
 }
